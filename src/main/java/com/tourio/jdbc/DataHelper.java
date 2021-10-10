@@ -15,10 +15,10 @@ public class DataHelper {
             ResultSet rs = statement.executeQuery(query);
             return rs;
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 
