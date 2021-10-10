@@ -9,7 +9,12 @@ module com.example.tourio {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.sql;
 
     opens com.example.tourio to javafx.fxml;
     exports com.example.tourio;
+    exports com.example.tourio.Jdbc;
+    opens com.example.tourio.Jdbc to javafx.fxml;
+    exports com.example.tourio.Dao;
+    opens com.example.tourio.Dao to javafx.fxml;
 }
