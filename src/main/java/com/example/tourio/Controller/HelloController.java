@@ -1,4 +1,4 @@
-package com.example.tourio;
+package com.example.tourio.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
