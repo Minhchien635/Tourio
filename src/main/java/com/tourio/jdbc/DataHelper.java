@@ -1,4 +1,4 @@
-package com.example.tourio.Jdbc;
+package com.tourio.jdbc;
 
 import java.sql.*;
 

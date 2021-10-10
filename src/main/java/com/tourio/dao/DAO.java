@@ -1,6 +1,6 @@
-package com.example.tourio.Dao;
+package com.tourio.dao;
 
-import com.example.tourio.Jdbc.DataHelper;
+import com.tourio.jdbc.DataHelper;
 
 public class DAO {
 

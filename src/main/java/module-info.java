@@ -2,6 +2,7 @@ module com.example.tourio {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires javafx.graphics;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -10,11 +11,13 @@ module com.example.tourio {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
-
-    opens com.example.tourio to javafx.fxml;
-    exports com.example.tourio;
-    exports com.example.tourio.Jdbc;
-    opens com.example.tourio.Jdbc to javafx.fxml;
-    exports com.example.tourio.Dao;
-    opens com.example.tourio.Dao to javafx.fxml;
+    
+    exports com.tourio;
+    opens com.tourio to javafx.fxml;
+    exports com.tourio.controllers;
+    opens com.tourio.controllers to javafx.fxml;
+    exports com.tourio.jdbc;
+    opens com.tourio.jdbc to javafx.fxml;
+    exports com.tourio.dao;
+    opens com.tourio.dao to javafx.fxml;
 }
