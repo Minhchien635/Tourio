@@ -1,59 +1,60 @@
 package com.tourio.models;
 
-public class Tour {
-    private Integer id;
-    private String name;
-    private String description;
-    private float price;
-    private TourType type;
+import javafx.beans.property.*;
 
-    public Tour(Integer id, String name, String description, float price, TourType type) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.type = type;
+public class Tour {
+    private StringProperty id;
+    private StringProperty name;
+    private StringProperty description;
+    private FloatProperty price;
+    private StringProperty typeID;
+
+    public Tour(String id, String name, String description, float price, String typeID) {
+        this.id = new SimpleStringProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.description = new SimpleStringProperty(description);
+        this.price = new SimpleFloatProperty(price);
+        this.typeID = new SimpleStringProperty(typeID);
     }
 
-    public Integer getId() {
+    public StringProperty getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id.set(id);
     }
 
-    public String getDescription() {
+    public StringProperty getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description.set(description);
     }
 
-    public float getPrice() {
+    public FloatProperty priceProperty() {
         return price;
     }
 
     public void setPrice(float price) {
-        this.price = price;
+        this.price.set(price);
     }
 
-    public TourType getType() {
-        return type;
+    public StringProperty getTypeID() {
+        return typeID;
     }
 
-    public void setType(TourType type) {
-        this.type = type;
+    public void setTypeID(String typeID) {
+        this.typeID.set(typeID);
     }
 
-    public String getName() {
+    public StringProperty getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
-
 
 }
