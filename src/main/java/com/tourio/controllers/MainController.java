@@ -3,7 +3,7 @@ package com.tourio.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ExampleController {
+public class MainController {
     @FXML
     private Label welcomeText;
 

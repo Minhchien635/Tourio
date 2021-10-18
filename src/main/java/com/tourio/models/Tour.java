@@ -1,59 +1,59 @@
 package com.tourio.models;
 
-public class Tour {
-    private Integer id;
-    private String name;
-    private String description;
-    private float price;
-    private TourType type;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-    public Tour(Integer id, String name, String description, float price, TourType type) {
+public class Tour {
+    private int id;
+    private StringProperty name;
+    private StringProperty description;
+    private int tourTypeId;
+
+    public Tour(int id, String name, String description, int tourTypeId) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.type = type;
+        this.name = new SimpleStringProperty(name);
+        this.description = new SimpleStringProperty(description);
+        this.tourTypeId = tourTypeId;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public TourType getType() {
-        return type;
-    }
-
-    public void setType(TourType type) {
-        this.type = type;
-    }
-
     public String getName() {
+        return name.get();
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
+    public String getDescription() {
+        return description.get();
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public int getTourTypeId() {
+        return tourTypeId;
+    }
+
+    public void setTourTypeId(int tourTypeId) {
+        this.tourTypeId = tourTypeId;
+    }
 
 }

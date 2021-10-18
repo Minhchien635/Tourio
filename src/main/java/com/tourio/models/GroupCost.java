@@ -1,37 +1,44 @@
 package com.tourio.models;
 
-public class GroupCost {
-    private Integer id;
-    private CostType type;
-    private float amount;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleFloatProperty;
 
-    public GroupCost(Integer id, CostType type, float amount) {
+public class GroupCost {
+    private int id;
+    private int costTypeId;
+    private FloatProperty amount;
+
+    public GroupCost(int id, int costTypeId, float amount) {
         this.id = id;
-        this.type = type;
-        this.amount = amount;
+        this.costTypeId = costTypeId;
+        this.amount = new SimpleFloatProperty(amount);
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public CostType getType() {
-        return type;
-    }
-
-    public void setType(CostType type) {
-        this.type = type;
-    }
-
     public float getAmount() {
+        return amount.get();
+    }
+
+    public FloatProperty amountProperty() {
         return amount;
     }
 
     public void setAmount(float amount) {
-        this.amount = amount;
+        this.amount.set(amount);
+    }
+
+    public int getCostTypeId() {
+        return costTypeId;
+    }
+
+    public void setCostTypeId(int costTypeId) {
+        this.costTypeId = costTypeId;
     }
 }

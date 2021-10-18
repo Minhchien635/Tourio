@@ -1,71 +1,101 @@
 package com.tourio.models;
 
-import java.time.LocalDateTime;
+import javafx.beans.property.*;
+
+import java.sql.Date;
 
 public class Group {
-    private Integer id;
-    private String name;
-    private Tour tour;
-    private String description;
-    private LocalDateTime date_start;
-    private LocalDateTime date_end;
+    private int id;
+    private int tourId;
+    private StringProperty name;
+    private FloatProperty tourPrice;
+    private StringProperty description;
+    private ObjectProperty<Date> dateStart;
+    private ObjectProperty<Date> dateEnd;
 
-    public Group(Integer id, String name, Tour tour, String description, LocalDateTime date_start, LocalDateTime date_end) {
+    public Group(int id, int tourId, String name, float tourPrice, String description, Date dateStart, Date dateEnd) {
         this.id = id;
-        this.name = name;
-        this.tour = tour;
-        this.description = description;
-        this.date_start = date_start;
-        this.date_end = date_end;
+        this.tourId = tourId;
+        this.name = new SimpleStringProperty(name);
+        this.tourPrice = new SimpleFloatProperty(tourPrice);
+        this.description = new SimpleStringProperty(description);
+        this.dateStart = new SimpleObjectProperty<>(dateStart);
+        this.dateEnd = new SimpleObjectProperty<>(dateEnd);
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
+    public int getTourId() {
+        return tourId;
+    }
+
+    public void setTourId(int tourId) {
+        this.tourId = tourId;
+    }
+
     public String getName() {
+        return name.get();
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
-    public Tour getTour() {
-        return tour;
+    public float getTourPrice() {
+        return tourPrice.get();
     }
 
-    public void setTour(Tour tour) {
-        this.tour = tour;
+    public FloatProperty tourPriceProperty() {
+        return tourPrice;
+    }
+
+    public void setTourPrice(float tourPrice) {
+        this.tourPrice.set(tourPrice);
     }
 
     public String getDescription() {
+        return description.get();
+    }
+
+    public StringProperty descriptionProperty() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description.set(description);
     }
 
-    public LocalDateTime getDate_start() {
-        return date_start;
+    public Date getDateStart() {
+        return dateStart.get();
     }
 
-    public void setDate_start(LocalDateTime date_start) {
-        this.date_start = date_start;
+    public ObjectProperty<Date> dateStartProperty() {
+        return dateStart;
     }
 
-    public LocalDateTime getDate_end() {
-        return date_end;
+    public void setDateStart(Date dateStart) {
+        this.dateStart.set(dateStart);
     }
 
-    public void setDate_end(LocalDateTime date_end) {
-        this.date_end = date_end;
+    public Date getDateEnd() {
+        return dateEnd.get();
     }
 
+    public ObjectProperty<Date> dateEndProperty() {
+        return dateEnd;
+    }
 
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd.set(dateEnd);
+    }
 }
