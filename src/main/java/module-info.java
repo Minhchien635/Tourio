@@ -16,8 +16,6 @@ module com.example.tourio {
     opens com.tourio to javafx.fxml;
     exports com.tourio.controllers;
     opens com.tourio.controllers to javafx.fxml;
-    exports com.tourio.jdbc;
-    opens com.tourio.jdbc to javafx.fxml;
     exports com.tourio.dao;
     opens com.tourio.dao to javafx.fxml;
 }

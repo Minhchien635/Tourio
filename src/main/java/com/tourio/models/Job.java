@@ -1,27 +1,34 @@
 package com.tourio.models;
 
-public class Job {
-    private Integer id;
-    private String name;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-    public Job(Integer id, String name) {
+public class Job {
+    private int id;
+    private StringProperty name;
+
+    public Job(int id, String name) {
         this.id = id;
-        this.name = name;
+        this.name = new SimpleStringProperty(name);
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public String getName() {
+        return name.get();
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 }
