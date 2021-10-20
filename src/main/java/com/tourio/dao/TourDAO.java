@@ -30,39 +30,22 @@ public class TourDAO {
 
     public static TourDTO getTourDetail(int tourId) {
         TourDTO tour = null;
-        String sql1 = "select tour.ID as tourId, tour.name, tourtype.name as type, description, tourprice.amount\n" +
+        String sql = "select tour.ID as tourId, tour.name, tourtype.name as type, description, tourprice.amount\n" +
                 "from tourio.tourtype\n" +
                 "\tinner join tourio.tour\n" +
                 "\t\ton tourtype.ID=tour.type\n" +
                 "\tinner join tourio.tourprice\n" +
                 "\t\ton tourprice.tour=tour.ID\n" +
                 "where tourio.tour.ID=" + tourId;
-        String sql2 = "select tour.ID as tourId, tour.name, tourtype.name as type, description\n" +
-                "from tourio.tourtype\n" +
-                "\tinner join tourio.tour\n" +
-                "\t\ton tourtype.ID=tour.type\n" +
-                "\tinner join tourio.tourprice\n" +
-                "\t\ton tourprice.tour!=tour.ID\n" +
-                "where tourio.tour.ID=" + tourId;
 
-        ResultSet rsTourPrice = DBUtils.executeQuery(sql1);
-        ResultSet rsNotTourPrice = DBUtils.executeQuery(sql2);
+        ResultSet rs = DBUtils.executeQuery(sql);
         try {
-            while (rsTourPrice.next()) {
-                int Id = rsTourPrice.getInt("tourId");
-                String name = rsTourPrice.getString("name");
-                String type = rsTourPrice.getString("type");
-                String description = rsTourPrice.getString("description");
-                float price = rsTourPrice.getFloat("amount");
-                tour = new TourDTO(Id, name, type, price, description);
-            }
-
-            while (rsNotTourPrice.next()) {
-                int Id = rsNotTourPrice.getInt("tourId");
-                String name = rsNotTourPrice.getString("name");
-                String type = rsNotTourPrice.getString("type");
-                String description = rsNotTourPrice.getString("description");
-                float price = 0;
+            while (rs.next()) {
+                int Id = rs.getInt("tourId");
+                String name = rs.getString("name");
+                String type = rs.getString("type");
+                String description = rs.getString("description");
+                float price = rs.getFloat("amount");
                 tour = new TourDTO(Id, name, type, price, description);
             }
             return tour;
