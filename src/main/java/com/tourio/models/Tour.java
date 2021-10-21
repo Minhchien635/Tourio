@@ -1,59 +1,47 @@
 package com.tourio.models;
 
-import javafx.beans.property.*;
-
 public class Tour {
-    private int id;
-    private StringProperty name;
-    private StringProperty description;
-    private FloatProperty price;
-    private int typeID;
+    private String name;
+    private String description;
+    private float price;
+    private int typeId;
 
-    public Tour(int id, String name, String description, float price, int typeID) {
-        this.id = id;
-        this.name = new SimpleStringProperty(name);
-        this.description = new SimpleStringProperty(description);
-        this.price = new SimpleFloatProperty(price);
-        this.typeID = typeID;
+    public Tour(String name, String description, float price, int typeId) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.typeId = typeId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public StringProperty getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description.set(description);
-    }
-
-    public FloatProperty priceProperty() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price.set(price);
-    }
-
-    public int getTypeID() {
-        return typeID;
-    }
-
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
-    }
-
-    public StringProperty getName() {
+    public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 }

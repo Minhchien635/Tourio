@@ -1,15 +1,10 @@
 package com.tourio.controllers;
 
-import com.tourio.dto.TourDTO;
 import com.tourio.dao.TourDAO;
+import com.tourio.dto.TourDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -20,6 +15,10 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class TourController implements Initializable {
 
@@ -37,12 +36,6 @@ public class TourController implements Initializable {
 
     private void initCol() {
         tableColumnName.setCellValueFactory(data -> data.getValue().getName());
-    }
-
-    private void setup() {
-        initCol();
-        loadData();
-        eventListenerTable();
     }
 
     private void eventListenerTable() {
@@ -71,6 +64,12 @@ public class TourController implements Initializable {
             });
             return row;
         });
+    }
+
+    private void setup() {
+        initCol();
+        loadData();
+        eventListenerTable();
     }
 
     @Override

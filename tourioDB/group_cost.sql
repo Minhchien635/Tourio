@@ -16,27 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `groupemployeerel`
+-- Table structure for table `group_cost`
 --
 
-DROP TABLE IF EXISTS `groupemployeerel`;
+DROP TABLE IF EXISTS `group_cost`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `groupemployeerel` (
-  `group` int NOT NULL,
-  `employee` int NOT NULL,
-  `job` int DEFAULT NULL,
-  PRIMARY KEY (`group`,`employee`)
+CREATE TABLE `group_cost` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `amount` float DEFAULT NULL,
+  `type` int NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `groupemployeerel`
+-- Dumping data for table `group_cost`
 --
 
-LOCK TABLES `groupemployeerel` WRITE;
-/*!40000 ALTER TABLE `groupemployeerel` DISABLE KEYS */;
-/*!40000 ALTER TABLE `groupemployeerel` ENABLE KEYS */;
+LOCK TABLES `group_cost` WRITE;
+/*!40000 ALTER TABLE `group_cost` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_cost` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:27
+-- Dump completed on 2021-10-20 15:36:28

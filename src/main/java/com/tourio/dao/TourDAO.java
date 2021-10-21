@@ -11,66 +11,80 @@ public class TourDAO {
 
     public static ArrayList<TourDTO> getTours() {
         ArrayList<TourDTO> tours = new ArrayList<>();
-        String sql = "select tour.name, tour.ID \n" +
-                "from tourio.tour";
+
+        String sql = """
+                SELECT name, id
+                FROM tour
+                """;
+
         ResultSet rs = DBUtils.executeQuery(sql);
         try {
             while (rs.next()) {
-                int id = rs.getInt("ID");
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
 
                 tours.add(new TourDTO(id, name));
             }
             return tours;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return tours;
     }
 
     public static TourDTO getTourDetail(int tourId) {
-        TourDTO tour = null;
-        String sql = "select tour.ID as tourId, tour.name, tourtype.name as type, description, tourprice.amount\n" +
-                "from tourio.tourtype\n" +
-                "\tinner join tourio.tour\n" +
-                "\t\ton tourtype.ID=tour.type\n" +
-                "\tinner join tourio.tourprice\n" +
-                "\t\ton tourprice.tour=tour.ID\n" +
-                "where tourio.tour.ID=" + tourId;
+        String sql = """
+                SELECT tour.id,
+                       tour.name,
+                       tour.description,
+                       tour_type.name as type,
+                       tour_price.amount
+                FROM tour
+                INNER JOIN tour_type
+                        ON tour.type_id = tour_type.id
+                INNER JOIN tour_price
+                        ON tour.id = tour_price.tour_id
+                WHERE tour.id = %d
+                """
+                .formatted(tourId);
 
         ResultSet rs = DBUtils.executeQuery(sql);
         try {
-            while (rs.next()) {
-                int Id = rs.getInt("tourId");
+            if (rs.next()) {
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
-                String type = rs.getString("type");
                 String description = rs.getString("description");
+                String type = rs.getString("type");
                 float price = rs.getFloat("amount");
-                tour = new TourDTO(Id, name, type, price, description);
+                return new TourDTO(id, name, type, price, description);
             }
-            return tour;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return tour;
+        return null;
     }
 
     public static ArrayList<String> getTourLocation(int tourId) {
         ArrayList<String> locations = new ArrayList<>();
-        String sql = "select tourio.location.name, tourio.tourlocationrel.sequence\n" +
-                "from tourio.tour tour\n" +
-                "\tinner join tourio.tourlocationrel tourlocationrel\n" +
-                "    on tourlocationrel.tour=tour.ID\n" +
-                "    inner join tourio.location location\n" +
-                "    on tourlocationrel.location=location.ID\n" +
-                "where tour.ID=" + tourId;
+
+        String sql = """
+                SELECT location.name, 
+                       tour_location_rel.sequence
+                FROM tour
+                INNER JOIN tour_location_rel
+                        ON tour.id = tour_location_rel.tour_id
+                INNER JOIN location
+                        ON location.id = tour_location_rel.location_id
+                WHERE tour.id = %d
+                """
+                .formatted(tourId);
 
         ResultSet rs = DBUtils.executeQuery(sql);
         try {
             while (rs.next()) {
                 String name = rs.getString("name");
                 int sequence = rs.getInt("sequence");
-                locations.add(sequence + "-" + name);
+                locations.add(sequence + " - " + name);
             }
             locations.sort(String::compareToIgnoreCase);
             return locations;

@@ -16,27 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `groupcost`
+-- Table structure for table `tour_location_rel`
 --
 
-DROP TABLE IF EXISTS `groupcost`;
+DROP TABLE IF EXISTS `tour_location_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `groupcost` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `amount` float DEFAULT NULL,
-  `type` int NOT NULL,
-  PRIMARY KEY (`ID`)
+CREATE TABLE `tour_location_rel` (
+  `tour_id` int NOT NULL,
+  `location_id` int NOT NULL,
+  `sequence` int NOT NULL,
+  PRIMARY KEY (`tour_id`,`location_id`,`sequence`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `groupcost`
+-- Dumping data for table `tour_location_rel`
 --
 
-LOCK TABLES `groupcost` WRITE;
-/*!40000 ALTER TABLE `groupcost` DISABLE KEYS */;
-/*!40000 ALTER TABLE `groupcost` ENABLE KEYS */;
+LOCK TABLES `tour_location_rel` WRITE;
+/*!40000 ALTER TABLE `tour_location_rel` DISABLE KEYS */;
+INSERT INTO `tour_location_rel`
+VALUES
+    (1,4,1),
+    (1,5,2),
+    (2,1,3),
+    (2,3,2),
+    (2,4,1);
+/*!40000 ALTER TABLE `tour_location_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

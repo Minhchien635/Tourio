@@ -1,26 +1,24 @@
 package com.tourio.models;
 
-import javafx.beans.property.*;
-
 import java.sql.Date;
 
 public class Group {
     private int id;
     private int tourId;
-    private StringProperty name;
-    private FloatProperty tourPrice;
-    private StringProperty description;
-    private ObjectProperty<Date> dateStart;
-    private ObjectProperty<Date> dateEnd;
+    private String name;
+    private float tourPrice;
+    private String description;
+    private Date dateStart;
+    private Date dateEnd;
 
     public Group(int id, int tourId, String name, float tourPrice, String description, Date dateStart, Date dateEnd) {
         this.id = id;
         this.tourId = tourId;
-        this.name = new SimpleStringProperty(name);
-        this.tourPrice = new SimpleFloatProperty(tourPrice);
-        this.description = new SimpleStringProperty(description);
-        this.dateStart = new SimpleObjectProperty<>(dateStart);
-        this.dateEnd = new SimpleObjectProperty<>(dateEnd);
+        this.name = name;
+        this.tourPrice = tourPrice;
+        this.description = description;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
     }
 
     public int getId() {
@@ -40,62 +38,42 @@ public class Group {
     }
 
     public String getName() {
-        return name.get();
-    }
-
-    public StringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
     public float getTourPrice() {
-        return tourPrice.get();
-    }
-
-    public FloatProperty tourPriceProperty() {
         return tourPrice;
     }
 
     public void setTourPrice(float tourPrice) {
-        this.tourPrice.set(tourPrice);
+        this.tourPrice = tourPrice;
     }
 
     public String getDescription() {
-        return description.get();
-    }
-
-    public StringProperty descriptionProperty() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description.set(description);
+        this.description = description;
     }
 
     public Date getDateStart() {
-        return dateStart.get();
-    }
-
-    public ObjectProperty<Date> dateStartProperty() {
         return dateStart;
     }
 
     public void setDateStart(Date dateStart) {
-        this.dateStart.set(dateStart);
+        this.dateStart = dateStart;
     }
 
     public Date getDateEnd() {
-        return dateEnd.get();
-    }
-
-    public ObjectProperty<Date> dateEndProperty() {
         return dateEnd;
     }
 
     public void setDateEnd(Date dateEnd) {
-        this.dateEnd.set(dateEnd);
+        this.dateEnd = dateEnd;
     }
 }

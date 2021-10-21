@@ -16,26 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `job`
+-- Table structure for table `tour_type`
 --
 
-DROP TABLE IF EXISTS `job`;
+DROP TABLE IF EXISTS `tour_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `job` (
-  `ID` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `tour_type` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `job`
+-- Dumping data for table `tour_type`
 --
 
-LOCK TABLES `job` WRITE;
-/*!40000 ALTER TABLE `job` DISABLE KEYS */;
-/*!40000 ALTER TABLE `job` ENABLE KEYS */;
+LOCK TABLES `tour_type` WRITE;
+/*!40000 ALTER TABLE `tour_type` DISABLE KEYS */;
+INSERT INTO `tour_type`
+VALUES
+    (1,'Mùa hè'),
+    (2,'Mùa đông'),
+    (3,'Mùa xuân');
+/*!40000 ALTER TABLE `tour_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

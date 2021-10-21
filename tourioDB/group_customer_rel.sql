@@ -16,30 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tourprice`
+-- Table structure for table `group_customer_rel`
 --
 
-DROP TABLE IF EXISTS `tourprice`;
+DROP TABLE IF EXISTS `group_customer_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tourprice` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `tour` varchar(45) NOT NULL,
-  `amount` float DEFAULT NULL,
-  `date_start` datetime(6) NOT NULL,
-  `date_end` datetime(6) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `group_customer_rel` (
+  `group_id` int NOT NULL,
+  `customer_id` int NOT NULL,
+  PRIMARY KEY (`group_id`,`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tourprice`
+-- Dumping data for table `group_customer_rel`
 --
 
-LOCK TABLES `tourprice` WRITE;
-/*!40000 ALTER TABLE `tourprice` DISABLE KEYS */;
-INSERT INTO `tourprice` VALUES (1,'1',1000000,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000'),(2,'3',0,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000'),(3,'2',2000000,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000');
-/*!40000 ALTER TABLE `tourprice` ENABLE KEYS */;
+LOCK TABLES `group_customer_rel` WRITE;
+/*!40000 ALTER TABLE `group_customer_rel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_customer_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

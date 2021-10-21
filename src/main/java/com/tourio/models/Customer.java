@@ -1,104 +1,67 @@
 package com.tourio.models;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class Customer {
-    private int id;
-    private StringProperty name;
-    private StringProperty idNumber;
-    private StringProperty address;
-    private StringProperty sex;
-    private StringProperty phone;
-    private StringProperty nationality;
+    private String name;
+    private String idNumber;
+    private String address;
+    private String sex;
+    private String phone;
+    private String nationality;
 
-    public Customer(int id, String name, String idNumber, String address, String sex, String phone, String nationality) {
-        this.id = id;
-        this.name = new SimpleStringProperty(name);
-        this.idNumber = new SimpleStringProperty(idNumber);
-        this.address = new SimpleStringProperty(address);
-        this.sex = new SimpleStringProperty(sex);
-        this.phone = new SimpleStringProperty(phone);
-        this.nationality = new SimpleStringProperty(nationality);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Customer(String name, String idNumber, String address, String sex, String phone, String nationality) {
+        this.name = name;
+        this.idNumber = idNumber;
+        this.address = address;
+        this.sex = sex;
+        this.phone = phone;
+        this.nationality = nationality;
     }
 
     public String getName() {
-        return name.get();
-    }
-
-    public StringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
     public String getIdNumber() {
-        return idNumber.get();
-    }
-
-    public StringProperty idNumberProperty() {
         return idNumber;
     }
 
     public void setIdNumber(String idNumber) {
-        this.idNumber.set(idNumber);
+        this.idNumber = idNumber;
     }
 
     public String getAddress() {
-        return address.get();
-    }
-
-    public StringProperty addressProperty() {
         return address;
     }
 
     public void setAddress(String address) {
-        this.address.set(address);
+        this.address = address;
     }
 
     public String getSex() {
-        return sex.get();
-    }
-
-    public StringProperty sexProperty() {
         return sex;
     }
 
     public void setSex(String sex) {
-        this.sex.set(sex);
+        this.sex = sex;
     }
 
     public String getPhone() {
-        return phone.get();
-    }
-
-    public StringProperty phoneProperty() {
         return phone;
     }
 
     public void setPhone(String phone) {
-        this.phone.set(phone);
+        this.phone = phone;
     }
 
     public String getNationality() {
-        return nationality.get();
-    }
-
-    public StringProperty nationalityProperty() {
         return nationality;
     }
 
     public void setNationality(String nationality) {
-        this.nationality.set(nationality);
+        this.nationality = nationality;
     }
 }

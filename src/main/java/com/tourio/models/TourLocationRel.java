@@ -1,17 +1,14 @@
 package com.tourio.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class TourLocationRel {
     private int tourId;
     private int locationId;
-    private IntegerProperty sequence;
+    private int sequence;
 
     public TourLocationRel(int tourId, int locationId, int sequence) {
         this.tourId = tourId;
         this.locationId = locationId;
-        this.sequence = new SimpleIntegerProperty(sequence);
+        this.sequence = sequence;
     }
 
     public int getTourId() {
@@ -30,11 +27,11 @@ public class TourLocationRel {
         this.locationId = locationId;
     }
 
-    public IntegerProperty sequenceProperty() {
+    public int getSequence() {
         return sequence;
     }
 
     public void setSequence(int sequence) {
-        this.sequence.set(sequence);
+        this.sequence = sequence;
     }
 }

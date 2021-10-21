@@ -16,28 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tourlocationrel`
+-- Table structure for table `tour_price`
 --
 
-DROP TABLE IF EXISTS `tourlocationrel`;
+DROP TABLE IF EXISTS `tour_price`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tourlocationrel` (
-  `tour` int NOT NULL,
-  `location` int NOT NULL,
-  `sequence` int NOT NULL,
-  PRIMARY KEY (`tour`,`location`,`sequence`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `tour_price` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tour_id` int NOT NULL,
+  `amount` float DEFAULT NULL,
+  `date_start` datetime(6) NOT NULL,
+  `date_end` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tourlocationrel`
+-- Dumping data for table `tour_price`
 --
 
-LOCK TABLES `tourlocationrel` WRITE;
-/*!40000 ALTER TABLE `tourlocationrel` DISABLE KEYS */;
-INSERT INTO `tourlocationrel` VALUES (1,4,1),(1,5,2),(2,1,3),(2,3,2),(2,4,1);
-/*!40000 ALTER TABLE `tourlocationrel` ENABLE KEYS */;
+LOCK TABLES `tour_price` WRITE;
+/*!40000 ALTER TABLE `tour_price` DISABLE KEYS */;
+INSERT INTO `tour_price`
+VALUES
+    (1,'1',1000000,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000'),
+    (2,'3',0,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000'),
+    (3,'2',2000000,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000');
+/*!40000 ALTER TABLE `tour_price` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
