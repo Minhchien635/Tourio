@@ -15,7 +15,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/com/tourio/fxml/main.fxml"));
         stage.initStyle(StageStyle.DECORATED);
         stage.setTitle("Quản lí du lịch");
-        stage.setScene(new Scene(root, 697,528));
+        stage.setScene(new Scene(root, 697, 528));
         stage.setResizable(false);
         stage.show();
     }

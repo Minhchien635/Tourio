@@ -1,37 +1,28 @@
 package com.tourio.models;
 
+import lombok.*;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tour_location_rel")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class TourLocationRel {
-    private int tourId;
-    private int locationId;
+
+    @EmbeddedId
+    private TourLocationRelId tourLocationRelId;
+
+    @ManyToOne
+    @MapsId("tourId")
+    private Tour tour;
+
+    @ManyToOne
+    @MapsId("locationId")
+    private Location location;
+
+    @Column
     private int sequence;
-
-    public TourLocationRel(int tourId, int locationId, int sequence) {
-        this.tourId = tourId;
-        this.locationId = locationId;
-        this.sequence = sequence;
-    }
-
-    public int getTourId() {
-        return tourId;
-    }
-
-    public void setTourId(int tourId) {
-        this.tourId = tourId;
-    }
-
-    public int getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
-    }
-
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
-    }
 }

@@ -16,26 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cost_type`
+-- Table structure for table `group_customer_rel`
 --
 
-DROP TABLE IF EXISTS `cost_type`;
+DROP TABLE IF EXISTS `group_customer_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cost_type` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `group_customer_rel` (
+  `group_id` int NOT NULL,
+  `customer_id` int NOT NULL,
+  PRIMARY KEY (`group_id`,`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cost_type`
+-- Dumping data for table `group_customer_rel`
 --
 
-LOCK TABLES `cost_type` WRITE;
-/*!40000 ALTER TABLE `cost_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cost_type` ENABLE KEYS */;
+LOCK TABLES `group_customer_rel` WRITE;
+/*!40000 ALTER TABLE `group_customer_rel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_customer_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:27
+-- Dump completed on 2021-10-26 14:51:40

@@ -16,32 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `group`
+-- Table structure for table `group_cost`
 --
 
-DROP TABLE IF EXISTS `group`;
+DROP TABLE IF EXISTS `group_cost`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group` (
+CREATE TABLE `group_cost` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `tour` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `tour_price` float DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `date_start` datetime(6) NOT NULL,
-  `date_end` datetime(6) NOT NULL,
+  `amount` float DEFAULT NULL,
+  `type` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group`
+-- Dumping data for table `group_cost`
 --
 
-LOCK TABLES `group` WRITE;
-/*!40000 ALTER TABLE `group` DISABLE KEYS */;
-INSERT INTO `group` VALUES (1,1,'Đoàn 1',1000000,'hi','2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000');
-/*!40000 ALTER TABLE `group` ENABLE KEYS */;
+LOCK TABLES `group_cost` WRITE;
+/*!40000 ALTER TABLE `group_cost` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_cost` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:28
+-- Dump completed on 2021-10-26 14:51:39

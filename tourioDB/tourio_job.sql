@@ -16,27 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `group_cost`
+-- Table structure for table `job`
 --
 
-DROP TABLE IF EXISTS `group_cost`;
+DROP TABLE IF EXISTS `job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group_cost` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `amount` float DEFAULT NULL,
-  `type` int NOT NULL,
+CREATE TABLE `job` (
+  `id` int NOT NULL,
+  `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group_cost`
+-- Dumping data for table `job`
 --
 
-LOCK TABLES `group_cost` WRITE;
-/*!40000 ALTER TABLE `group_cost` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_cost` ENABLE KEYS */;
+LOCK TABLES `job` WRITE;
+/*!40000 ALTER TABLE `job` DISABLE KEYS */;
+/*!40000 ALTER TABLE `job` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:28
+-- Dump completed on 2021-10-26 14:51:39

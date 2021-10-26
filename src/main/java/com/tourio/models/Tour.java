@@ -1,47 +1,38 @@
 package com.tourio.models;
 
-public class Tour {
+import lombok.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity
+@Table(name = "tour")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+public class Tour implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column
     private String name;
+
+    @Column
     private String description;
-    private float price;
-    private int typeId;
 
-    public Tour(String name, String description, float price, int typeId) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.typeId = typeId;
-    }
+    @Column(name = "type_id")
+    private long typeId;
 
-    public String getName() {
-        return name;
-    }
+    @OneToMany(mappedBy = "tour")
+    private List<TourLocationRel> tourRels;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = false, insertable = false, updatable = false)
+    private TourType tourType;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
-    }
+    @OneToMany(mappedBy = "tour")
+    private List<TourPrice> tourPrices;
 }

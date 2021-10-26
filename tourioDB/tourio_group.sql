@@ -16,33 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tour`
+-- Table structure for table `group`
 --
 
-DROP TABLE IF EXISTS `tour`;
+DROP TABLE IF EXISTS `group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tour` (
+CREATE TABLE `group` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `description` longtext,
-  `type_id` int NOT NULL,
+  `tour` int NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `tour_price` float DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `date_start` datetime(6) NOT NULL,
+  `date_end` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tour`
+-- Dumping data for table `group`
 --
 
-LOCK TABLES `tour` WRITE;
-/*!40000 ALTER TABLE `tour` DISABLE KEYS */;
-INSERT INTO `tour`
-VALUES
-    (1,'Tour Sài Gòn – Nha Trang','hello',1),
-    (2,'Tour Tp Hồ Chí Minh - Đà Lạt','hi',2),
-    (3,'Tour Đà Lạt - Bình Thuận','hi',3);
-/*!40000 ALTER TABLE `tour` ENABLE KEYS */;
+LOCK TABLES `group` WRITE;
+/*!40000 ALTER TABLE `group` DISABLE KEYS */;
+INSERT INTO `group` VALUES (1,1,'Đoàn 1',1000000,'hi','2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000');
+/*!40000 ALTER TABLE `group` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:27
+-- Dump completed on 2021-10-26 14:51:40

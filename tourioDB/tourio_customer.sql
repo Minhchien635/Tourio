@@ -16,26 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `group_customer_rel`
+-- Table structure for table `customer`
 --
 
-DROP TABLE IF EXISTS `group_customer_rel`;
+DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group_customer_rel` (
-  `group_id` int NOT NULL,
-  `customer_id` int NOT NULL,
-  PRIMARY KEY (`group_id`,`customer_id`)
+CREATE TABLE `customer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `id_number` varchar(45) NOT NULL,
+  `address` varchar(45) NOT NULL,
+  `sex` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) NOT NULL,
+  `nationality` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group_customer_rel`
+-- Dumping data for table `customer`
 --
 
-LOCK TABLES `group_customer_rel` WRITE;
-/*!40000 ALTER TABLE `group_customer_rel` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_customer_rel` ENABLE KEYS */;
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:28
+-- Dump completed on 2021-10-26 14:51:40

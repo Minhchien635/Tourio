@@ -6,27 +6,30 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tourio.controllers.TourController">
-   <children>
-      <Button contentDisplay="RIGHT" defaultButton="true" layoutX="10.0" layoutY="484.0" mnemonicParsing="false" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button layoutX="519.0" layoutY="484.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Xóa">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button defaultButton="true" layoutX="94.0" layoutY="484.0" mnemonicParsing="false" text="Sửa">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <TableView fx:id="tableViewTour" layoutX="3.0" layoutY="1.0" prefHeight="475.0" prefWidth="562.0">
-        <columns>
-          <TableColumn fx:id="tableColumnName" prefWidth="560.0" text="Tour du lịch" />
-        </columns>
-      </TableView>
-   </children>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0"
+      prefWidth="570.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.tourio.controllers.TourController">
+    <children>
+        <Button contentDisplay="RIGHT" defaultButton="true" layoutX="10.0" layoutY="484.0" mnemonicParsing="false"
+                prefWidth="63.0" text="Thêm" textOverrun="CLIP">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Button>
+        <Button layoutX="519.0" layoutY="484.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Xóa">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Button>
+        <Button defaultButton="true" layoutX="94.0" layoutY="484.0" mnemonicParsing="false" text="Sửa">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Button>
+        <TableView fx:id="tableViewTour" layoutX="3.0" layoutY="1.0" prefHeight="475.0" prefWidth="562.0">
+            <columns>
+                <TableColumn fx:id="tableColumnName" prefWidth="560.0" text="Tour du lịch"/>
+            </columns>
+        </TableView>
+    </children>
 </Pane>

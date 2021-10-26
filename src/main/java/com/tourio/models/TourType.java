@@ -1,17 +1,28 @@
 package com.tourio.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "tour_type")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class TourType {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column
     private String name;
 
-    public TourType(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @OneToMany(mappedBy = "tourType", fetch = FetchType.LAZY)
+    private List<Tour> tours;
 }

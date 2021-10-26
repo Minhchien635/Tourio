@@ -16,34 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tour_price`
+-- Table structure for table `location`
 --
 
-DROP TABLE IF EXISTS `tour_price`;
+DROP TABLE IF EXISTS `location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tour_price` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tour_id` int NOT NULL,
-  `amount` float DEFAULT NULL,
-  `date_start` datetime(6) NOT NULL,
-  `date_end` datetime(6) NOT NULL,
+CREATE TABLE `location` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tour_price`
+-- Dumping data for table `location`
 --
 
-LOCK TABLES `tour_price` WRITE;
-/*!40000 ALTER TABLE `tour_price` DISABLE KEYS */;
-INSERT INTO `tour_price`
-VALUES
-    (1,'1',1000000,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000'),
-    (2,'3',0,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000'),
-    (3,'2',2000000,'2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000');
-/*!40000 ALTER TABLE `tour_price` ENABLE KEYS */;
+LOCK TABLES `location` WRITE;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+INSERT INTO `location` VALUES (1,'Tp Hồ Chí Minh'),(2,'Vũng Tàu'),(3,'Đà Lạt'),(4,'Bình Thuận');
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:28
+-- Dump completed on 2021-10-26 14:51:39

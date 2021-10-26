@@ -16,26 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `job`
+-- Table structure for table `tour_location_rel`
 --
 
-DROP TABLE IF EXISTS `job`;
+DROP TABLE IF EXISTS `tour_location_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `job` (
-  `id` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `tour_location_rel` (
+  `sequence` int DEFAULT NULL,
+  `tour_id` bigint DEFAULT NULL,
+  `location_id` bigint DEFAULT NULL,
+  KEY `tour_location_rel_fk1_idx` (`tour_id`),
+  KEY `tour_location_rel_fk2_idx` (`location_id`),
+  CONSTRAINT `tour_location_rel_fk1` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`),
+  CONSTRAINT `tour_location_rel_fk2` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `job`
+-- Dumping data for table `tour_location_rel`
 --
 
-LOCK TABLES `job` WRITE;
-/*!40000 ALTER TABLE `job` DISABLE KEYS */;
-/*!40000 ALTER TABLE `job` ENABLE KEYS */;
+LOCK TABLES `tour_location_rel` WRITE;
+/*!40000 ALTER TABLE `tour_location_rel` DISABLE KEYS */;
+INSERT INTO `tour_location_rel` VALUES (1,1,1),(2,1,2),(1,2,1),(2,2,2),(3,2,3);
+/*!40000 ALTER TABLE `tour_location_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:28
+-- Dump completed on 2021-10-26 14:51:40

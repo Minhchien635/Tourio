@@ -16,27 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `group_employee_rel`
+-- Table structure for table `tour_price`
 --
 
-DROP TABLE IF EXISTS `group_employee_rel`;
+DROP TABLE IF EXISTS `tour_price`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group_employee_rel` (
-  `group_id` int NOT NULL,
-  `employee_id` int NOT NULL,
-  `job_id` int DEFAULT NULL,
-  PRIMARY KEY (`group_id`,`employee_id`)
+CREATE TABLE `tour_price` (
+  `id` bigint NOT NULL,
+  `tour_id` bigint NOT NULL,
+  `amount` float DEFAULT NULL,
+  `date_start` datetime(6) NOT NULL,
+  `date_end` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tour_price_fk_idx` (`tour_id`),
+  CONSTRAINT `tour_price_fk` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group_employee_rel`
+-- Dumping data for table `tour_price`
 --
 
-LOCK TABLES `group_employee_rel` WRITE;
-/*!40000 ALTER TABLE `group_employee_rel` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_employee_rel` ENABLE KEYS */;
+LOCK TABLES `tour_price` WRITE;
+/*!40000 ALTER TABLE `tour_price` DISABLE KEYS */;
+INSERT INTO `tour_price` VALUES (1,1,1000000,'2020-01-01 10:10:10.000000','2020-01-01 10:10:10.000000'),(2,2,2000000,'2020-01-01 10:10:10.000000','2020-01-01 10:10:10.000000');
+/*!40000 ALTER TABLE `tour_price` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-20 15:36:27
+-- Dump completed on 2021-10-26 14:51:39
