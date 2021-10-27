@@ -1,37 +1,29 @@
 package com.tourio.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "group_employee_rel")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class GroupEmployeeRel {
-    private int groupId;
-    private int employeeId;
-    private int jobId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    public GroupEmployeeRel(int groupId, int employeeId, int jobId) {
-        this.groupId = groupId;
-        this.employeeId = employeeId;
-        this.jobId = jobId;
-    }
+    @Column(name = "group_id")
+    private long groupId;
 
-    public int getGroupId() {
-        return groupId;
-    }
+    @Column(name = "employee_id")
+    private long employeeId;
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
-    }
+    @Column(name = "job_id")
+    private long jobId;
 }

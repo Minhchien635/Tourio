@@ -23,15 +23,17 @@ DROP TABLE IF EXISTS `group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `group` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tour` int NOT NULL,
+  `id` bigint NOT NULL,
+  `tour_id` bigint NOT NULL,
   `name` varchar(45) NOT NULL,
   `tour_price` float DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
   `date_start` datetime(6) NOT NULL,
   `date_end` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_fk_idx` (`tour_id`),
+  CONSTRAINT `group_fk` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +42,6 @@ CREATE TABLE `group` (
 
 LOCK TABLES `group` WRITE;
 /*!40000 ALTER TABLE `group` DISABLE KEYS */;
-INSERT INTO `group` VALUES (1,1,'Đoàn 1',1000000,'hi','2021-05-06 00:00:00.000000','2021-05-15 00:00:00.000000');
 /*!40000 ALTER TABLE `group` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-26 14:51:40
+-- Dump completed on 2021-10-27 13:11:05

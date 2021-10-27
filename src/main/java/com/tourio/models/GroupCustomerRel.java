@@ -1,27 +1,26 @@
 package com.tourio.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "group_customer_rel")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class GroupCustomerRel {
-    private int customerId;
-    private int groupId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    public GroupCustomerRel(int customerId, int groupId) {
-        this.customerId = customerId;
-        this.groupId = groupId;
-    }
+    @Column(name = "customer_id")
+    private long customerId;
 
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
+    @Column(name = "group_id")
+    private long groupId;
 }

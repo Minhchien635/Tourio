@@ -1,27 +1,30 @@
 package com.tourio.models;
 
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "group_cost")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class GroupCost {
-    private int costTypeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "type_id")
+    private long costTypeId;
+
+    @Column(name = "group_id")
+    private long groupId;
+
+    @Column
     private float amount;
-
-    public GroupCost(int costTypeId, float amount) {
-        this.costTypeId = costTypeId;
-        this.amount = amount;
-    }
-
-    public int getCostTypeId() {
-        return costTypeId;
-    }
-
-    public void setCostTypeId(int costTypeId) {
-        this.costTypeId = costTypeId;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
 }

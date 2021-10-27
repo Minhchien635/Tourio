@@ -23,9 +23,12 @@ DROP TABLE IF EXISTS `group_customer_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `group_customer_rel` (
-  `group_id` int NOT NULL,
-  `customer_id` int NOT NULL,
-  PRIMARY KEY (`group_id`,`customer_id`)
+  `group_id` bigint NOT NULL,
+  `customer_id` bigint NOT NULL,
+  KEY `group_customer_rel_fk1_idx` (`group_id`),
+  KEY `group_customer_rel_fk2_idx` (`customer_id`),
+  CONSTRAINT `group_customer_rel_fk1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`),
+  CONSTRAINT `group_customer_rel_fk2` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -47,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-26 14:51:40
+-- Dump completed on 2021-10-27 13:11:05

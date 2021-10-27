@@ -15,7 +15,6 @@ import java.util.Date;
 @ToString
 @RequiredArgsConstructor
 public class TourPrice {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

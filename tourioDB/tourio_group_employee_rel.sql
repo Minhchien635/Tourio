@@ -23,10 +23,15 @@ DROP TABLE IF EXISTS `group_employee_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `group_employee_rel` (
-  `group_id` int NOT NULL,
-  `employee_id` int NOT NULL,
-  `job_id` int DEFAULT NULL,
-  PRIMARY KEY (`group_id`,`employee_id`)
+  `group_id` bigint NOT NULL,
+  `employee_id` bigint NOT NULL,
+  `job_id` bigint DEFAULT NULL,
+  KEY `group_employee_rel_fk1_idx` (`group_id`),
+  KEY `group_employee_rel_fk2_idx` (`employee_id`),
+  KEY `group_employee_rel_fk3_idx` (`job_id`),
+  CONSTRAINT `group_employee_rel_fk1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`),
+  CONSTRAINT `group_employee_rel_fk2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`),
+  CONSTRAINT `group_employee_rel_fk3` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -48,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-26 14:51:40
+-- Dump completed on 2021-10-27 13:11:05

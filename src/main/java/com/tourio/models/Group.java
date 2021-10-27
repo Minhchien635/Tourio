@@ -1,79 +1,39 @@
 package com.tourio.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
 import java.sql.Date;
 
+@Entity
+@Table(name = "group")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Group {
-    private int id;
-    private int tourId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "tour_id")
+    private long tourId;
+
+    @Column
     private String name;
+
+    @Column(name = "tour_price")
     private float tourPrice;
+
+    @Column
     private String description;
+
+    @Column(name = "date_start")
     private Date dateStart;
+
+    @Column(name = "date_end")
     private Date dateEnd;
-
-    public Group(int id, int tourId, String name, float tourPrice, String description, Date dateStart, Date dateEnd) {
-        this.id = id;
-        this.tourId = tourId;
-        this.name = name;
-        this.tourPrice = tourPrice;
-        this.description = description;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getTourId() {
-        return tourId;
-    }
-
-    public void setTourId(int tourId) {
-        this.tourId = tourId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public float getTourPrice() {
-        return tourPrice;
-    }
-
-    public void setTourPrice(float tourPrice) {
-        this.tourPrice = tourPrice;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
 }

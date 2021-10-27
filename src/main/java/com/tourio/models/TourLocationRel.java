@@ -11,7 +11,6 @@ import javax.persistence.*;
 @ToString
 @RequiredArgsConstructor
 public class TourLocationRel {
-
     @EmbeddedId
     private TourLocationRelId tourLocationRelId;
 

@@ -15,7 +15,6 @@ import java.util.List;
 @ToString
 @RequiredArgsConstructor
 public class TourType {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

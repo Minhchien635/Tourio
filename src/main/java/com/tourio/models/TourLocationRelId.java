@@ -14,7 +14,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 public class TourLocationRelId implements Serializable {
-
     @Column(name = "tour_id")
     private long tourId;
 
