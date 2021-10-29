@@ -26,10 +26,10 @@
         <!-- <property name="show_sql">true</property> -->
 
         <!-- Entity mapping -->
-        <mapping class="com.tourio.models.Tour"/>
-        <mapping class="com.tourio.models.TourLocationRel"/>
-        <mapping class="com.tourio.models.Location"/>
-        <mapping class="com.tourio.models.TourPrice"/>
-        <mapping class="com.tourio.models.TourType"/>
+        <mapping class="com.tourio.dto.Tour"/>
+        <mapping class="com.tourio.dto.TourLocationRel"/>
+        <mapping class="com.tourio.dto.Location"/>
+        <mapping class="com.tourio.dto.TourPrice"/>
+        <mapping class="com.tourio.dto.TourType"/>
     </session-factory>
 </hibernate-configuration>

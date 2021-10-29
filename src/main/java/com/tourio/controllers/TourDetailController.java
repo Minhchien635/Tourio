@@ -1,9 +1,9 @@
 package com.tourio.controllers;
 
-import com.tourio.dto.TourDTO;
 import com.tourio.dao.TourDAO;
-import com.tourio.models.Location;
-import com.tourio.models.TourPrice;
+import com.tourio.dto.Tour;
+import com.tourio.dto.TourLocationRel;
+import com.tourio.dto.TourPrice;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +23,7 @@ public class TourDetailController implements Initializable {
 
     private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-    private TourDTO tourDTO;
+    private Tour tour;
 
     ObservableList observableLocationList = FXCollections.observableArrayList();
 
@@ -49,25 +49,25 @@ public class TourDetailController implements Initializable {
     }
 
     private void loadData(long tourId) {
-        tourDTO = TourDAO.getTourDetail(tourId);
+        tour = TourDAO.getTourDetail(tourId);
     }
 
-    private void setView(TourDTO tourDTO) {
+    private void setView(Tour tour) {
         ArrayList<String> locationList = new ArrayList<>();
-        ArrayList<Float> priceList = new ArrayList<>();
+        ArrayList<String> priceList = new ArrayList<>();
 
         textAreaName.setEditable(false);
         textAreaType.setEditable(false);
         textAreaDescription.setEditable(false);
-        textAreaName.setText(tourDTO.getName().getValue());
-        textAreaType.setText(tourDTO.getType().getValue());
-        textAreaDescription.setText(tourDTO.getDescription().getValue());
+        textAreaName.setText(tour.getName());
+        textAreaType.setText(tour.getType().getName());
+        textAreaDescription.setText(tour.getDescription());
 
-        for (TourPrice tourPrice : tourDTO.getPrices()) {
-            priceList.add((tourPrice.getAmount()));
+        for (TourPrice tourPrice : tour.getPrices()) {
+            priceList.add(formatter.format(tourPrice.getAmount()));
         }
-        for (Location location : tourDTO.getLocations()) {
-            locationList.add(location.getName());
+        for (TourLocationRel tourLocationRel : tour.getTourRels()) {
+            locationList.add(tourLocationRel.getLocation().getName());
         }
 
         observableLocationList.setAll(locationList);
@@ -81,7 +81,7 @@ public class TourDetailController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
             loadData(tourId);
-            setView(tourDTO);
+            setView(tour);
         });
     }
 }

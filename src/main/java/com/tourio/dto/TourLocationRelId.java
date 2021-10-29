@@ -1,10 +1,9 @@
-package com.tourio.models;
+package com.tourio.dto;
 
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -1,7 +1,8 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.TourDAO;
-import com.tourio.dto.TourDTO;
+import com.tourio.dto.Tour;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,30 +27,30 @@ public class TourController implements Initializable {
     private TableView tableViewTour = new TableView<>();
 
     @FXML
-    private TableColumn<TourDTO, String> tableColumnName;
+    private TableColumn<Tour, String> tableColumnName;
 
     private void loadData() {
-        ObservableList<TourDTO> tours = FXCollections.observableArrayList(TourDAO.getTours());
+        ObservableList<Tour> tours = FXCollections.observableArrayList(TourDAO.getTours());
         tableViewTour.getItems().clear();
         tableViewTour.getItems().addAll(tours);
     }
 
     private void initCol() {
-        tableColumnName.setCellValueFactory(data -> data.getValue().getName());
+        tableColumnName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
     }
 
     private void eventListenerTable() {
         tableViewTour.setRowFactory(tv -> {
-            TableRow<TourDTO> row = new TableRow<>();
+            TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    TourDTO rowData = row.getItem();
+                    Tour rowData = row.getItem();
                     try {
                         Stage stage = new Stage();
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour-detail.fxml"));
                         Parent root = fxmlLoader.load();
                         TourDetailController tourDetailController = fxmlLoader.getController();
-                        tourDetailController.setTourId(rowData.getTourId());
+                        tourDetailController.setTourId(rowData.getId());
                         Scene scene = new Scene(root, 631, 596);
                         stage.setResizable(false);
                         stage.setScene(scene);

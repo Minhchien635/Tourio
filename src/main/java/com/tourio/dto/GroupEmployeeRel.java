@@ -1,4 +1,4 @@
-package com.tourio.models;
+package com.tourio.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,22 +6,24 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "tour_type")
+@Table(name = "group_employee_rel")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class TourType {
+public class GroupEmployeeRel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
-    private String name;
+    @Column(name = "group_id")
+    private long groupId;
 
-    @OneToMany(mappedBy = "tourType", fetch = FetchType.LAZY)
-    private List<Tour> tours;
+    @Column(name = "employee_id")
+    private long employeeId;
+
+    @Column(name = "job_id")
+    private long jobId;
 }
