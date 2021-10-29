@@ -11,6 +11,7 @@ import java.util.List;
 
 public class TourDAO {
 
+
     public static List<Tour> getTours() {
         List<Tour> tours = null;
 
@@ -20,7 +21,6 @@ public class TourDAO {
             tours = session.createQuery("from Tour").list();
 
             return tours;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
