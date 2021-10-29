@@ -1,9 +1,9 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.TourDAO;
-import com.tourio.dto.Tour;
-import com.tourio.dto.TourLocationRel;
-import com.tourio.dto.TourPrice;
+import com.tourio.models.Tour;
+import com.tourio.models.TourLocationRel;
+import com.tourio.models.TourPrice;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

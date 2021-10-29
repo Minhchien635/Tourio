@@ -1,5 +1,4 @@
-package com.tourio.dto;
-
+package com.tourio.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,22 +8,16 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "group_cost")
+@Table(name = "cost_type")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class GroupCost {
+public class CostType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "type_id")
-    private long costTypeId;
-
-    @Column(name = "group_id")
-    private long groupId;
-
     @Column
-    private float amount;
+    private String name;
 }

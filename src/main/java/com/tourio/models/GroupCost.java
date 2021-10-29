@@ -1,4 +1,5 @@
-package com.tourio.dto;
+package com.tourio.models;
+
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,19 +9,22 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "group_customer_rel")
+@Table(name = "group_cost")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class GroupCustomerRel {
+public class GroupCost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "customer_id")
-    private long customerId;
+    @Column(name = "type_id")
+    private long costTypeId;
 
     @Column(name = "group_id")
     private long groupId;
+
+    @Column
+    private float amount;
 }

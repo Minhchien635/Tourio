@@ -1,9 +1,9 @@
 package com.tourio.dao;
 
 import com.tourio.jdbc.HibernateUtils;
-import com.tourio.dto.Tour;
-import com.tourio.dto.TourLocationRel;
-import com.tourio.dto.TourPrice;
+import com.tourio.models.Tour;
+import com.tourio.models.TourLocationRel;
+import com.tourio.models.TourPrice;
 import org.hibernate.Session;
 
 import java.util.ArrayList;

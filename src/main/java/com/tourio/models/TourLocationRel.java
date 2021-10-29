@@ -1,4 +1,4 @@
-package com.tourio.dto;
+package com.tourio.models;
 
 import lombok.*;
 

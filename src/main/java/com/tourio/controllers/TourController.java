@@ -1,7 +1,7 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.TourDAO;
-import com.tourio.dto.Tour;
+import com.tourio.models.Tour;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,4 +1,4 @@
-package com.tourio.dto;
+package com.tourio.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +8,12 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "job")
+@Table(name = "customer")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Job {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,4 +21,18 @@ public class Job {
     @Column
     private String name;
 
+    @Column(name = "id_number")
+    private String idNumber;
+
+    @Column
+    private String address;
+
+    @Column
+    private String sex;
+
+    @Column
+    private String phone;
+
+    @Column
+    private String nationality;
 }
