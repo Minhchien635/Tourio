@@ -3,6 +3,7 @@ package com.tourio.controllers;
 import com.tourio.dto.TourDTO;
 import com.tourio.dao.TourDAO;
 import com.tourio.models.Location;
+import com.tourio.models.TourPrice;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,9 @@ public class TourDetailController implements Initializable {
 
     private TourDTO tourDTO;
 
-    ObservableList observableList = FXCollections.observableArrayList();
+    ObservableList observableLocationList = FXCollections.observableArrayList();
+
+    ObservableList observablePriceList = FXCollections.observableArrayList();
 
     @FXML
     private TextArea textAreaName;
@@ -33,7 +36,7 @@ public class TourDetailController implements Initializable {
     private TextArea textAreaType;
 
     @FXML
-    private TextArea textAreaPrice;
+    private ListView<String> listViewPrice;
 
     @FXML
     private TextArea textAreaDescription;
@@ -50,20 +53,28 @@ public class TourDetailController implements Initializable {
     }
 
     private void setView(TourDTO tourDTO) {
+        ArrayList<String> locationList = new ArrayList<>();
+        ArrayList<Float> priceList = new ArrayList<>();
+
         textAreaName.setEditable(false);
         textAreaType.setEditable(false);
-        textAreaPrice.setEditable(false);
         textAreaDescription.setEditable(false);
         textAreaName.setText(tourDTO.getName().getValue());
         textAreaType.setText(tourDTO.getType().getValue());
-        textAreaPrice.setText(formatter.format(tourDTO.getPrice().getValue()));
         textAreaDescription.setText(tourDTO.getDescription().getValue());
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (Location location : tourDTO.getLocations()) {
-            arrayList.add(location.getName());
+
+        for (TourPrice tourPrice : tourDTO.getPrices()) {
+            priceList.add((tourPrice.getAmount()));
         }
-        observableList.setAll(arrayList);
-        listViewLocation.setItems(observableList);
+        for (Location location : tourDTO.getLocations()) {
+            locationList.add(location.getName());
+        }
+
+        observableLocationList.setAll(locationList);
+        observablePriceList.setAll(priceList);
+
+        listViewPrice.setItems(observablePriceList);
+        listViewLocation.setItems(observableLocationList);
     }
 
     @Override

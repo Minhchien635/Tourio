@@ -50,7 +50,7 @@ public class TourController implements Initializable {
                         Parent root = fxmlLoader.load();
                         TourDetailController tourDetailController = fxmlLoader.getController();
                         tourDetailController.setTourId(rowData.getTourId());
-                        Scene scene = new Scene(root, 631, 528);
+                        Scene scene = new Scene(root, 631, 596);
                         stage.setResizable(false);
                         stage.setScene(scene);
                         stage.initStyle(StageStyle.DECORATED);

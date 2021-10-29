@@ -35,7 +35,7 @@ CREATE TABLE `tour_type` (
 
 LOCK TABLES `tour_type` WRITE;
 /*!40000 ALTER TABLE `tour_type` DISABLE KEYS */;
-INSERT INTO `tour_type` VALUES (1,'Mùa Xuân'),(2,'Mùa Hạ'),(3,'Mùa Thu'),(4,'Mùa Đông');
+INSERT INTO `tour_type` VALUES (1,'Du lịch di động'),(2,'Du lịch kết hợp nghề nghiệp');
 /*!40000 ALTER TABLE `tour_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-27 13:11:06
+-- Dump completed on 2021-10-29 14:48:19
