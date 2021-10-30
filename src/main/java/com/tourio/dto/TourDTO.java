@@ -1,7 +1,6 @@
 package com.tourio.dto;
 
 import com.tourio.models.Location;
-import com.tourio.models.Tour;
 import com.tourio.models.TourPrice;
 import javafx.beans.property.*;
 import lombok.Getter;
@@ -19,14 +18,14 @@ public class TourDTO {
     private StringProperty name;
     private StringProperty description;
     private StringProperty type;
-    private FloatProperty price;
+    private ArrayList<TourPrice> prices;
     private ArrayList<Location> locations;
 
-    public TourDTO(long id, String name, String type, float price, String description, ArrayList<Location> locations) {
+    public TourDTO(long id, String name, String type, ArrayList<TourPrice> tourPrices, String description, ArrayList<Location> locations) {
         this.tourId = id;
         this.name = new SimpleStringProperty(name);
         this.type = new SimpleStringProperty(type);
-        this.price = new SimpleFloatProperty(price);
+        this.prices = tourPrices;
         this.description = new SimpleStringProperty(description);
         this.locations = locations;
     }

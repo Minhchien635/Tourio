@@ -37,17 +37,18 @@ public class TourDAO {
 
             Tour tour = session.find(Tour.class, tourId);
 
-            TourPrice tourPrice = session.find(TourPrice.class, tour.getId());
+            ArrayList<TourPrice> tourPrices = new ArrayList<>(tour.getTourPrices());
 
             List<TourLocationRel> tourLocationRels = tour.getTourRels();
 
             ArrayList<Location> locations = new ArrayList<>();
-
             for (TourLocationRel tourLocationRel : tourLocationRels) {
                 locations.add(tourLocationRel.getLocation());
             }
 
-            return new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrice.getAmount(), tour.getDescription(), locations);
+            TourDTO tourDTO = new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrices, tour.getDescription(), locations);
+
+            return tourDTO;
 
         } catch (Exception e) {
             e.printStackTrace();
