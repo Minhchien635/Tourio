@@ -1,6 +1,8 @@
 package com.tourio.dto;
 
 import com.tourio.models.Location;
+import com.tourio.models.Tour;
+import com.tourio.models.TourPrice;
 import javafx.beans.property.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

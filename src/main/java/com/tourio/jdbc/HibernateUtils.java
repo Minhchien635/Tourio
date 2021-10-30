@@ -1,12 +1,10 @@
 package com.tourio.jdbc;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 
-@SuppressWarnings({"deprecated"})
 public class HibernateUtils {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -15,11 +13,10 @@ public class HibernateUtils {
     }
 
     private static SessionFactory buildSessionFactory() {
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+        ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
-        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
-        return metadata.getSessionFactoryBuilder().build();
+        return new MetadataSources(registry).buildMetadata().buildSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {

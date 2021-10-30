@@ -14,12 +14,11 @@ import java.util.List;
 public class TourDAO {
 
     public static ArrayList<TourDTO> getTours() {
-        List<Tour> tourList;
         ArrayList<TourDTO> tours = new ArrayList<>();
-        try (Session session = HibernateUtils.getSessionFactory().openSession();) {
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            tourList = session.createQuery("from Tour").list();
+            List<Tour> tourList = session.createQuery("from Tour").list();
             for (Tour tour : tourList) {
                 tours.add(new TourDTO(tour.getId(), tour.getName()));
             }
@@ -33,7 +32,6 @@ public class TourDAO {
     }
 
     public static TourDTO getTourDetail(long tourId) {
-        TourDTO tourDTO = null;
         try (Session session = HibernateUtils.getSessionFactory().openSession();) {
             session.beginTransaction();
 
@@ -49,13 +47,12 @@ public class TourDAO {
                 locations.add(tourLocationRel.getLocation());
             }
 
-            tourDTO = new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrice.getAmount(), tour.getDescription(), locations);
-
-            return tourDTO;
+            return new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrice.getAmount(), tour.getDescription(), locations);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return tourDTO;
+
+        return null;
     }
 }
