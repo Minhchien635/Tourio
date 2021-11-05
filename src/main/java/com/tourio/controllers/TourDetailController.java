@@ -1,7 +1,7 @@
 package com.tourio.controllers;
 
-import com.tourio.dto.TourDTO;
 import com.tourio.dao.TourDAO;
+import com.tourio.dto.TourDTO;
 import com.tourio.models.Location;
 import com.tourio.models.TourPrice;
 import javafx.application.Platform;
@@ -13,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -21,13 +20,7 @@ public class TourDetailController implements Initializable {
 
     private long tourId;
 
-    private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
-
     private TourDTO tourDTO;
-
-    ObservableList observableLocationList = FXCollections.observableArrayList();
-
-    ObservableList observablePriceList = FXCollections.observableArrayList();
 
     @FXML
     private TextArea textAreaName;
@@ -49,12 +42,12 @@ public class TourDetailController implements Initializable {
     }
 
     private void loadData(long tourId) {
-        tourDTO = TourDAO.getTourDetail(tourId);
+        tourDTO = TourDAO.getDetails(tourId);
     }
 
     private void setView(TourDTO tourDTO) {
         ArrayList<String> locationList = new ArrayList<>();
-        ArrayList<Float> priceList = new ArrayList<>();
+        ArrayList<String> priceList = new ArrayList<>();
 
         textAreaName.setEditable(false);
         textAreaType.setEditable(false);
@@ -64,17 +57,17 @@ public class TourDetailController implements Initializable {
         textAreaDescription.setText(tourDTO.getDescription().getValue());
 
         for (TourPrice tourPrice : tourDTO.getPrices()) {
-            priceList.add((tourPrice.getAmount()));
+            priceList.add(String.valueOf(tourPrice.getAmount()));
         }
         for (Location location : tourDTO.getLocations()) {
             locationList.add(location.getName());
         }
 
-        observableLocationList.setAll(locationList);
-        observablePriceList.setAll(priceList);
+        ObservableList<String> locations = FXCollections.observableArrayList(locationList);
+        ObservableList<String> prices = FXCollections.observableArrayList(priceList);
 
-        listViewPrice.setItems(observablePriceList);
-        listViewLocation.setItems(observableLocationList);
+        listViewPrice.setItems(prices);
+        listViewLocation.setItems(locations);
     }
 
     @Override

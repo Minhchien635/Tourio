@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TourDAO {
 
-    public static ArrayList<TourDTO> getTours() {
+    public static ArrayList<TourDTO> getAll() {
         ArrayList<TourDTO> tours = new ArrayList<>();
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -31,11 +31,11 @@ public class TourDAO {
         return tours;
     }
 
-    public static TourDTO getTourDetail(long tourId) {
+    public static TourDTO getDetails(long id) {
         try (Session session = HibernateUtils.getSessionFactory().openSession();) {
             session.beginTransaction();
 
-            Tour tour = session.find(Tour.class, tourId);
+            Tour tour = session.find(Tour.class, id);
 
             ArrayList<TourPrice> tourPrices = new ArrayList<>(tour.getTourPrices());
 

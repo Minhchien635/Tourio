@@ -1,0 +1,52 @@
+* {
+   -primary-color: #5664D2;
+   -primary-darker-color: #5664d2;
+   -secondary-color: #333645;
+   -secondary-darker-color: #21222C;
+   -danger-color: #FE6D6A;
+   -danger-darker-color: #FE2722;
+}
+
+.menu {
+    -fx-background-color: -secondary-color;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+    -fx-padding: 4 8 4 8;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: -secondary-darker-color;
+}
+
+.menu-button.active {
+    -fx-background-color: white;
+    -fx-text-fill: -primary-color;
+}
+
+.primary-button {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: -primary-darker-color;
+}
+
+.danger-button {
+    -fx-background-color: -danger-color;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.danger-button:hover {
+    -fx-background-color: -danger-darker-color;
+}
+
+.action-button {
+    -fx-min-width: 60;
+}

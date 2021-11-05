@@ -10,12 +10,16 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class Main extends Application {
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
+
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/tourio/fxml/main.fxml"));
-        stage.initStyle(StageStyle.DECORATED);
-        stage.setTitle("Quản lí du lịch");
-        stage.setScene(new Scene(root, 697, 528));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/main.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        stage.setScene(scene);
+        stage.setTitle("Tourio - Quản lí du lịch");
         stage.setResizable(false);
         stage.show();
     }

@@ -1,5 +1,6 @@
 package com.tourio.controllers;
 
+import com.tourio.Main;
 import com.tourio.dao.TourDAO;
 import com.tourio.dto.TourDTO;
 import javafx.collections.FXCollections;
@@ -14,7 +15,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,23 +23,22 @@ import java.util.ResourceBundle;
 public class TourController implements Initializable {
 
     @FXML
-    private TableView tableViewTour = new TableView<>();
+    private TableView<TourDTO> table;
 
     @FXML
-    private TableColumn<TourDTO, String> tableColumnName;
+    private TableColumn<TourDTO, String> columnTourName;
+
+    private void initColumn() {
+        columnTourName.setCellValueFactory(data -> data.getValue().getName());
+    }
 
     private void loadData() {
-        ObservableList<TourDTO> tours = FXCollections.observableArrayList(TourDAO.getTours());
-        tableViewTour.getItems().clear();
-        tableViewTour.getItems().addAll(tours);
+        ObservableList<TourDTO> tours = FXCollections.observableArrayList(TourDAO.getAll());
+        table.setItems(tours);
     }
 
-    private void initCol() {
-        tableColumnName.setCellValueFactory(data -> data.getValue().getName());
-    }
-
-    private void eventListenerTable() {
-        tableViewTour.setRowFactory(tv -> {
+    private void setRowDoubleClick() {
+        table.setRowFactory(tv -> {
             TableRow<TourDTO> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
@@ -48,12 +47,13 @@ public class TourController implements Initializable {
                         Stage stage = new Stage();
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour-detail.fxml"));
                         Parent root = fxmlLoader.load();
+
                         TourDetailController tourDetailController = fxmlLoader.getController();
                         tourDetailController.setTourId(rowData.getTourId());
-                        Scene scene = new Scene(root, 631, 596);
+
+                        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
                         stage.setResizable(false);
                         stage.setScene(scene);
-                        stage.initStyle(StageStyle.DECORATED);
                         stage.setTitle("Chi tiết tour");
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
@@ -66,14 +66,10 @@ public class TourController implements Initializable {
         });
     }
 
-    private void setup() {
-        initCol();
-        loadData();
-        eventListenerTable();
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setup();
+        initColumn();
+        loadData();
+        setRowDoubleClick();
     }
 }
