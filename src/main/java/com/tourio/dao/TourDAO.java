@@ -32,7 +32,7 @@ public class TourDAO {
     }
 
     public static TourDTO getDetails(long id) {
-        try (Session session = HibernateUtils.getSessionFactory().openSession();) {
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             session.beginTransaction();
 
             Tour tour = session.find(Tour.class, id);
@@ -46,9 +46,7 @@ public class TourDAO {
                 locations.add(tourLocationRel.getLocation());
             }
 
-            TourDTO tourDTO = new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrices, tour.getDescription(), locations);
-
-            return tourDTO;
+            return new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrices, tour.getDescription(), locations);
 
         } catch (Exception e) {
             e.printStackTrace();

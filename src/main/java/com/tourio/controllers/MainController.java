@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,69 +20,57 @@ public class MainController implements Initializable {
     @FXML
     private VBox menu;
 
+    @FXML
+    public Button tourButton, tourTypeButton, groupButton, locationButton, costTypeButton, customerButton, employeeButton, jobButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            loadTourView();
+            // Load tour fxml into content pane
+            loadView("tour");
+
+            // Set tour menu button as active
+            tourButton.getStyleClass().add("active");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Set onclick events for menu buttons
+        setMenuButtonOnAction(tourButton, "tour");
+        setMenuButtonOnAction(tourTypeButton, "tour-type");
+        setMenuButtonOnAction(groupButton, "group");
+        setMenuButtonOnAction(locationButton, "group");
+        setMenuButtonOnAction(costTypeButton, "cost-type");
+        setMenuButtonOnAction(customerButton, "customer");
+        setMenuButtonOnAction(employeeButton, "employee");
+        setMenuButtonOnAction(jobButton, "job");
     }
 
-    private void loadView(String fxmlName, String title, String buttonId) throws IOException {
+    public void setMenuButtonOnAction(Button button, String fxmlFileName) {
+        button.setOnAction(actionEvent -> {
+            try {
+                // Load fxml into content pane
+                loadView(fxmlFileName);
+
+                // Disable all other button active styles
+                for (Node node : menu.getChildren()) {
+                    node.getStyleClass().remove("active");
+                }
+
+                // Add active class to clicked button
+                button.getStyleClass().add("active");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void loadView(String fxmlFileName) throws IOException {
         // Load fxml file
-        Parent fxml = FXMLLoader.load(getClass().getResource("/com/tourio/fxml/" + fxmlName + ".fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/" + fxmlFileName + ".fxml"));
+        Parent fxml = loader.load();
 
         // Set fxml into content pane
         content.getChildren().setAll(fxml);
-
-        // Disable all other button active styles
-        for (Node node : menu.getChildren()) {
-            node.getStyleClass().remove("active");
-        }
-
-        // Add active class to clicked button
-        Button button = (Button) menu.lookup("#" + buttonId);
-        button.getStyleClass().add("active");
-    }
-
-    @FXML
-    private void loadTourView() throws IOException {
-        loadView("tour", "Tour", "tourButton");
-    }
-
-    @FXML
-    private void loadTourTypeView() throws IOException {
-        loadView("tour-type", "Loại tour", "tourTypeButton");
-    }
-
-    @FXML
-    private void loadGroupView() throws IOException {
-        loadView("group", "Đoàn khách", "groupButton");
-    }
-
-    @FXML
-    private void loadLocationView() throws IOException {
-        loadView("location", "Địa điểm", "locationButton");
-    }
-
-    @FXML
-    private void loadCostTypeView() throws IOException {
-        loadView("cost-type", "Loại chi phí", "costTypeButton");
-    }
-
-    @FXML
-    private void loadCustomerView() throws IOException {
-        loadView("customer", "Khách hàng", "customerButton");
-    }
-
-    @FXML
-    private void loadEmployeeView() throws IOException {
-        loadView("employee", "Nhân viên", "employeeButton");
-    }
-
-    @FXML
-    private void loadJobView() throws IOException {
-        loadView("job", "Công việc", "jobButton");
     }
 }
