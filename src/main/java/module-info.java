@@ -24,6 +24,6 @@ module com.example.tourio {
     opens com.tourio.dao to javafx.fxml;
     exports com.tourio.models;
     opens com.tourio.models to org.hibernate.orm.core;
-    exports com.tourio.jdbc;
-    opens com.tourio.jdbc to javafx.fxml;
+    exports com.tourio.utils;
+    opens com.tourio.utils to javafx.fxml;
 }

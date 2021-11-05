@@ -4,6 +4,7 @@ import com.tourio.dao.TourDAO;
 import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.models.TourPrice;
+import com.tourio.utils.PriceFormatter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -23,11 +23,9 @@ public class TourDetailController implements Initializable {
 
     private Tour tour;
 
-    private static NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    ObservableList<String> observableLocationList = FXCollections.observableArrayList();
 
-    ObservableList observableLocationList = FXCollections.observableArrayList();
-
-    ObservableList observablePriceList = FXCollections.observableArrayList();
+    ObservableList<String> observablePriceList = FXCollections.observableArrayList();
 
     @FXML
     private TextArea textAreaName;
@@ -64,7 +62,7 @@ public class TourDetailController implements Initializable {
         textAreaDescription.setText(tour.getDescription());
 
         for (TourPrice tourPrice : tour.getPrices()) {
-            priceList.add(formatter.format(tourPrice.getAmount()));
+            priceList.add(PriceFormatter.format(tourPrice.getAmount()));
         }
         for (TourLocationRel tourLocationRel : tour.getTourRels()) {
             locationList.add(tourLocationRel.getLocation().getName());

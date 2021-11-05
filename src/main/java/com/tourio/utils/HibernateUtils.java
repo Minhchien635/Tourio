@@ -1,4 +1,4 @@
-package com.tourio.jdbc;
+package com.tourio.utils;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

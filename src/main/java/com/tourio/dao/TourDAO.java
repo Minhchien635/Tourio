@@ -1,7 +1,6 @@
 package com.tourio.dao;
 
-import com.tourio.dto.TourDTO;
-import com.tourio.jdbc.HibernateUtils;
+import com.tourio.utils.HibernateUtils;
 import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.models.TourPrice;
@@ -24,7 +23,7 @@ public class TourDAO {
         return null;
     }
 
-    public static TourDTO getDetails(long id) {
+    public static Tour getDetails(long id) {
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             session.beginTransaction();
 

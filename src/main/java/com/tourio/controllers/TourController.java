@@ -34,7 +34,7 @@ public class TourController implements Initializable {
     }
 
     private void loadData() {
-        ObservableList<Tour> tours = FXCollections.observableArrayList(TourDAO.getTours());
+        ObservableList<Tour> tours = FXCollections.observableArrayList(TourDAO.getAll());
         table.getItems().clear();
         table.getItems().addAll(tours);
     }
