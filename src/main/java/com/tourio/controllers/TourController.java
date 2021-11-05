@@ -2,7 +2,8 @@ package com.tourio.controllers;
 
 import com.tourio.Main;
 import com.tourio.dao.TourDAO;
-import com.tourio.dto.TourDTO;
+import com.tourio.models.Tour;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,35 +24,36 @@ import java.util.ResourceBundle;
 public class TourController implements Initializable {
 
     @FXML
-    private TableView<TourDTO> table;
+    private TableView<Tour> table;
 
     @FXML
-    private TableColumn<TourDTO, String> columnTourName;
+    private TableColumn<Tour, String> columnTourName;
 
     private void initColumn() {
-        columnTourName.setCellValueFactory(data -> data.getValue().getName());
+        columnTourName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
     }
 
     private void loadData() {
-        ObservableList<TourDTO> tours = FXCollections.observableArrayList(TourDAO.getAll());
-        table.setItems(tours);
+        ObservableList<Tour> tours = FXCollections.observableArrayList(TourDAO.getTours());
+        table.getItems().clear();
+        table.getItems().addAll(tours);
     }
 
     private void setRowDoubleClick() {
         table.setRowFactory(tv -> {
-            TableRow<TourDTO> row = new TableRow<>();
+            TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    TourDTO rowData = row.getItem();
+                    Tour rowData = row.getItem();
                     try {
                         Stage stage = new Stage();
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour-detail.fxml"));
                         Parent root = fxmlLoader.load();
 
                         TourDetailController tourDetailController = fxmlLoader.getController();
-                        tourDetailController.setTourId(rowData.getTourId());
+                        tourDetailController.setTourId(rowData.getId());
 
-                        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+                        Scene scene = new Scene(root, 631, 596);
                         stage.setResizable(false);
                         stage.setScene(scene);
                         stage.setTitle("Chi tiết tour");

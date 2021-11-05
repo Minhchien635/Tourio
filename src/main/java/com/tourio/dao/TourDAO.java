@@ -2,7 +2,6 @@ package com.tourio.dao;
 
 import com.tourio.dto.TourDTO;
 import com.tourio.jdbc.HibernateUtils;
-import com.tourio.models.Location;
 import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.models.TourPrice;
@@ -13,22 +12,16 @@ import java.util.List;
 
 public class TourDAO {
 
-    public static ArrayList<TourDTO> getAll() {
-        ArrayList<TourDTO> tours = new ArrayList<>();
+    public static List<Tour> getAll() {
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            List<Tour> tourList = session.createQuery("from Tour").list();
-            for (Tour tour : tourList) {
-                tours.add(new TourDTO(tour.getId(), tour.getName()));
-            }
-
-            return tours;
-
+            return session.createQuery("from Tour").list();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return tours;
+
+        return null;
     }
 
     public static TourDTO getDetails(long id) {
@@ -37,17 +30,11 @@ public class TourDAO {
 
             Tour tour = session.find(Tour.class, id);
 
-            ArrayList<TourPrice> tourPrices = new ArrayList<>(tour.getTourPrices());
+            ArrayList<TourPrice> tourPrices = new ArrayList<>(tour.getPrices());
 
             List<TourLocationRel> tourLocationRels = tour.getTourRels();
 
-            ArrayList<Location> locations = new ArrayList<>();
-            for (TourLocationRel tourLocationRel : tourLocationRels) {
-                locations.add(tourLocationRel.getLocation());
-            }
-
-            return new TourDTO(tour.getId(), tour.getName(), tour.getTourType().getName(), tourPrices, tour.getDescription(), locations);
-
+            return new Tour(tour.getId(), tour.getName(), tour.getType(), tourPrices, tour.getDescription(), tourLocationRels);
         } catch (Exception e) {
             e.printStackTrace();
         }

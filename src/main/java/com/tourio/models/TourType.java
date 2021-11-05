@@ -22,6 +22,6 @@ public class TourType {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "tourType", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY)
     private List<Tour> tours;
 }
