@@ -27,17 +27,25 @@ public class TourDAO {
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            Tour tour = session.find(Tour.class, id);
-
-            ArrayList<TourPrice> tourPrices = new ArrayList<>(tour.getPrices());
-
-            List<TourLocationRel> tourLocationRels = tour.getTourRels();
-
-            return new Tour(tour.getId(), tour.getName(), tour.getType(), tourPrices, tour.getDescription(), tourLocationRels);
+            return session.find(Tour.class, id);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    public static boolean createTour(Tour tour) {
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+            session.beginTransaction();
+
+
+
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

@@ -6,16 +6,20 @@ import com.tourio.models.Tour;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +33,38 @@ public class TourController implements Initializable {
     @FXML
     private TableColumn<Tour, String> columnTourName;
 
-    private void initColumn() {
+    @FXML
+    private Button addBtn = new Button();
+
+    @FXML
+    private Button editBtn = new Button();
+
+    @FXML
+    private Button deleteBtn = new Button();
+
+    private void init() {
+        addBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @SneakyThrows
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                showScene("tour-create", "Tạo tour");
+            }
+        });
+        editBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @SneakyThrows
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+            }
+        });
+        deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @SneakyThrows
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+            }
+        });
+
         columnTourName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
     }
 
@@ -68,9 +103,21 @@ public class TourController implements Initializable {
         });
     }
 
+    private void showScene(String fileName, String title) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/" + fileName + ".fxml"));
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initColumn();
+        init();
         loadData();
         setRowDoubleClick();
     }

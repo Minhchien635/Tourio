@@ -1,6 +1,8 @@
 package com.tourio.models;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,23 +29,15 @@ public class Tour implements Serializable {
     @Column(name = "type_id")
     private long typeId;
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "tour")
     private List<TourLocationRel> tourRels;
 
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false, insertable = false, updatable = false)
     private TourType type;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "tour")
     private List<TourPrice> prices;
-
-
-    public Tour(long id, String name, TourType type, ArrayList<TourPrice> tourPrices, String description, List<TourLocationRel> tourLocationRels) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.prices = tourPrices;
-        this.description = description;
-        this.tourRels = tourLocationRels;
-    }
 }

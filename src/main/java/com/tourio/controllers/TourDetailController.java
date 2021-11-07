@@ -65,7 +65,7 @@ public class TourDetailController implements Initializable {
             priceList.add(PriceFormatter.format(tourPrice.getAmount()));
         }
         for (TourLocationRel tourLocationRel : tour.getTourRels()) {
-            locationList.add(tourLocationRel.getLocation().getName());
+            locationList.add(tourLocationRel.getSequence() + ". " + tourLocationRel.getLocation().getName());
         }
 
         observableLocationList.setAll(locationList);

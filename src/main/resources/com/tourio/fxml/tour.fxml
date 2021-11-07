@@ -9,52 +9,48 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tourio.controllers.TourController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tourio.controllers.TourController">
     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="60.0">
         <padding>
-            <Insets left="16.0"/>
+            <Insets left="16.0" />
         </padding>
-        <Button contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false" prefWidth="63.0" text="Thêm"
-                textOverrun="CLIP">
+        <Button fx:id="addBtn" contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
             <styleClass>
-                <String fx:value="primary-button"/>
-                <String fx:value="action-button"/>
+                <String fx:value="primary-button" />
+                <String fx:value="action-button" />
             </styleClass>
         </Button>
-        <Button defaultButton="true" mnemonicParsing="false" text="Sửa">
+        <Button fx:id="editBtn" defaultButton="true" mnemonicParsing="false" text="Sửa">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
             <HBox.margin>
-                <Insets left="16.0"/>
+                <Insets left="16.0" />
             </HBox.margin>
             <styleClass>
-                <String fx:value="primary-button"/>
-                <String fx:value="action-button"/>
+                <String fx:value="primary-button" />
+                <String fx:value="action-button" />
             </styleClass>
         </Button>
-        <Button mnemonicParsing="false" text="Xóa">
+        <Button fx:id="deleteBtn" mnemonicParsing="false" text="Xóa">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
             <HBox.margin>
-                <Insets left="16.0"/>
+                <Insets left="16.0" />
             </HBox.margin>
             <styleClass>
-                <String fx:value="danger-button"/>
-                <String fx:value="action-button"/>
+                <String fx:value="danger-button" />
+                <String fx:value="action-button" />
             </styleClass>
         </Button>
     </HBox>
-    <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-               prefHeight="600.0" prefWidth="600.0">
+    <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0">
         <columns>
-            <TableColumn fx:id="columnTourName" editable="false" maxWidth="600.0" minWidth="-Infinity"
-                         prefWidth="600.0" text="Tên tour"/>
+            <TableColumn fx:id="columnTourName" editable="false" maxWidth="600.0" minWidth="-Infinity" prefWidth="600.0" text="Tên tour" />
         </columns>
     </TableView>
 </VBox>

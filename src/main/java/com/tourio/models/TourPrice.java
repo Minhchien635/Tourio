@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.Date;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class TourPrice {
+public class TourPrice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
