@@ -27,51 +27,64 @@ public class TourController implements Initializable {
     private TableView<Tour> table;
 
     @FXML
-    private TableColumn<Tour, String> columnTourName;
+    private TableColumn<Tour, String> tourNameColumn;
 
-    private void initColumn() {
-        columnTourName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-    }
+    ObservableList<Tour> tours = FXCollections.observableArrayList();
 
-    private void loadData() {
-        ObservableList<Tour> tours = FXCollections.observableArrayList(TourDAO.getAll());
-        table.getItems().clear();
-        table.getItems().addAll(tours);
-    }
-
-    private void setRowDoubleClick() {
+    private void initTable() {
+        // On row double click
         table.setRowFactory(tv -> {
             TableRow<Tour> row = new TableRow<>();
+
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Tour rowData = row.getItem();
+                    Tour tour = row.getItem();
+
                     try {
+                        // Create view window
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour-detail.fxml"));
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
                         Stage stage = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour-detail.fxml"));
-                        Parent root = fxmlLoader.load();
-
-                        TourDetailController tourDetailController = fxmlLoader.getController();
-                        tourDetailController.setTourId(rowData.getId());
-
-                        Scene scene = new Scene(root, 631, 596);
                         stage.setResizable(false);
                         stage.setScene(scene);
                         stage.setTitle("Chi tiết tour");
                         stage.initModality(Modality.APPLICATION_MODAL);
+
+                        // Pass tour into controller
+                        TourDetailController controller = loader.getController();
+                        controller.initData(tour);
+
+                        // Show window
                         stage.showAndWait();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             });
+
             return row;
         });
+
+        // Tour name column render
+        tourNameColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getName());
+            return property;
+        });
+
+        // Bind table with tours observable list
+        table.setItems(tours);
+    }
+
+    private void initData() {
+        // Get all tours and set to tours observable list
+        tours.setAll(TourDAO.getAll());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initColumn();
-        loadData();
-        setRowDoubleClick();
+        initTable();
+        initData();
     }
 }

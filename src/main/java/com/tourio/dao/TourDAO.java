@@ -1,42 +1,37 @@
 package com.tourio.dao;
 
-import com.tourio.utils.HibernateUtils;
 import com.tourio.models.Tour;
-import com.tourio.models.TourLocationRel;
-import com.tourio.models.TourPrice;
+import com.tourio.utils.HibernateUtils;
 import org.hibernate.Session;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TourDAO {
 
     public static List<Tour> getAll() {
-        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        Session session = HibernateUtils.openSession();
 
-            return session.createQuery("from Tour").list();
+        try {
+            return HibernateUtils.getAllData(Tour.class, session);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        session.close();
 
         return null;
     }
 
     public static Tour getDetails(long id) {
-        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        Session session = HibernateUtils.openSession();
 
-            Tour tour = session.find(Tour.class, id);
-
-            ArrayList<TourPrice> tourPrices = new ArrayList<>(tour.getPrices());
-
-            List<TourLocationRel> tourLocationRels = tour.getTourRels();
-
-            return new Tour(tour.getId(), tour.getName(), tour.getType(), tourPrices, tour.getDescription(), tourLocationRels);
+        try {
+            return session.find(Tour.class, id);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        session.close();
 
         return null;
     }
