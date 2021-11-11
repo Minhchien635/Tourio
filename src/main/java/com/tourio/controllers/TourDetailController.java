@@ -31,6 +31,7 @@ public class TourDetailController implements Initializable {
             priceEndColumn,
             priceActiveColumn;
 
+    @FXML
     public HBox priceActionButtons, locationActionButtons;
 
     @FXML
