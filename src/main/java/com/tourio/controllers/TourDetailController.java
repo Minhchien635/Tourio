@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -29,6 +30,8 @@ public class TourDetailController implements Initializable {
             priceStartColumn,
             priceEndColumn,
             priceActiveColumn;
+
+    public HBox priceActionButtons, locationActionButtons;
 
     @FXML
     private TextField nameTextField, typeTextField;
@@ -126,7 +129,7 @@ public class TourDetailController implements Initializable {
         typeTextField.setText(tour.getType().getName());
         descriptionTextArea.setText(tour.getDescription());
 
-        // Set data into price table
+        // Set data into price list
         prices.setAll(tour.getPrices());
 
         // Set data into location list
@@ -152,17 +155,13 @@ public class TourDetailController implements Initializable {
         typeTextField.setEditable(false);
         descriptionTextArea.setEditable(false);
 
-        // Disable action buttons from tables and list views
-        for (Button button : new Button[]{
-                priceAddButton,
-                priceEditButton,
-                priceDeleteButton,
-                locationAddButton,
-                locationEditButton,
-                locationDeleteButton
-        }) {
-            button.setDisable(true);
-        }
+        // Hide price table view action buttons
+        priceActionButtons.getChildren().clear();
+        priceActionButtons.setManaged(false);
+
+        // Hide location list view action buttons
+        locationActionButtons.getChildren().clear();
+        locationActionButtons.setManaged(false);
 
         // Hide save and cancel button
         saveButton.setManaged(false);
