@@ -32,12 +32,14 @@ import java.util.ResourceBundle;
 public class AddTourController implements Initializable {
     @FXML
     public ScrollPane contentScrollPane;
+
     @FXML
     public TableColumn<TourPrice, String>
             priceAmountColumn,
             priceStartColumn,
             priceEndColumn,
             priceActiveColumn;
+
     @FXML
     public Button
             priceAddButton,
@@ -63,6 +65,7 @@ public class AddTourController implements Initializable {
     @FXML
     private TextArea descriptionTextArea;
     @FXML
+
     private TableView<TourPrice> priceTableView;
     @FXML
     private ListView<String> locationListView;
@@ -118,6 +121,7 @@ public class AddTourController implements Initializable {
         priceTableView.setItems(prices);
     }
 
+    // Set data into location listView
     public void initLocationList() {
         // Row render
         locationListView.setCellFactory(param -> new ListCell<>() {
@@ -138,6 +142,7 @@ public class AddTourController implements Initializable {
         locationListView.setItems(locations);
     }
 
+    // Set data into type combobox
     public void initTypeList() {
         tourTypes.setAll(TourDAO.getTypes());
 
@@ -163,7 +168,7 @@ public class AddTourController implements Initializable {
         priceTableView.refresh();
     }
 
-    // Set data into location listview
+    // Update data into location listview
     public void initDataLocation() {
         int size = locationList.size();
         locations.clear();
@@ -186,6 +191,7 @@ public class AddTourController implements Initializable {
 
     }
 
+    // Save tour
     public void onSaveClick() {
         if (typeComboBox.getValue() != null) {
             if (nameTextField.getText() != "") {
@@ -217,6 +223,7 @@ public class AddTourController implements Initializable {
         stage.close();
     }
 
+    // Add price
     public void onAddPriceClick() throws IOException {
         // Create view window
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/create_tour_price.fxml"));
@@ -229,7 +236,7 @@ public class AddTourController implements Initializable {
         stage.setTitle("Tạo giá tour");
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        // Pass tour into controller
+        // Pass addTourController into controller
         AddTourController addTourController = this;
         CreateTourPriceController createTourPriceController = loader.getController();
         createTourPriceController.init(addTourController);
@@ -238,7 +245,9 @@ public class AddTourController implements Initializable {
         stage.showAndWait();
     }
 
+    // Edit price
     public void onEditPriceClick() throws IOException {
+        // Get item tourprice of priceTableView
         TourPrice tourPrice = priceTableView.getSelectionModel().getSelectedItem();
 
         if (tourPrice != null) {
@@ -253,7 +262,7 @@ public class AddTourController implements Initializable {
             stage.setTitle("Sửa giá");
             stage.initModality(Modality.APPLICATION_MODAL);
 
-            // Pass tour into controller
+            // Pass addTourController into controller
             AddTourController addTourController = this;
             EditTourPriceController editTourPriceController = loader.getController();
             editTourPriceController.init(tourPrice, addTourController);
@@ -266,11 +275,13 @@ public class AddTourController implements Initializable {
         }
     }
 
+    // Delete price
     public void onDeletePriceClick() {
         tourPriceList.remove(priceTableView.getSelectionModel().getSelectedItem());
         initDataPrice();
     }
 
+    // Add location
     public void onAddLocationClick() throws IOException {
         // Create view window
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location.fxml"));
@@ -283,7 +294,7 @@ public class AddTourController implements Initializable {
         stage.setTitle("Thêm địa chỉ");
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        // Pass tour into controller
+        // Pass addTourController into controller
         AddTourController addTourController = this;
         AddTourLocationController addTourLocationController = loader.getController();
         addTourLocationController.init(addTourController);
@@ -292,7 +303,9 @@ public class AddTourController implements Initializable {
         stage.showAndWait();
     }
 
+    // Edit location
     public void onEditLocationClick() throws IOException {
+        // Get index item of locationListView
         int indexItem = locationListView.getSelectionModel().getSelectedIndex();
 
         if (indexItem != -1) {
@@ -309,7 +322,7 @@ public class AddTourController implements Initializable {
             stage.setTitle("Thêm địa chỉ");
             stage.initModality(Modality.APPLICATION_MODAL);
 
-            // Pass tour into controller
+            // Pass addTourController into controller
             AddTourController addTourController = this;
             EditTourLocationController editTourLocationController = loader.getController();
             editTourLocationController.init(indexItem, location, addTourController);
@@ -321,6 +334,7 @@ public class AddTourController implements Initializable {
         }
     }
 
+    // Delete location
     public void onDeleteLocationClick() {
         int indexItem = locationListView.getSelectionModel().getSelectedIndex();
         if (indexItem != -1) {

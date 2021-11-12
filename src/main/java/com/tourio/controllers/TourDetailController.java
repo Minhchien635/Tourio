@@ -40,9 +40,9 @@ public class TourDetailController implements Initializable {
             okButton,
             saveButton,
             cancelButton;
-    DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-    ObservableList<TourLocationRel> locations = FXCollections.observableArrayList();
-    ObservableList<TourPrice> prices = FXCollections.observableArrayList();
+    private DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+    private ObservableList<TourLocationRel> locations = FXCollections.observableArrayList();
+    private ObservableList<TourPrice> prices = FXCollections.observableArrayList();
     @FXML
     private TextField nameTextField;
     @FXML

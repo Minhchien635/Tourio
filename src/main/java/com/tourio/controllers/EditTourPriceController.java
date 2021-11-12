@@ -33,16 +33,20 @@ public class EditTourPriceController implements Initializable {
 
     public void onCreateClick() throws IOException {
         if (checkInputFields()) {
+            // Set tourPrice of price table view
             tourPrice.setDateStart(Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault()))));
             tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
             tourPrice.setAmount(Float.parseFloat(price.getText()));
 
+            // Set data prices of observable list
             addTourController.initDataPrice();
+
             Stage stage = (Stage) createPriceBtn.getScene().getWindow();
             stage.close();
         }
     }
 
+    // Check input
     private boolean checkInputFields() {
         if (!isNumber(price.getText())
         ) {
@@ -58,6 +62,7 @@ public class EditTourPriceController implements Initializable {
         return true;
     }
 
+    // Check data is number
     private boolean isNumber(String data) {
         try {
             Float.parseFloat(data);
@@ -67,6 +72,7 @@ public class EditTourPriceController implements Initializable {
         }
     }
 
+    // Receive tourPrice, controller of addTourController
     public void init(TourPrice tourPrice, AddTourController addTourController) {
         this.tourPrice = tourPrice;
         this.addTourController = addTourController;
@@ -76,12 +82,11 @@ public class EditTourPriceController implements Initializable {
     public void initData() {
         date_start.setEditable(false);
         date_end.setEditable(false);
-        //Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault())))
+
         date_start.setValue(tourPrice.getDateStart().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate()
         );
-
         date_end.setValue(tourPrice.getDateEnd().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate()

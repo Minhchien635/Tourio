@@ -29,6 +29,7 @@ public class CreateTourPriceController implements Initializable {
     @FXML
     private TextField price;
 
+    // Add tourPrice into priceList of addController
     public void onCreateClick() throws IOException {
         if (checkInputFields()) {
             TourPrice tourPrice = new TourPrice();
@@ -64,6 +65,7 @@ public class CreateTourPriceController implements Initializable {
         return true;
     }
 
+    // Check data is number
     private boolean isNumber(String data) {
         try {
             Float.parseFloat(data);
@@ -73,6 +75,7 @@ public class CreateTourPriceController implements Initializable {
         }
     }
 
+    //
     public void init(AddTourController addTourController) {
         this.addTourController = addTourController;
     }

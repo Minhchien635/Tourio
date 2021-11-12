@@ -18,28 +18,33 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EditTourLocationController implements Initializable {
-
     ObservableList<Location> locations = FXCollections.observableArrayList();
+
+    // Index item, location, addTourController of addTourController
     private int indexItem;
     private Location location;
     private AddTourController addTourController;
+
     @FXML
     private Button okBtn;
+
     @FXML
     private ComboBox<Location> locationComboBox;
 
     public void onOkClick() throws IOException {
+        // Set location item of location list view
         Location location = addTourController.getLocationList().get(indexItem);
-
         location.setId(locationComboBox.getValue().getId());
         location.setName(locationComboBox.getValue().getName());
 
+        // Set data locations o
         addTourController.initDataLocation();
 
         Stage stage = (Stage) okBtn.getScene().getWindow();
         stage.close();
     }
 
+    // Receive index, location, controller of addTourController
     public void init(int indexItem, Location location, AddTourController addTourController) {
         this.indexItem = indexItem;
         this.location = location;
@@ -47,10 +52,12 @@ public class EditTourLocationController implements Initializable {
         initLocations();
     }
 
+    // Location render
     private void initLocations() {
         locations.setAll(TourDAO.getLocations());
         locationComboBox.setItems(locations);
 
+        // Set value location into location comboBox
         int size = locations.size();
         int index = 0;
         for (int i = 0; i < size; i++) {
