@@ -5,13 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
 public class Main extends Application {
     public static int WIDTH = 800;
     public static int HEIGHT = 600;
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -22,9 +25,5 @@ public class Main extends Application {
         stage.setTitle("Tourio - Quản lí du lịch");
         stage.setResizable(false);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

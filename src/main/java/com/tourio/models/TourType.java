@@ -3,7 +3,6 @@ package com.tourio.models;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
 @Table(name = "tour_type")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class TourType {
     @Id

@@ -6,8 +6,6 @@ import com.tourio.models.Tour;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +17,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,98 +24,126 @@ import java.util.ResourceBundle;
 
 public class TourController implements Initializable {
 
+    ObservableList<Tour> tours = FXCollections.observableArrayList();
+
     @FXML
     private TableView<Tour> table;
 
     @FXML
-    private TableColumn<Tour, String> columnTourName;
+    private TableColumn<Tour, String> tourNameColumn;
 
     @FXML
-    private Button addBtn = new Button();
+    private Button addTourBtn;
 
     @FXML
-    private Button editBtn = new Button();
+    private Button editTourBtn;
 
     @FXML
-    private Button deleteBtn = new Button();
+    private Button deleteTourBtn;
 
-    private void init() {
-        addBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @SneakyThrows
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                showScene("tour-create", "Tạo tour");
-            }
-        });
-        editBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @SneakyThrows
-            @Override
-            public void handle(ActionEvent actionEvent) {
+    public void onCreateTourClick() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_detail.fxml"));
+        fxmlLoader.setController(new AddTourController());
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Tạo tour");
+        stage.initModality(Modality.APPLICATION_MODAL);
 
-            }
-        });
-        deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @SneakyThrows
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        TourController tourController = this;
+        AddTourController addTourController = fxmlLoader.getController();
+        addTourController.init(tourController);
 
-            }
-        });
-
-        columnTourName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        stage.showAndWait();
     }
 
-    private void loadData() {
-        ObservableList<Tour> tours = FXCollections.observableArrayList(TourDAO.getAll());
-        table.getItems().clear();
-        table.getItems().addAll(tours);
+    public void onEditTourClick() throws IOException {
+        Tour tour = table.getSelectionModel().getSelectedItem();
+        if (tour != null) {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_detail.fxml"));
+            fxmlLoader.setController(new UpdateTourController());
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Sửa tour");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            TourController tourController = this;
+            UpdateTourController updateTourController = fxmlLoader.getController();
+            updateTourController.initData(this, tour);
+
+            stage.showAndWait();
+        }
     }
 
-    private void setRowDoubleClick() {
+    public void onDeleteTourClick() {
+        Tour tour = table.getSelectionModel().getSelectedItem();
+        if (tour != null) {
+            TourDAO.deleteTour(tour.getId());
+            initData();
+        }
+    }
+
+    private void initTable() {
+        // On row double click
         table.setRowFactory(tv -> {
             TableRow<Tour> row = new TableRow<>();
+
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Tour rowData = row.getItem();
+                    Tour tour = row.getItem();
+
                     try {
+                        // Create view window
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_detail.fxml"));
+                        loader.setController(new TourDetailController());
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
                         Stage stage = new Stage();
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour-detail.fxml"));
-                        Parent root = fxmlLoader.load();
-
-                        TourDetailController tourDetailController = fxmlLoader.getController();
-                        tourDetailController.setTourId(rowData.getId());
-
-                        Scene scene = new Scene(root, 631, 596);
                         stage.setResizable(false);
                         stage.setScene(scene);
                         stage.setTitle("Chi tiết tour");
                         stage.initModality(Modality.APPLICATION_MODAL);
+
+                        // Pass tour into controller
+                        TourDetailController controller = loader.getController();
+                        controller.initData(tour);
+
+                        // Show window
                         stage.showAndWait();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             });
+
             return row;
         });
+
+        // Tour name column render
+        tourNameColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getName());
+            return property;
+        });
+
+        // Bind table with tours observable list
+        table.setItems(tours);
     }
 
-    private void showScene(String fileName, String title) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/" + fileName + ".fxml"));
-        Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle(title);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+    public void initData() {
+        // Get all tours and set to tours observable list
+        tours.setAll(TourDAO.getAll());
+        table.refresh();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        init();
-        loadData();
-        setRowDoubleClick();
+        initTable();
+        initData();
     }
 }

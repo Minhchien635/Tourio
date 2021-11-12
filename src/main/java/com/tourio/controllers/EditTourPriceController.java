@@ -16,9 +16,11 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class CreateTourPriceController implements Initializable {
+public class EditTourPriceController implements Initializable {
 
     private AddTourController addTourController;
+
+    private TourPrice tourPrice;
 
     @FXML
     private Button createPriceBtn;
@@ -31,13 +33,9 @@ public class CreateTourPriceController implements Initializable {
 
     public void onCreateClick() throws IOException {
         if (checkInputFields()) {
-            TourPrice tourPrice = new TourPrice();
-            tourPrice.setAmount(Float.parseFloat(price.getText()));
             tourPrice.setDateStart(Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault()))));
             tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
-            addTourController.getTourPriceList().add(tourPrice);
-
-            addTourController.initDataPrice();
+            tourPrice.setAmount(Float.parseFloat(price.getText()));
 
             Stage stage = (Stage) createPriceBtn.getScene().getWindow();
             stage.close();
@@ -45,11 +43,6 @@ public class CreateTourPriceController implements Initializable {
     }
 
     private boolean checkInputFields() {
-        if (date_start.getValue() == null || date_end.getValue() == null || price.getText() == "") {
-            Notification.show("WARNING", "Thông báo", "Các trường không được để trống");
-            return false;
-        }
-
         if (!isNumber(price.getText())
         ) {
             Notification.show("WARNING", "Thông báo", "Giá không hợp lệ");
@@ -73,13 +66,30 @@ public class CreateTourPriceController implements Initializable {
         }
     }
 
-    public void init(AddTourController addTourController) {
+    public void init(TourPrice tourPrice, AddTourController addTourController) {
+        this.tourPrice = tourPrice;
         this.addTourController = addTourController;
+        initData();
+    }
+
+    public void initData() {
+        date_start.setEditable(false);
+        date_end.setEditable(false);
+        //Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault())))
+        date_start.setValue(tourPrice.getDateStart().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+        );
+
+        date_end.setValue(tourPrice.getDateEnd().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+        );
+
+        price.setText(String.valueOf(tourPrice.getAmount()));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        date_start.setEditable(false);
-        date_start.setEditable(false);
     }
 }

@@ -1,9 +1,14 @@
 package com.tourio.utils;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 
 public class HibernateUtils {
     private static final SessionFactory sessionFactory = buildSessionFactory();
@@ -19,11 +24,14 @@ public class HibernateUtils {
         return new MetadataSources(registry).buildMetadata().buildSessionFactory();
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static Session openSession() {
+        return sessionFactory.openSession();
     }
 
-    public static void close() {
-        getSessionFactory().close();
+    public static <T> List<T> getAllData(Class<T> type, Session session) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<T> criteria = builder.createQuery(type);
+        criteria.from(type);
+        return session.createQuery(criteria).getResultList();
     }
 }

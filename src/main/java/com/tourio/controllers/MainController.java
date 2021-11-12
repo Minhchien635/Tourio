@@ -15,13 +15,11 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     @FXML
+    public Button tourButton, tourTypeButton, groupButton, locationButton, costTypeButton, customerButton, employeeButton, jobButton;
+    @FXML
     private AnchorPane content;
-
     @FXML
     private VBox menu;
-
-    @FXML
-    public Button tourButton, tourTypeButton, groupButton, locationButton, costTypeButton, customerButton, employeeButton, jobButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

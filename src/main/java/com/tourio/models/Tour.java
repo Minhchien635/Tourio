@@ -1,6 +1,9 @@
 package com.tourio.models;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -31,6 +34,7 @@ public class Tour implements Serializable {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "tour")
+    @ToString.Exclude
     private List<TourLocationRel> tourRels;
 
     @ManyToOne
@@ -39,5 +43,15 @@ public class Tour implements Serializable {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "tour")
+    @ToString.Exclude
     private List<TourPrice> prices;
+
+    public Tour(long id, String name, TourType type, ArrayList<TourPrice> tourPrices, String description, List<TourLocationRel> tourLocationRels) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.prices = tourPrices;
+        this.description = description;
+        this.tourRels = tourLocationRels;
+    }
 }
