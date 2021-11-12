@@ -33,6 +33,7 @@ public class EditTourLocationController implements Initializable {
 
         location.setId(locationComboBox.getValue().getId());
         location.setName(locationComboBox.getValue().getName());
+
         addTourController.initDataLocation();
 
         Stage stage = (Stage) okBtn.getScene().getWindow();

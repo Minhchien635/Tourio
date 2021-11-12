@@ -187,19 +187,29 @@ public class AddTourController implements Initializable {
     }
 
     public void onSaveClick() {
-        Tour tour = new Tour();
-        List<Location> locations = new ArrayList<>(locationList);
-        List<TourPrice> tourPrices = new ArrayList<>(tourPriceList);
+        if (typeComboBox.getValue() != null) {
+            if (nameTextField.getText() != "") {
+                Tour tour = new Tour();
+                List<Location> locations = new ArrayList<>(locationList);
+                List<TourPrice> tourPrices = new ArrayList<>(tourPriceList);
 
-        tour.setName(nameTextField.getText());
-        tour.setTypeId(typeComboBox.getValue().getId());
-        tour.setDescription(descriptionTextArea.getText());
+                tour.setName(nameTextField.getText());
 
-        TourDAO.createTour(tour, tourPrices, locations);
+                tour.setTypeId(typeComboBox.getValue().getId());
 
-        tourController.initData();
-        Stage stage = (Stage) saveButton.getScene().getWindow();
-        stage.close();
+                tour.setDescription(descriptionTextArea.getText());
+
+                TourDAO.createTour(tour, tourPrices, locations);
+
+                tourController.initData();
+                Stage stage = (Stage) saveButton.getScene().getWindow();
+                stage.close();
+            } else {
+                Notification.show("WARNING", "Thông báo", "Nhập tên tour");
+            }
+        } else {
+            Notification.show("WARNING", "Thông báo", "Chọn loại tour");
+        }
     }
 
     public void onCancelClick() {

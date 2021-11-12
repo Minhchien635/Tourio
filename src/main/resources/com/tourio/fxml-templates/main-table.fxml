@@ -5,14 +5,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-      minHeight="-Infinity"
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
       minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="16.0"
-      style="-fx-background-color: white;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17"
-      fx:controller="com.tourio.controllers.TourController">
+      style="-fx-background-color: white;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17">
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+    </padding>
     <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="NEVER">
-        <Button fx:id="addTourBtn" contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false"
-                onAction="#onCreateTourClick" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
+        <Button fx:id="addButton" contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false" prefWidth="63.0"
+                text="Thêm" textOverrun="CLIP">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -21,7 +22,7 @@
                 <String fx:value="action-button"/>
             </styleClass>
         </Button>
-        <Button fx:id="editTourBtn" defaultButton="true" mnemonicParsing="false" onAction="#onEditTourClick" text="Sửa">
+        <Button fx:id="editButton" defaultButton="true" mnemonicParsing="false" text="Sửa">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -33,7 +34,7 @@
                 <String fx:value="action-button"/>
             </styleClass>
         </Button>
-        <Button fx:id="deleteTourBtn" mnemonicParsing="false" onAction="#onDeleteTourClick" text="Xóa">
+        <Button fx:id="deleteButton" mnemonicParsing="false" text="Xóa">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -46,16 +47,14 @@
             </styleClass>
         </Button>
     </HBox>
-    <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="tourNameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0"
-                         prefWidth="-1.0" text="Tour"/>
-        </columns>
+    <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
+        <columns>
+            <TableColumn prefWidth="75.0" text="Column 1"/>
+            <TableColumn prefWidth="75.0" text="Column 2"/>
+            <TableColumn prefWidth="75.0" text="Column 3"/>
+        </columns>
     </TableView>
-    <padding>
-        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
-    </padding>
 </VBox>

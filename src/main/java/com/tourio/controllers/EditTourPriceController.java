@@ -37,6 +37,7 @@ public class EditTourPriceController implements Initializable {
             tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
             tourPrice.setAmount(Float.parseFloat(price.getText()));
 
+            addTourController.initDataPrice();
             Stage stage = (Stage) createPriceBtn.getScene().getWindow();
             stage.close();
         }
