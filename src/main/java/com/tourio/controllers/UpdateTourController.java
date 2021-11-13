@@ -12,14 +12,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UpdateTourController extends AddTourController {
+    private TourController tourController;
+
+    private Tour tour;
+
     @FXML
     public ScrollPane contentScrollPane;
+
     @FXML
     public TableColumn<TourPrice, String>
             priceAmountColumn,
             priceStartColumn,
             priceEndColumn,
             priceActiveColumn;
+
     @FXML
     public Button
             priceAddButton,
@@ -31,8 +37,7 @@ public class UpdateTourController extends AddTourController {
             okButton,
             saveButton,
             cancelButton;
-    private TourController tourController;
-    private Tour tour;
+
     @FXML
     private TextField nameTextField;
 

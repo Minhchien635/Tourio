@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddTourController implements Initializable {
     @FXML
@@ -195,27 +192,41 @@ public class AddTourController implements Initializable {
     public void onSaveClick() {
         if (typeComboBox.getValue() != null) {
             if (nameTextField.getText() != "") {
-                Tour tour = new Tour();
-                List<Location> locations = new ArrayList<>(locationList);
-                List<TourPrice> tourPrices = new ArrayList<>(tourPriceList);
+                if (!duplicateLocation(locationList)) {
+                    Tour tour = new Tour();
+                    List<Location> locations = new ArrayList<>(locationList);
+                    List<TourPrice> tourPrices = new ArrayList<>(tourPriceList);
 
-                tour.setName(nameTextField.getText());
+                    tour.setName(nameTextField.getText());
 
-                tour.setTypeId(typeComboBox.getValue().getId());
+                    tour.setTypeId(typeComboBox.getValue().getId());
 
-                tour.setDescription(descriptionTextArea.getText());
+                    tour.setDescription(descriptionTextArea.getText());
 
-                TourDAO.createTour(tour, tourPrices, locations);
+                    TourDAO.createTour(tour, tourPrices, locations);
 
-                tourController.initData();
-                Stage stage = (Stage) saveButton.getScene().getWindow();
-                stage.close();
+                    tourController.initData();
+                    Stage stage = (Stage) saveButton.getScene().getWindow();
+                    stage.close();
+                } else {
+                    Notification.show("WARNING", "Thông báo", "Địa điểm bị trùng");
+                }
             } else {
                 Notification.show("WARNING", "Thông báo", "Nhập tên tour");
             }
         } else {
             Notification.show("WARNING", "Thông báo", "Chọn loại tour");
         }
+    }
+
+    private boolean duplicateLocation(List<Location> locations) {
+        HashSet unique = new HashSet();
+        for (Location location : locations) {
+            if (!unique.add(location.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void onCancelClick() {
