@@ -1,57 +1,49 @@
 package com.tourio.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-@Entity
-@Table(name = "tour")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-public class Tour implements Serializable {
+@Entity(name = "tour")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Tour {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column
     private String name;
-
-    @Column
     private String description;
 
-    @Column(name = "type_id")
-    private long typeId;
-
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "tour")
-    @ToString.Exclude
-    private List<TourLocationRel> tourRels;
-
     @ManyToOne
-    @JoinColumn(name = "type_id", nullable = false, insertable = false, updatable = false)
-    private TourType type;
+    private TourType tourType;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<TourPrice> prices;
+    private List<TourPrice> tourPrices;
 
-    public Tour(long id, String name, TourType type, ArrayList<TourPrice> tourPrices, String description, List<TourLocationRel> tourLocationRels) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.prices = tourPrices;
-        this.description = description;
-        this.tourRels = tourLocationRels;
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<TourLocationRel> tourLocationRels;
+
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Group> groups;
+
+    public Long getCurrentPrice() throws Exception {
+        Date today = new Date();
+        Optional<TourPrice> currentPrice = this.getTourPrices().stream().filter(p -> today.before(p.getDateEnd()) && today.after(p.getDateStart())).findFirst();
+        if (!currentPrice.isPresent()) {
+            throw new Exception("No price has been defined on Tour for this period");
+        }
+        return currentPrice.get().getAmount();
     }
 }

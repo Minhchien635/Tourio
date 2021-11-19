@@ -1,27 +1,25 @@
 package com.tourio.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "location")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Entity(name = "location")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column
     private String name;
 
-    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
-    private List<TourLocationRel> locationRels;
+    @OneToMany(mappedBy = "location")
+    @ToString.Exclude
+    private List<TourLocationRel> tourLocationRels;
 }

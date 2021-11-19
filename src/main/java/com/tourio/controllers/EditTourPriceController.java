@@ -18,34 +18,34 @@ import java.util.ResourceBundle;
 
 public class EditTourPriceController implements Initializable {
 
-    private AddTourController addTourController;
+    public AddTourController addTourController;
 
-    private TourPrice tourPrice;
-
-    @FXML
-    private Button createPriceBtn;
+    public TourPrice tourPrice;
 
     @FXML
-    private DatePicker date_start, date_end;
+    public Button createPriceBtn;
 
     @FXML
-    private TextField price;
+    public DatePicker date_start, date_end;
+
+    @FXML
+    public TextField price;
 
     public void onCreateClick() throws IOException {
-        if (checkInputFields()) {
-            tourPrice.setDateStart(Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault()))));
-            tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
-            tourPrice.setAmount(Float.parseFloat(price.getText()));
-
-            addTourController.initDataPrice();
-            Stage stage = (Stage) createPriceBtn.getScene().getWindow();
-            stage.close();
+        if (!checkInputFields()) {
+            return;
         }
+
+        tourPrice.setDateStart(Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault()))));
+        tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
+        tourPrice.setAmount(Long.parseLong(price.getText()));
+
+        Stage stage = (Stage) createPriceBtn.getScene().getWindow();
+        stage.close();
     }
 
-    private boolean checkInputFields() {
-        if (!isNumber(price.getText())
-        ) {
+    public boolean checkInputFields() {
+        if (!isNumber(price.getText())) {
             Notification.show("WARNING", "Thông báo", "Giá không hợp lệ");
             return false;
         }
@@ -58,7 +58,7 @@ public class EditTourPriceController implements Initializable {
         return true;
     }
 
-    private boolean isNumber(String data) {
+    public boolean isNumber(String data) {
         try {
             Float.parseFloat(data);
             return true;
@@ -67,15 +67,11 @@ public class EditTourPriceController implements Initializable {
         }
     }
 
-    public void init(TourPrice tourPrice, AddTourController addTourController) {
-        this.tourPrice = tourPrice;
-        this.addTourController = addTourController;
-        initData();
-    }
-
-    public void initData() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         date_start.setEditable(false);
         date_end.setEditable(false);
+
         //Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault())))
         date_start.setValue(tourPrice.getDateStart().toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -88,9 +84,5 @@ public class EditTourPriceController implements Initializable {
         );
 
         price.setText(String.valueOf(tourPrice.getAmount()));
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 }

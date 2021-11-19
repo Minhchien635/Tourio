@@ -25,7 +25,7 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             // Load tour fxml into content pane
-            loadView("tour");
+            loadView("tour_table");
 
             // Set tour menu button as active
             tourButton.getStyleClass().add("active");
@@ -34,14 +34,14 @@ public class MainController implements Initializable {
         }
 
         // Set onclick events for menu buttons
-        setMenuButtonOnAction(tourButton, "tour");
-        setMenuButtonOnAction(tourTypeButton, "tour-type");
-        setMenuButtonOnAction(groupButton, "group");
-        setMenuButtonOnAction(locationButton, "group");
-        setMenuButtonOnAction(costTypeButton, "cost-type");
-        setMenuButtonOnAction(customerButton, "customer");
-        setMenuButtonOnAction(employeeButton, "employee");
-        setMenuButtonOnAction(jobButton, "job");
+        setMenuButtonOnAction(tourButton, "tour_table");
+        setMenuButtonOnAction(tourTypeButton, "tour_type_table");
+        setMenuButtonOnAction(groupButton, "group_table");
+        setMenuButtonOnAction(locationButton, "location_table");
+        setMenuButtonOnAction(costTypeButton, "cost_type_table");
+        setMenuButtonOnAction(customerButton, "customer_table");
+        setMenuButtonOnAction(employeeButton, "employee_table");
+        setMenuButtonOnAction(jobButton, "job_table");
     }
 
     public void setMenuButtonOnAction(Button button, String fxmlFileName) {

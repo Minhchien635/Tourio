@@ -1,38 +1,27 @@
 package com.tourio.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.tourio.enums.SexType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "customer")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Entity(name = "customer")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column
     private String name;
-
-    @Column(name = "id_number")
-    private String idNumber;
-
-    @Column
+    private String cccd;
     private String address;
-
-    @Column
-    private String sex;
-
-    @Column
     private String phone;
-
-    @Column
     private String nationality;
+
+    @Enumerated(EnumType.STRING)
+    private SexType sex;
 }

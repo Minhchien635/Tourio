@@ -1,29 +1,37 @@
 package com.tourio.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "group_employee_rel")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-public class GroupEmployeeRel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Entity(name = "group_employee_rel")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class GroupEmployeeRel implements Serializable {
+    @EmbeddedId
+    private GroupEmployeeRelID id;
 
-    @Column(name = "group_id")
-    private long groupId;
+    @ManyToOne
+    @MapsId("groupId")
+    @JoinColumn(name = "group_id")
+    private Group group;
 
-    @Column(name = "employee_id")
-    private long employeeId;
+    @ManyToOne
+    @MapsId("employeeId")
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
-    @Column(name = "job_id")
-    private long jobId;
+    @ManyToOne
+    private Job job;
+
+    public GroupEmployeeRel(Group group, Employee employee, Job job) {
+        this.id = new GroupEmployeeRelID(employee.getId(), group.getId());
+        this.group = group;
+        this.employee = employee;
+        this.job = job;
+    }
 }

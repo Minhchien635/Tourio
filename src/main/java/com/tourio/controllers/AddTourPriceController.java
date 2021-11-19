@@ -9,35 +9,32 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class CreateTourPriceController implements Initializable {
+public class AddTourPriceController implements Initializable {
 
-    private AddTourController addTourController;
-
-    @FXML
-    private Button createPriceBtn;
+    public AddTourController addTourController;
 
     @FXML
-    private DatePicker date_start, date_end;
+    public Button createPriceBtn;
 
     @FXML
-    private TextField price;
+    public DatePicker date_start, date_end;
 
-    public void onCreateClick() throws IOException {
+    @FXML
+    public TextField price;
+
+    public void onCreateClick() {
         if (checkInputFields()) {
             TourPrice tourPrice = new TourPrice();
-            tourPrice.setAmount(Float.parseFloat(price.getText()));
+            tourPrice.setAmount(Long.parseLong(price.getText()));
             tourPrice.setDateStart(Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault()))));
             tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
-            addTourController.getTourPriceList().add(tourPrice);
-
-            addTourController.initDataPrice();
+            addTourController.tourPrices.add(tourPrice);
 
             Stage stage = (Stage) createPriceBtn.getScene().getWindow();
             stage.close();
@@ -45,7 +42,7 @@ public class CreateTourPriceController implements Initializable {
     }
 
     private boolean checkInputFields() {
-        if (date_start.getValue() == null || date_end.getValue() == null || price.getText() == "") {
+        if (date_start.getValue() == null || date_end.getValue() == null || price.getText().isEmpty()) {
             Notification.show("WARNING", "Thông báo", "Các trường không được để trống");
             return false;
         }
@@ -71,10 +68,6 @@ public class CreateTourPriceController implements Initializable {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public void init(AddTourController addTourController) {
-        this.addTourController = addTourController;
     }
 
     @Override

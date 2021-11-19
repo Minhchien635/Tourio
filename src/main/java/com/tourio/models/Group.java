@@ -1,39 +1,59 @@
 package com.tourio.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
-import java.sql.Date;
 
-@Entity
-@Table(name = "group")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Entity(name = "group_tour")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Group {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "tour_id")
-    private long tourId;
-
-    @Column
     private String name;
 
-    @Column(name = "tour_price")
-    private float tourPrice;
+    private Long tourPrice;
 
-    @Column
     private String description;
 
-    @Column(name = "date_start")
+    @Temporal(TemporalType.DATE)
     private Date dateStart;
 
-    @Column(name = "date_end")
+    @Temporal(TemporalType.DATE)
     private Date dateEnd;
+
+    @ManyToOne
+    private Tour tour;
+
+    @ManyToMany
+    private List<Customer> customers;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<GroupEmployeeRel> groupEmployeeRels;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<GroupCostRel> groupCostRels;
+
+    private Date createdAt;
+
+    public Long getTotalCost() {
+        return this.getGroupCostRels().stream().map(GroupCostRel::getAmount).reduce(0L, Long::sum);
+    }
+
+    public Long getTotalSale() {
+        return this.getCustomers().size() * this.getTourPrice();
+    }
+
 }

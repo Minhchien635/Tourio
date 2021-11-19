@@ -1,25 +1,25 @@
 package com.tourio.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
-@Entity
-@Table(name = "employee")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Entity(name = "employee")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column
     private String name;
+
+    @OneToMany(mappedBy = "employee")
+    @ToString.Exclude
+    private List<GroupEmployeeRel> groupEmployeeRels;
 }

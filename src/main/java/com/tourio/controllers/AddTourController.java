@@ -5,14 +5,17 @@ import com.tourio.models.Location;
 import com.tourio.models.Tour;
 import com.tourio.models.TourPrice;
 import com.tourio.models.TourType;
-import com.tourio.utils.Notification;
+import com.tourio.utils.AlertUtils;
+import com.tourio.utils.DateFormatter;
 import com.tourio.utils.PriceFormatter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,62 +25,39 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddTourController implements Initializable {
-    @FXML
-    public ScrollPane contentScrollPane;
     @FXML
     public TableColumn<TourPrice, String>
             priceAmountColumn,
             priceStartColumn,
             priceEndColumn,
             priceActiveColumn;
-    @FXML
-    public Button
-            priceAddButton,
-            priceEditButton,
-            priceDeleteButton,
-            locationAddButton,
-            locationEditButton,
-            locationDeleteButton,
-            okButton,
-            saveButton,
-            cancelButton;
-    List<TourPrice> tourPriceList = new ArrayList<>();
-    List<Location> locationList = new ArrayList<>();
-    TourController tourController;
-    DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-    ObservableList<TourType> tourTypes = FXCollections.observableArrayList(TourDAO.getTypes());
-    ObservableList<String> locations = FXCollections.observableArrayList();
-    ObservableList<TourPrice> prices = FXCollections.observableArrayList();
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private ComboBox<TourType> typeComboBox;
-    @FXML
-    private TextArea descriptionTextArea;
-    @FXML
-    private TableView<TourPrice> priceTableView;
-    @FXML
-    private ListView<String> locationListView;
 
-    public List<TourPrice> getTourPriceList() {
-        return tourPriceList;
-    }
+    @FXML
+    public TextField nameTextField;
 
-    public List<Location> getLocationList() {
-        return locationList;
-    }
+    @FXML
+    public ComboBox<TourType> typeComboBox;
 
-    public void init(TourController tourController) {
-        this.tourController = tourController;
-    }
+    @FXML
+    public TextArea descriptionTextArea;
+
+    @FXML
+    public TableView<TourPrice> priceTableView;
+
+    @FXML
+    public ListView<Location> locationListView;
+
+    public TourTableController tourTableController;
+
+    public ObservableList<Location> locations = FXCollections.observableArrayList();
+
+    public ObservableList<TourPrice> tourPrices = FXCollections.observableArrayList();
+
+    public ObservableList<TourType> tourTypes = FXCollections.observableArrayList();
 
     public void initPriceTable() {
         // Price amount column render
@@ -90,14 +70,14 @@ public class AddTourController implements Initializable {
         // Price start date column render
         priceStartColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(dateFormatter.format(data.getValue().getDateStart()));
+            property.setValue(DateFormatter.format(data.getValue().getDateStart()));
             return property;
         });
 
         // Price end date column render
         priceEndColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(dateFormatter.format(data.getValue().getDateEnd()));
+            property.setValue(DateFormatter.format(data.getValue().getDateEnd()));
 
             return property;
         });
@@ -115,22 +95,22 @@ public class AddTourController implements Initializable {
         });
 
         // Set prices observable list as data
-        priceTableView.setItems(prices);
+        priceTableView.setItems(tourPrices);
     }
 
     public void initLocationList() {
         // Row render
         locationListView.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(Location item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (empty) {
+                if (item == null || empty) {
                     setText(null);
                     return;
                 }
 
-                setText(item);
+                setText(item.getName());
             }
         });
 
@@ -138,89 +118,72 @@ public class AddTourController implements Initializable {
         locationListView.setItems(locations);
     }
 
-    public void initTypeList() {
+    public void initTypeComboBox() {
         tourTypes.setAll(TourDAO.getTypes());
-
         typeComboBox.setItems(tourTypes);
 
-        Callback<ListView<TourType>, ListCell<TourType>> factory = lv -> new ListCell<TourType>() {
-
-            @Override
-            protected void updateItem(TourType item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? "" : item.getName());
-            }
-
-        };
+        Callback<ListView<TourType>, ListCell<TourType>> factory = (lv) ->
+                new ListCell<>() {
+                    @Override
+                    protected void updateItem(TourType item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? "" : item.getName());
+                    }
+                };
 
         typeComboBox.setCellFactory(factory);
         typeComboBox.setButtonCell(factory.call(null));
     }
 
-    // Set data into price table
-    public void initDataPrice() {
-        prices.setAll(tourPriceList);
-        priceTableView.refresh();
-    }
-
-    // Set data into location listview
-    public void initDataLocation() {
-        int size = locationList.size();
-        locations.clear();
-        for (int i = 0; i < size; i++) {
-            int index = i + 1;
-            locations.add(index + ". " + locationList.get(i).getName());
+    public void onSaveClick(ActionEvent e) {
+        String name = nameTextField.getText();
+        if (name == null || name.trim().isEmpty()) {
+            AlertUtils.alert("Hãy nhập tên tour");
+            return;
         }
-        locationListView.refresh();
-    }
 
-    // Add data into location list
-    public void addDataLocation() {
-        if (locationList.size() > 0) {
-            locations.add(locationList.size() + ". " + locationList.get(locationList.size() - 1).getName());
-            locationListView.refresh();
+        TourType tourType = typeComboBox.getValue();
+        if (tourType == null) {
+            AlertUtils.alert("Hãy chọn loại tour");
+            return;
         }
-    }
 
-    public void onOkClick() throws IOException {
-
-    }
-
-    public void onSaveClick() {
-        if (typeComboBox.getValue() != null) {
-            if (nameTextField.getText() != "") {
-                Tour tour = new Tour();
-                List<Location> locations = new ArrayList<>(locationList);
-                List<TourPrice> tourPrices = new ArrayList<>(tourPriceList);
-
-                tour.setName(nameTextField.getText());
-
-                tour.setTypeId(typeComboBox.getValue().getId());
-
-                tour.setDescription(descriptionTextArea.getText());
-
-                TourDAO.createTour(tour, tourPrices, locations);
-
-                tourController.initData();
-                Stage stage = (Stage) saveButton.getScene().getWindow();
-                stage.close();
-            } else {
-                Notification.show("WARNING", "Thông báo", "Nhập tên tour");
-            }
-        } else {
-            Notification.show("WARNING", "Thông báo", "Chọn loại tour");
+        String description = descriptionTextArea.getText();
+        if (description == null || description.trim().isEmpty()) {
+            AlertUtils.alert("Hãy nhập thông tin tour");
+            return;
         }
+
+        Tour tour = new Tour();
+        tour.setName(name);
+        tour.setTourType(tourType);
+        tour.setDescription(description);
+
+        TourDAO.createTour(tour, tourPrices, locations);
+
+        tourTableController.loadData();
+
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 
-    public void onCancelClick() {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+    public void onCancelClick(ActionEvent e) {
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
     public void onAddPriceClick() throws IOException {
-        // Create view window
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/create_tour_price.fxml"));
-        loader.setController(new CreateTourPriceController());
+        // Init controller
+        AddTourPriceController controller = new AddTourPriceController();
+        controller.addTourController = this;
+
+        // Load view
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_price.fxml"));
+        loader.setController(controller);
+
+        // Render view window
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -229,11 +192,6 @@ public class AddTourController implements Initializable {
         stage.setTitle("Tạo giá tour");
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        // Pass tour into controller
-        AddTourController addTourController = this;
-        CreateTourPriceController createTourPriceController = loader.getController();
-        createTourPriceController.init(addTourController);
-
         // Show window
         stage.showAndWait();
     }
@@ -241,40 +199,47 @@ public class AddTourController implements Initializable {
     public void onEditPriceClick() throws IOException {
         TourPrice tourPrice = priceTableView.getSelectionModel().getSelectedItem();
 
-        if (tourPrice != null) {
-            // Create view window
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/create_tour_price.fxml"));
-            loader.setController(new EditTourPriceController());
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.setTitle("Sửa giá");
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            // Pass tour into controller
-            AddTourController addTourController = this;
-            EditTourPriceController editTourPriceController = loader.getController();
-            editTourPriceController.init(tourPrice, addTourController);
-
-            // Show window
-            stage.showAndWait();
-
-        } else {
-            Notification.show("INFORMATION", "Thông báo", "Chọn giá cần sửa");
+        if (tourPrice == null) {
+            AlertUtils.alert("Hãy chọn giá cần sửa");
         }
+
+        // Init controller
+        EditTourPriceController controller = new EditTourPriceController();
+        controller.addTourController = this;
+        controller.tourPrice = tourPrice;
+
+        // Load view
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_price.fxml"));
+        loader.setController(controller);
+
+        // Render view window
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.setTitle("Sửa giá");
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        // Show window
+        stage.showAndWait();
     }
 
     public void onDeletePriceClick() {
-        tourPriceList.remove(priceTableView.getSelectionModel().getSelectedItem());
-        initDataPrice();
+        int index = priceTableView.getSelectionModel().getSelectedIndex();
+        tourPrices.remove(index);
     }
 
     public void onAddLocationClick() throws IOException {
-        // Create view window
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location.fxml"));
-        loader.setController(new AddTourLocationController());
+        // Init controller
+        AddTourLocationController controller = new AddTourLocationController();
+        controller.addTourController = this;
+
+        // Load view
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location_new.fxml"));
+        loader.setController(controller);
+
+        // Render view window
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -283,64 +248,55 @@ public class AddTourController implements Initializable {
         stage.setTitle("Thêm địa chỉ");
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        // Pass tour into controller
-        AddTourController addTourController = this;
-        AddTourLocationController addTourLocationController = loader.getController();
-        addTourLocationController.init(addTourController);
-
         // Show window
         stage.showAndWait();
     }
 
     public void onEditLocationClick() throws IOException {
-        int indexItem = locationListView.getSelectionModel().getSelectedIndex();
+        int index = locationListView.getSelectionModel().getSelectedIndex();
 
-        if (indexItem != -1) {
-            Location location = locationList.get(indexItem);
-
-            // Create view window
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location.fxml"));
-            loader.setController(new EditTourLocationController());
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.setTitle("Thêm địa chỉ");
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            // Pass tour into controller
-            AddTourController addTourController = this;
-            EditTourLocationController editTourLocationController = loader.getController();
-            editTourLocationController.init(indexItem, location, addTourController);
-
-            // Show window
-            stage.showAndWait();
-        } else {
-            Notification.show("WARNING", "Thông báo", "Chọn địa điểm cần sửa");
+        if (index == -1) {
+            AlertUtils.alert("Hãy chọn địa điểm muốn sửa");
+            return;
         }
+
+        // Init controller
+        EditTourLocationController controller = new EditTourLocationController();
+        controller.addTourController = this;
+        controller.index = index;
+
+        // Load view
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location_new.fxml"));
+        loader.setController(controller);
+
+        // Render view window
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.setTitle("Thêm địa chỉ");
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        // Show window
+        stage.showAndWait();
     }
 
     public void onDeleteLocationClick() {
         int indexItem = locationListView.getSelectionModel().getSelectedIndex();
-        if (indexItem != -1) {
-            locationList.remove(indexItem);
-            initDataLocation();
+
+        if (indexItem == -1) {
+            AlertUtils.alert("Hãy chọn địa điểm muốn xóa");
+            return;
         }
 
-    }
-
-    public void initViewOnly() {
-        // Hide save and cancel button
-        okButton.setManaged(false);
-        descriptionTextArea.setWrapText(true);
+        locations.remove(indexItem);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initTypeList();
+        initTypeComboBox();
         initPriceTable();
         initLocationList();
-        initViewOnly();
     }
 }

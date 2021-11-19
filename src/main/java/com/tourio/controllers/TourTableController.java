@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -22,8 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TourController implements Initializable {
-
+public class TourTableController implements Initializable {
     ObservableList<Tour> tours = FXCollections.observableArrayList();
 
     @FXML
@@ -32,59 +30,58 @@ public class TourController implements Initializable {
     @FXML
     private TableColumn<Tour, String> tourNameColumn;
 
-    @FXML
-    private Button addTourBtn;
-
-    @FXML
-    private Button editTourBtn;
-
-    @FXML
-    private Button deleteTourBtn;
-
     public void onCreateTourClick() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_detail.fxml"));
-        fxmlLoader.setController(new AddTourController());
-        Parent root = fxmlLoader.load();
+        // Init controller
+        AddTourController controller = new AddTourController();
+        controller.tourTableController = this;
+
+        // Load view
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour.fxml"));
+        loader.setController(controller);
+
+        // Render view window
+        Parent root = loader.load();
         Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+        Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Tạo tour");
         stage.initModality(Modality.APPLICATION_MODAL);
-
-        TourController tourController = this;
-        AddTourController addTourController = fxmlLoader.getController();
-        addTourController.init(tourController);
-
         stage.showAndWait();
     }
 
     public void onEditTourClick() throws IOException {
         Tour tour = table.getSelectionModel().getSelectedItem();
-        if (tour != null) {
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_detail.fxml"));
-            fxmlLoader.setController(new UpdateTourController());
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Sửa tour");
-            stage.initModality(Modality.APPLICATION_MODAL);
 
-            TourController tourController = this;
-            UpdateTourController updateTourController = fxmlLoader.getController();
-            updateTourController.initData(this, tour);
-
-            stage.showAndWait();
+        if (tour == null) {
+            return;
         }
+
+        // Init controller
+        EditTourController controller = new EditTourController();
+        controller.tourTableController = this;
+        controller.tour = tour;
+
+        // Load view
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour.fxml"));
+        loader.setController(controller);
+
+        // Render view window
+        Parent root = loader.load();
+        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Sửa tour");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
     public void onDeleteTourClick() {
         Tour tour = table.getSelectionModel().getSelectedItem();
         if (tour != null) {
             TourDAO.deleteTour(tour.getId());
-            initData();
+            loadData();
         }
     }
 
@@ -100,7 +97,6 @@ public class TourController implements Initializable {
                     try {
                         // Create view window
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_detail.fxml"));
-                        loader.setController(new TourDetailController());
                         Parent root = loader.load();
                         Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
                         Stage stage = new Stage();
@@ -135,8 +131,8 @@ public class TourController implements Initializable {
         table.setItems(tours);
     }
 
-    public void initData() {
-        // Get all tours and set to tours observable list
+    public void loadData() {
+        // Get all tours and set to tour observable list
         tours.setAll(TourDAO.getAll());
         table.refresh();
     }
@@ -144,6 +140,6 @@ public class TourController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTable();
-        initData();
+        loadData();
     }
 }

@@ -4,63 +4,56 @@ import com.tourio.dao.TourDAO;
 import com.tourio.models.Location;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EditTourLocationController implements Initializable {
-
-    ObservableList<Location> locations = FXCollections.observableArrayList();
-    private int indexItem;
-    private Location location;
-    private AddTourController addTourController;
     @FXML
-    private Button okBtn;
-    @FXML
-    private ComboBox<Location> locationComboBox;
+    public ComboBox<Location> locationComboBox;
 
-    public void onOkClick() throws IOException {
-        Location location = addTourController.getLocationList().get(indexItem);
+    // Selected location index from AddTour's location table
+    public int index;
 
-        location.setId(locationComboBox.getValue().getId());
-        location.setName(locationComboBox.getValue().getName());
+    public AddTourController addTourController;
 
-        addTourController.initDataLocation();
+    public void onSaveClick(ActionEvent e) {
+        // Create new location
+        Location newLocation = new Location();
+        newLocation.setId(locationComboBox.getValue().getId());
+        newLocation.setName(locationComboBox.getValue().getName());
 
-        Stage stage = (Stage) okBtn.getScene().getWindow();
+        // Replace old location with new location
+        addTourController.locations.set(index, newLocation);
+
+        onCancelClick(e);
+    }
+
+    // Close window
+    public void onCancelClick(ActionEvent e) {
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
-    public void init(int indexItem, Location location, AddTourController addTourController) {
-        this.indexItem = indexItem;
-        this.location = location;
-        this.addTourController = addTourController;
-        initLocations();
-    }
-
-    private void initLocations() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Load all locations (except selected ones) into combo box
+        ObservableList<Location> locations = FXCollections.observableArrayList();
         locations.setAll(TourDAO.getLocations());
         locationComboBox.setItems(locations);
 
-        int size = locations.size();
-        int index = 0;
-        for (int i = 0; i < size; i++) {
-            if (locations.get(i).getName().equals(location.getName())) {
-                index = i;
-                break;
-            }
-        }
-        locationComboBox.setValue(locations.get(index));
-
+        // Render combo box
         Callback<ListView<Location>, ListCell<Location>> factory = lv -> new ListCell<Location>() {
 
             @Override
@@ -70,12 +63,12 @@ public class EditTourLocationController implements Initializable {
             }
 
         };
-
         locationComboBox.setCellFactory(factory);
         locationComboBox.setButtonCell(factory.call(null));
-    }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set combo box default value as initial location
+        long id = addTourController.locations.get(index).getId();
+        Location initialLocation = locations.filtered(location -> location.getId().equals(id)).get(0);
+        locationComboBox.setValue(initialLocation);
     }
 }

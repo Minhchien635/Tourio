@@ -25,10 +25,21 @@
         <!-- Show all executed SQL to console -->
         <!-- <property name="show_sql">true</property> -->
 
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
         <!-- Entity mapping -->
+        <mapping class="com.tourio.models.CostType"/>
+        <mapping class="com.tourio.models.Customer"/>
+        <mapping class="com.tourio.models.Employee"/>
+        <mapping class="com.tourio.models.Group"/>
+        <mapping class="com.tourio.models.GroupCostRel"/>
+        <mapping class="com.tourio.models.GroupEmployeeRel"/>
+        <mapping class="com.tourio.models.GroupEmployeeRelID"/>
+        <mapping class="com.tourio.models.Job"/>
+        <mapping class="com.tourio.models.Location"/>
         <mapping class="com.tourio.models.Tour"/>
         <mapping class="com.tourio.models.TourLocationRel"/>
-        <mapping class="com.tourio.models.Location"/>
+        <mapping class="com.tourio.models.TourLocationRelID"/>
         <mapping class="com.tourio.models.TourPrice"/>
         <mapping class="com.tourio.models.TourType"/>
     </session-factory>

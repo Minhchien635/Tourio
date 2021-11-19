@@ -78,3 +78,53 @@
 .table-action-buttons {
     -fx-spacing: 12;
 }
+
+.opacity-1 {
+    -fx-opacity: 1;
+}
+
+.combo-box.read-only {
+    -fx-opacity: 1;
+}
+
+.combo-box.read-only .list-cell {
+    -fx-background-color: white;
+    -fx-opacity: 1;
+    -fx-background-color:
+        linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 1 0 1 1;
+    -fx-background-radius: 2 0 0 2;
+}
+
+
+.combo-box.read-only .arrow {
+    -fx-background-color: transparent;
+    -fx-width: 0;
+}
+
+.combo-box.read-only .arrow-button {
+    -fx-background-color:
+        linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 1 1 1 0;
+    -fx-background-radius: 0 2 2 0;
+}
+
+.text-field.read-only {
+    -fx-opacity: 1;
+}
+
+.text-area.read-only {
+    -fx-opacity: 1;
+}
+
+.text-area .scroll-pane {
+    -fx-background-radius: 2 2 2 2;
+}
+.text-area .scroll-pane .viewport{
+    -fx-background-radius: 2 2 2 2;
+}
+.text-area .scroll-pane .content{
+    -fx-background-radius: 2 2 2 2;
+}

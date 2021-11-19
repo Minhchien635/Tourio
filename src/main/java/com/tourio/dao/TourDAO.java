@@ -80,20 +80,20 @@ public class TourDAO {
     public static boolean createTour(Tour tour1, List<TourPrice> prices, List<Location> locations) {
         Session session = HibernateUtils.openSession();
         session.beginTransaction();
+
         try {
             session.save(tour1);
             Tour tour = session.load(Tour.class, tour1.getId());
 
-            int i = 1;
+            long i = 1;
             for (Location location : locations) {
-
-                TourLocationRelId tourLocationRelId = new TourLocationRelId();
+                TourLocationRelID tourLocationRelId = new TourLocationRelID();
                 TourLocationRel tourLocationRel = new TourLocationRel();
 
                 tourLocationRelId.setTourId(tour.getId());
                 tourLocationRelId.setLocationId(location.getId());
 
-                tourLocationRel.setTourLocationRelId(tourLocationRelId);
+                tourLocationRel.setId(tourLocationRelId);
                 tourLocationRel.setLocation(location);
                 tourLocationRel.setTour(tour);
                 tourLocationRel.setSequence(i);
@@ -104,7 +104,8 @@ public class TourDAO {
             }
 
             for (TourPrice price : prices) {
-                price.setTourId(tour.getId());
+                // price.setTourId(tour.getId());
+                price.setTour(tour);
                 session.save(price);
             }
 
@@ -114,6 +115,7 @@ public class TourDAO {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
+
         session.close();
         return false;
     }
@@ -121,26 +123,27 @@ public class TourDAO {
     public static boolean updateTour(Tour tour1, List<TourPrice> prices, List<Location> locations) {
         Session session = HibernateUtils.openSession();
         session.beginTransaction();
+
         try {
             session.merge(tour1);
             Tour tour = session.load(Tour.class, tour1.getId());
 
-            List<TourLocationRel> tourLocationRels = tour.getTourRels();
+            List<TourLocationRel> tourLocationRels = tour.getTourLocationRels();
 
             for (TourLocationRel tourLocationRel : tourLocationRels) {
                 session.delete(tourLocationRel);
             }
 
-            int i = 1;
+            long i = 1;
             for (Location location : locations) {
 
-                TourLocationRelId tourLocationRelId = new TourLocationRelId();
+                TourLocationRelID tourLocationRelId = new TourLocationRelID();
                 TourLocationRel tourLocationRel = new TourLocationRel();
 
                 tourLocationRelId.setTourId(tour.getId());
                 tourLocationRelId.setLocationId(location.getId());
 
-                tourLocationRel.setTourLocationRelId(tourLocationRelId);
+                tourLocationRel.setId(tourLocationRelId);
                 tourLocationRel.setLocation(location);
                 tourLocationRel.setTour(tour);
                 tourLocationRel.setSequence(i);
@@ -152,7 +155,7 @@ public class TourDAO {
 
 
             for (TourPrice price : prices) {
-                price.setTourId(tour.getId());
+                price.setId(tour.getId());
                 session.merge(price);
             }
 
@@ -162,6 +165,7 @@ public class TourDAO {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
+
         session.close();
         return false;
     }
@@ -170,19 +174,20 @@ public class TourDAO {
     public static boolean deleteTour(long id) {
         Session session = HibernateUtils.openSession();
         session.beginTransaction();
+
         try {
             Tour tour = session.find(Tour.class, id);
 
             if (tour != null) {
-                List<TourLocationRel> tourLocationRels = tour.getTourRels();
+                List<TourLocationRel> tourLocationRels = tour.getTourLocationRels();
                 for (TourLocationRel tourLocationRel : tourLocationRels) {
-                    TourLocationRel tourLocationRel1 = session.find(TourLocationRel.class, tourLocationRel.getTourLocationRelId());
+                    TourLocationRel tourLocationRel1 = session.find(TourLocationRel.class, tourLocationRel.getId());
                     if (tourLocationRel1 != null) {
                         session.delete(tourLocationRel1);
                     }
                 }
 
-                List<TourPrice> tourPrices = tour.getPrices();
+                List<TourPrice> tourPrices = tour.getTourPrices();
                 for (TourPrice tourPrice : tourPrices) {
                     TourPrice tourPrice1 = session.find(TourPrice.class, tourPrice.getId());
                     if (tourPrice1 != null) {
