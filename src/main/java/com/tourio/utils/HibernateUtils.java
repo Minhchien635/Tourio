@@ -13,6 +13,8 @@ import java.util.List;
 public class HibernateUtils {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
+    private static Session session;
+
     private HibernateUtils() {
         super();
     }
@@ -24,8 +26,11 @@ public class HibernateUtils {
         return new MetadataSources(registry).buildMetadata().buildSessionFactory();
     }
 
-    public static Session openSession() {
-        return sessionFactory.openSession();
+    public static Session getSession() {
+        if (session == null || !session.isOpen()) {
+            session = sessionFactory.openSession();
+        }
+        return session;
     }
 
     public static <T> List<T> getAllData(Class<T> type, Session session) {

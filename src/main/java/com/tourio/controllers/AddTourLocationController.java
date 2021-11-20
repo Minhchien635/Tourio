@@ -2,6 +2,7 @@ package com.tourio.controllers;
 
 import com.tourio.dao.TourDAO;
 import com.tourio.models.Location;
+import com.tourio.models.TourLocationRel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,12 +22,14 @@ public class AddTourLocationController implements Initializable {
     @FXML
     public ComboBox<Location> locationComboBox;
 
-    public AddTourController addTourController;
+    public TourFormController tourFormController;
 
     public void onSaveClick(ActionEvent e) {
         Location location = locationComboBox.getValue();
+        TourLocationRel tourLocationRel = new TourLocationRel();
+        tourLocationRel.setLocation(location);
 
-        addTourController.locations.add(location);
+        tourFormController.locations.add(tourLocationRel);
 
         onCancelClick(e);
     }

@@ -1,7 +1,7 @@
 package com.tourio.controllers;
 
 import com.tourio.models.TourPrice;
-import com.tourio.utils.Notification;
+import com.tourio.utils.AlertUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class EditTourPriceController implements Initializable {
 
-    public AddTourController addTourController;
+    public TourFormController tourFormController;
 
     public TourPrice tourPrice;
 
@@ -46,12 +46,12 @@ public class EditTourPriceController implements Initializable {
 
     public boolean checkInputFields() {
         if (!isNumber(price.getText())) {
-            Notification.show("WARNING", "Thông báo", "Giá không hợp lệ");
+            AlertUtils.showWarning("Giá không hợp lệ");
             return false;
         }
 
         if (date_start.getValue().isAfter(date_end.getValue())) {
-            Notification.show("WARNING", "Thông báo", "Ngày bắt đầu phải trước ngày kết thúc");
+            AlertUtils.showWarning("Ngày bắt đầu phải trước ngày kết thúc");
             return false;
         }
 

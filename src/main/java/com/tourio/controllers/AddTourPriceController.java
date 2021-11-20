@@ -1,7 +1,7 @@
 package com.tourio.controllers;
 
 import com.tourio.models.TourPrice;
-import com.tourio.utils.Notification;
+import com.tourio.utils.AlertUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class AddTourPriceController implements Initializable {
 
-    public AddTourController addTourController;
+    public TourFormController tourFormController;
 
     @FXML
     public Button createPriceBtn;
@@ -34,7 +34,7 @@ public class AddTourPriceController implements Initializable {
             tourPrice.setAmount(Long.parseLong(price.getText()));
             tourPrice.setDateStart(Date.from(Instant.from((date_start.getValue()).atStartOfDay(ZoneId.systemDefault()))));
             tourPrice.setDateEnd(Date.from(Instant.from((date_end.getValue()).atStartOfDay(ZoneId.systemDefault()))));
-            addTourController.tourPrices.add(tourPrice);
+            tourFormController.prices.add(tourPrice);
 
             Stage stage = (Stage) createPriceBtn.getScene().getWindow();
             stage.close();
@@ -43,18 +43,18 @@ public class AddTourPriceController implements Initializable {
 
     private boolean checkInputFields() {
         if (date_start.getValue() == null || date_end.getValue() == null || price.getText().isEmpty()) {
-            Notification.show("WARNING", "Thông báo", "Các trường không được để trống");
+            AlertUtils.showWarning("Các trường không được để trống");
             return false;
         }
 
         if (!isNumber(price.getText())
         ) {
-            Notification.show("WARNING", "Thông báo", "Giá không hợp lệ");
+            AlertUtils.showWarning("Giá không hợp lệ");
             return false;
         }
 
         if (date_start.getValue().isAfter(date_end.getValue())) {
-            Notification.show("WARNING", "Thông báo", "Ngày bắt đầu phải trước ngày kết thúc");
+            AlertUtils.showWarning("Ngày bắt đầu phải trước ngày kết thúc");
             return false;
         }
 

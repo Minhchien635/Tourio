@@ -2,6 +2,7 @@ package com.tourio.controllers;
 
 import com.tourio.dao.TourDAO;
 import com.tourio.models.Location;
+import com.tourio.models.TourLocationRel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,20 +22,15 @@ public class EditTourLocationController implements Initializable {
     @FXML
     public ComboBox<Location> locationComboBox;
 
-    // Selected location index from AddTour's location table
-    public int index;
+    public TourLocationRel tourLocationRel;
 
-    public AddTourController addTourController;
+    public TourFormController tourFormController;
+
+    ObservableList<Location> locations = FXCollections.observableArrayList();
 
     public void onSaveClick(ActionEvent e) {
-        // Create new location
-        Location newLocation = new Location();
-        newLocation.setId(locationComboBox.getValue().getId());
-        newLocation.setName(locationComboBox.getValue().getName());
-
-        // Replace old location with new location
-        addTourController.locations.set(index, newLocation);
-
+        Location location = locationComboBox.getValue();
+        tourLocationRel.setLocation(location);
         onCancelClick(e);
     }
 
@@ -46,14 +41,8 @@ public class EditTourLocationController implements Initializable {
         stage.close();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Load all locations (except selected ones) into combo box
-        ObservableList<Location> locations = FXCollections.observableArrayList();
-        locations.setAll(TourDAO.getLocations());
-        locationComboBox.setItems(locations);
-
-        // Render combo box
+    public void initLocationComboBox() {
+        // Render
         Callback<ListView<Location>, ListCell<Location>> factory = lv -> new ListCell<Location>() {
 
             @Override
@@ -66,9 +55,23 @@ public class EditTourLocationController implements Initializable {
         locationComboBox.setCellFactory(factory);
         locationComboBox.setButtonCell(factory.call(null));
 
+        // Data binding
+        locationComboBox.setItems(locations);
+    }
+
+    public void initData() {
+        // Load locations
+        locations.setAll(TourDAO.getLocations());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initLocationComboBox();
+        initData();
+
         // Set combo box default value as initial location
-        long id = addTourController.locations.get(index).getId();
-        Location initialLocation = locations.filtered(location -> location.getId().equals(id)).get(0);
-        locationComboBox.setValue(initialLocation);
+        long id = tourLocationRel.getLocation().getId();
+        Location location = locations.filtered(loc -> loc.getId() == id).get(0);
+        locationComboBox.setValue(location);
     }
 }

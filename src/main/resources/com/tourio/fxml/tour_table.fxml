@@ -12,7 +12,7 @@
       fx:controller="com.tourio.controllers.TourTableController">
     <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="NEVER">
         <Button contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false"
-                onAction="#onCreateTourClick" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
+                onAction="#onCreateClick" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -21,7 +21,7 @@
                 <String fx:value="action-button"/>
             </styleClass>
         </Button>
-        <Button defaultButton="true" mnemonicParsing="false" onAction="#onEditTourClick" text="Sửa">
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#onEditClick" text="Sửa">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -33,7 +33,7 @@
                 <String fx:value="action-button"/>
             </styleClass>
         </Button>
-        <Button mnemonicParsing="false" onAction="#onDeleteTourClick" text="Xóa">
+        <Button mnemonicParsing="false" onAction="#onDeleteClick" text="Xóa">
             <font>
                 <Font size="14.0"/>
             </font>
