@@ -16,8 +16,9 @@ public class StageBuilder {
     public static int DEFAULT_HEIGHT = 600;
 
     // Required parameters
-    private String fxmlFileName, title;
-    private Object controller;
+    private final String fxmlFileName;
+    private final String title;
+    private final Object controller;
 
     // Optional parameters
     private Stage stage = new Stage();

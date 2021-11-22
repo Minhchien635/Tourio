@@ -4,9 +4,7 @@ import com.tourio.utils.WindowUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.EventObject;
@@ -14,12 +12,30 @@ import java.util.ResourceBundle;
 
 public abstract class BaseCreateController implements Initializable {
     @FXML
-    public Button saveButton, cancelButton;
+    public Button saveButton;
 
-    public abstract void onSaveClick(ActionEvent event);
+    public void closeWindow(EventObject event) {
+        WindowUtils.closeWindow(event);
+    }
+
+    // Check if values are invalid before saving
+    public abstract boolean isInvalid();
+
+    // Runs after values are validated successfully
+    public abstract void onSaveValid();
+
+    public void onSaveClick(ActionEvent event) {
+        if (isInvalid()) {
+            return;
+        }
+
+        onSaveValid();
+
+        closeWindow(event);
+    }
 
     public void onCancelClick(ActionEvent event) {
-        WindowUtils.closeWindow(event);
+        closeWindow(event);
     }
 
     @Override

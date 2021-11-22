@@ -12,13 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -146,67 +141,6 @@ public class TourCreateController extends BaseCreateController {
         typeComboBox.setItems(tourTypes);
     }
 
-    protected void initReadOnly() {
-        nameTextField.setDisable(true);
-        typeComboBox.setDisable(true);
-        descriptionTextArea.setDisable(true);
-        priceActionButtons.getChildren().clear();
-        locationActionButtons.getChildren().clear();
-        saveButton.setManaged(false);
-    }
-
-    public void initDefaultValues() {
-        nameTextField.setText(tour.getName());
-        descriptionTextArea.setText(tour.getDescription());
-        typeComboBox.setValue(tour.getTourType());
-        tourPrices.setAll(tour.getTourPrices());
-        tourLocationRels.setAll(tour.getTourLocationRels());
-    }
-
-    public void onSaveClick(ActionEvent e) {
-        String name = nameTextField.getText();
-        if (name == null || name.trim().isEmpty()) {
-            AlertUtils.showWarning("Hãy nhập tên tour");
-            return;
-        }
-
-        TourType tourType = typeComboBox.getValue();
-        if (tourType == null) {
-            AlertUtils.showWarning("Hãy chọn loại tour");
-            return;
-        }
-
-        String description = descriptionTextArea.getText();
-        if (description == null || description.trim().isEmpty()) {
-            AlertUtils.showWarning("Hãy nhập thông tin tour");
-            return;
-        }
-
-        if (tourPrices.isEmpty()) {
-            AlertUtils.showWarning("Hãy thêm ít nhất 1 giá tour");
-            return;
-        }
-
-        if (tourLocationRels.isEmpty()) {
-            AlertUtils.showWarning("Hãy thêm ít nhất 1 địa điểm tour");
-            return;
-        }
-
-        tour.setName(name);
-        tour.setTourType(tourType);
-        tour.setDescription(description);
-
-        if (tour.getId() == null) {
-            TourDAO.create(tour, tourPrices, tourLocationRels);
-        } else {
-            TourDAO.update(tour, tourPrices, tourLocationRels);
-        }
-
-        tourTableController.loadData();
-
-        onCancelClick(e);
-    }
-
     public void onAddPriceClick(ActionEvent event) throws IOException {
         // Init controller
         TourPriceFormController controller = new TourPriceFormController();
@@ -295,6 +229,49 @@ public class TourCreateController extends BaseCreateController {
         }
 
         tourLocationRels.remove(index);
+    }
+
+    public boolean isInvalid() {
+        String name = nameTextField.getText();
+        if (name == null || name.trim().isEmpty()) {
+            AlertUtils.showWarning("Hãy nhập tên tour");
+            return true;
+        }
+
+        TourType tourType = typeComboBox.getValue();
+        if (tourType == null) {
+            AlertUtils.showWarning("Hãy chọn loại tour");
+            return true;
+        }
+
+        String description = descriptionTextArea.getText();
+        if (description == null || description.trim().isEmpty()) {
+            AlertUtils.showWarning("Hãy nhập thông tin tour");
+            return true;
+        }
+
+        if (tourPrices.isEmpty()) {
+            AlertUtils.showWarning("Hãy thêm ít nhất 1 giá tour");
+            return true;
+        }
+
+        if (tourLocationRels.isEmpty()) {
+            AlertUtils.showWarning("Hãy thêm ít nhất 1 địa điểm tour");
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onSaveValid() {
+        tour.setName(nameTextField.getText());
+        tour.setTourType(typeComboBox.getValue());
+        tour.setDescription(descriptionTextArea.getText());
+
+        TourDAO.create(tour, tourPrices, tourLocationRels);
+
+        tourTableController.loadData();
     }
 
     @Override
