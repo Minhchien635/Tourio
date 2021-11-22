@@ -6,10 +6,7 @@ import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.models.TourPrice;
 import com.tourio.models.TourType;
-import com.tourio.utils.AlertUtils;
-import com.tourio.utils.DateUtils;
-import com.tourio.utils.PriceFormatter;
-import com.tourio.utils.WindowUtils;
+import com.tourio.utils.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +26,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class TourFormController extends BaseFormController {
+public class TourCreateController extends BaseCreateController {
     @FXML
     public TableColumn<TourPrice, String>
             priceAmountColumn,
@@ -38,7 +35,9 @@ public class TourFormController extends BaseFormController {
             priceActiveColumn;
 
     @FXML
-    public HBox priceActionButtons, locationActionButtons;
+    public HBox
+            priceActionButtons,
+            locationActionButtons;
 
     @FXML
     public TextField nameTextField;
@@ -213,20 +212,12 @@ public class TourFormController extends BaseFormController {
         TourPriceFormController controller = new TourPriceFormController();
         controller.tourFormController = this;
 
-        // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_price_form.fxml"));
-        loader.setController(controller);
-
-        // Render view window
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setTitle("Tạo giá tour");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        WindowUtils.initOwner(stage, event);
-        stage.showAndWait();
+        // Show modal
+        new StageBuilder("tour_price_form", controller, "Tạo giá tour")
+                .setModalOwner(event)
+                .setDimensionsAuto()
+                .build()
+                .showAndWait();
     }
 
     public void onEditPriceClick(ActionEvent event) throws IOException {
@@ -242,20 +233,12 @@ public class TourFormController extends BaseFormController {
         controller.tourFormController = this;
         controller.tourPrice = tourPrice;
 
-        // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_price_form.fxml"));
-        loader.setController(controller);
-
-        // Render view window
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setTitle("Sửa giá");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        WindowUtils.initOwner(stage, event);
-        stage.showAndWait();
+        // Show modal
+        new StageBuilder("tour_price_form", controller, "Sửa giá")
+                .setModalOwner(event)
+                .setDimensionsAuto()
+                .build()
+                .showAndWait();
     }
 
     public void onDeletePriceClick() {
@@ -271,23 +254,15 @@ public class TourFormController extends BaseFormController {
 
     public void onAddLocationClick(ActionEvent event) throws IOException {
         // Init controller
-        TourLocationFormController controller = new TourLocationFormController();
+        TourLocationCreateController controller = new TourLocationCreateController();
         controller.tourFormController = this;
 
-        // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_location_form.fxml"));
-        loader.setController(controller);
-
-        // Render view window
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setTitle("Thêm địa chỉ");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        WindowUtils.initOwner(stage, event);
-        stage.showAndWait();
+        // Show modal
+        new StageBuilder("tour_location_form", controller, "Thêm địa điểm")
+                .setModalOwner(event)
+                .setDimensionsAuto()
+                .build()
+                .showAndWait();
     }
 
     public void onEditLocationClick(ActionEvent event) throws IOException {
@@ -299,24 +274,16 @@ public class TourFormController extends BaseFormController {
         }
 
         // Init controller
-        TourLocationFormController controller = new TourLocationFormController();
+        TourLocationEditController controller = new TourLocationEditController();
         controller.tourFormController = this;
         controller.tourLocationRel = tourLocationRel;
 
-        // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_location_form.fxml"));
-        loader.setController(controller);
-
-        // Render view window
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.setTitle("Thêm địa chỉ");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        WindowUtils.initOwner(stage, event);
-        stage.showAndWait();
+        // Show modal
+        new StageBuilder("tour_location_form", controller, "Sửa địa điểm")
+                .setModalOwner(event)
+                .setDimensionsAuto()
+                .build()
+                .showAndWait();
     }
 
     public void onDeleteLocationClick() {
@@ -335,13 +302,5 @@ public class TourFormController extends BaseFormController {
         initTypeComboBox();
         initLocationList();
         initPriceTable();
-
-        if (tour.getId() != null) {
-            initDefaultValues();
-        }
-
-        if (readOnly) {
-            initReadOnly();
-        }
     }
 }

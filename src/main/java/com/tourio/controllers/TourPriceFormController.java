@@ -4,6 +4,7 @@ import com.tourio.models.TourPrice;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.DateUtils;
 import com.tourio.utils.NumberUtils;
+import com.tourio.utils.WindowUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -13,14 +14,14 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class TourPriceFormController extends BaseFormController {
+public class TourPriceFormController extends BaseCreateController {
     @FXML
     public DatePicker startDatePicker, endDatePicker;
 
     @FXML
     public TextField priceTextField;
 
-    public TourFormController tourFormController;
+    public TourCreateController tourFormController;
 
     public TourPrice tourPrice = new TourPrice();
 
@@ -63,16 +64,14 @@ public class TourPriceFormController extends BaseFormController {
         tourPrice.setDateStart(DateUtils.parseDate(startDate));
         tourPrice.setDateEnd(DateUtils.parseDate(endDate));
 
-        closeWindow(event);
+        WindowUtils.closeWindow(event);
     }
 
-    @Override
     protected void initReadOnly() {
         startDatePicker.setEditable(false);
         startDatePicker.setEditable(false);
     }
 
-    @Override
     public void initDefaultValues() {
         startDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateStart()));
         endDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateEnd()));

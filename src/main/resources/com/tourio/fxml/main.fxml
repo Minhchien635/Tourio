@@ -9,7 +9,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity"
             prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/main.css"
-            xmlns="http://javafx.com/javafx/17" fx:controller="com.tourio.controllers.MainController">
+            xmlns="http://javafx.com/javafx/17">
     <center>
         <AnchorPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                     minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: white;"

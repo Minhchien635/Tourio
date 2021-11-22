@@ -2,8 +2,10 @@ package com.tourio.controllers;
 
 import com.tourio.dao.LocationDAO;
 import com.tourio.models.Location;
+import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.utils.AlertUtils;
+import com.tourio.utils.WindowUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,63 +20,41 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TourLocationFormController extends BaseFormController {
+public class TourLocationCreateController extends BaseCreateController {
     @FXML
     public ComboBox<Location> locationComboBox;
 
-    public TourFormController tourFormController;
-
-    public TourLocationRel tourLocationRel = new TourLocationRel();
+    public TourCreateController tourFormController;
 
     public ObservableList<Location> locations = FXCollections.observableArrayList();
 
-    public void onSaveClick(ActionEvent e) {
+    public boolean isInvalid() {
         Location location = locationComboBox.getValue();
-
         if (location == null) {
             AlertUtils.showWarning("Hãy chọn địa điểm");
+            return true;
+        }
+
+        return false;
+    }
+
+    public void onSaveClick(ActionEvent e) {
+        if (isInvalid()) {
             return;
         }
 
-        // TODO
+        Tour tour = tourFormController.tour;
+        Location location = locationComboBox.getValue();
         Long locationId = location.getId();
-        TourLocationRel existed = tourFormController.tour
-                .getTourLocationRels()
-                .stream()
-                .filter(x -> x.getLocation().getId().equals(locationId))
-                .findFirst()
-                .orElse(null);
+        TourLocationRel tourLocationRel = tour.getTourLocationRels()
+                                              .stream()
+                                              .filter(x -> x.getLocation().getId().equals(locationId))
+                                              .findFirst()
+                                              .orElse(new TourLocationRel(tour, location, 0L));
 
-        if (existed == null) {
-            tourLocationRel.setTour(tourFormController.tour);
-            tourLocationRel.setLocation(location);
-        } else {
-            tourLocationRel = existed;
-        }
+        tourFormController.tourLocationRels.add(tourLocationRel);
 
-        if (tourLocationRel.getId() == null) {
-            tourLocationRel.setTour(tourFormController.tour);
-            tourFormController.tourLocationRels.add(tourLocationRel);
-        }
-
-        closeWindow(e);
-    }
-
-    @Override
-    protected void initReadOnly() {
-    }
-
-    @Override
-    public void initDefaultValues() {
-        long id = tourLocationRel.getLocation().getId();
-
-        int size = locations.size();
-        for (int i = 0; i < size; i++) {
-            if (locations.get(i).getId() == id) {
-                locationComboBox.getSelectionModel().select(i);
-                return;
-            }
-        }
+        WindowUtils.closeWindow(e);
     }
 
     public void initLocationComboBox() {
@@ -91,6 +71,9 @@ public class TourLocationFormController extends BaseFormController {
         locationComboBox.setCellFactory(factory);
         locationComboBox.setButtonCell(factory.call(null));
 
+        // Bind data
+        locationComboBox.setItems(locations);
+
         // Load data
         locations.setAll(LocationDAO.getAll());
 
@@ -100,17 +83,10 @@ public class TourLocationFormController extends BaseFormController {
                 .map(rel -> rel.getLocation().getId())
                 .collect(Collectors.toSet());
         locations.removeIf(location -> chosenLocationIds.contains(location.getId()));
-
-        // Bind data
-        locationComboBox.setItems(locations);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLocationComboBox();
-
-        if (tourLocationRel.getId() != null) {
-            initDefaultValues();
-        }
     }
 }
