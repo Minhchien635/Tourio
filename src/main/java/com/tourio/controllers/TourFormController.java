@@ -191,7 +191,7 @@ public class TourFormController extends BaseFormController {
         tour.setTourType(tourType);
         tour.setDescription(description);
         tour.setTourPrices(prices);
-        tour.setTourLocationRels(locations);
+        //tour.setTourLocationRels(locations);
 
         TourDAO.saveTour(tour);
 
