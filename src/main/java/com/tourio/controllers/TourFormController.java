@@ -1,13 +1,15 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.TourDAO;
+import com.tourio.dao.TourTypeDAO;
 import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.models.TourPrice;
 import com.tourio.models.TourType;
 import com.tourio.utils.AlertUtils;
-import com.tourio.utils.DateFormatter;
+import com.tourio.utils.DateUtils;
 import com.tourio.utils.PriceFormatter;
+import com.tourio.utils.WindowUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,13 +57,13 @@ public class TourFormController extends BaseFormController {
 
     public TourTableController tourTableController;
 
-    public Tour tour;
+    public Tour tour = new Tour();
 
-    public ObservableList<TourLocationRel> locations = FXCollections.observableArrayList();
+    public ObservableList<TourLocationRel> tourLocationRels = FXCollections.observableArrayList();
 
-    public ObservableList<TourPrice> prices = FXCollections.observableArrayList();
+    public ObservableList<TourPrice> tourPrices = FXCollections.observableArrayList();
 
-    public ObservableList<TourType> types = FXCollections.observableArrayList();
+    public ObservableList<TourType> tourTypes = FXCollections.observableArrayList();
 
     private void initPriceTable() {
         // Price amount column render
@@ -74,14 +76,14 @@ public class TourFormController extends BaseFormController {
         // Price start date column render
         priceStartColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(DateFormatter.format(data.getValue().getDateStart()));
+            property.setValue(DateUtils.format(data.getValue().getDateStart()));
             return property;
         });
 
         // Price end date column render
         priceEndColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(DateFormatter.format(data.getValue().getDateEnd()));
+            property.setValue(DateUtils.format(data.getValue().getDateEnd()));
 
             return property;
         });
@@ -98,8 +100,8 @@ public class TourFormController extends BaseFormController {
             return property;
         });
 
-        // Data binding
-        priceTableView.setItems(prices);
+        // Bind data
+        priceTableView.setItems(tourPrices);
     }
 
     private void initLocationList() {
@@ -114,12 +116,15 @@ public class TourFormController extends BaseFormController {
                     return;
                 }
 
+                System.out.println(item);
+                System.out.println(item.getLocation());
+
                 setText(item.getLocation().getName());
             }
         });
 
-        // Data binding
-        locationListView.setItems(locations);
+        // Bind data
+        locationListView.setItems(tourLocationRels);
     }
 
     private void initTypeComboBox() {
@@ -135,9 +140,11 @@ public class TourFormController extends BaseFormController {
         typeComboBox.setCellFactory(factory);
         typeComboBox.setButtonCell(factory.call(null));
 
-        // Data
-        types.setAll(TourDAO.getTypes());
-        typeComboBox.setItems(types);
+        // Load data
+        tourTypes.setAll(TourTypeDAO.getAll());
+
+        // Bind data
+        typeComboBox.setItems(tourTypes);
     }
 
     protected void initReadOnly() {
@@ -153,10 +160,9 @@ public class TourFormController extends BaseFormController {
         nameTextField.setText(tour.getName());
         descriptionTextArea.setText(tour.getDescription());
         typeComboBox.setValue(tour.getTourType());
-        prices.setAll(tour.getTourPrices());
-        locations.setAll(tour.getTourLocationRels());
+        tourPrices.setAll(tour.getTourPrices());
+        tourLocationRels.setAll(tour.getTourLocationRels());
     }
-
 
     public void onSaveClick(ActionEvent e) {
         String name = nameTextField.getText();
@@ -177,12 +183,12 @@ public class TourFormController extends BaseFormController {
             return;
         }
 
-        if (prices.isEmpty()) {
+        if (tourPrices.isEmpty()) {
             AlertUtils.showWarning("Hãy thêm ít nhất 1 giá tour");
             return;
         }
 
-        if (locations.isEmpty()) {
+        if (tourLocationRels.isEmpty()) {
             AlertUtils.showWarning("Hãy thêm ít nhất 1 địa điểm tour");
             return;
         }
@@ -190,23 +196,25 @@ public class TourFormController extends BaseFormController {
         tour.setName(name);
         tour.setTourType(tourType);
         tour.setDescription(description);
-        tour.setTourPrices(prices);
-        tour.setTourLocationRels(locations);
 
-        TourDAO.saveTour(tour);
+        if (tour.getId() == null) {
+            TourDAO.create(tour, tourPrices, tourLocationRels);
+        } else {
+            TourDAO.update(tour, tourPrices, tourLocationRels);
+        }
 
         tourTableController.loadData();
 
         onCancelClick(e);
     }
 
-    public void onAddPriceClick() throws IOException {
+    public void onAddPriceClick(ActionEvent event) throws IOException {
         // Init controller
-        AddTourPriceController controller = new AddTourPriceController();
+        TourPriceFormController controller = new TourPriceFormController();
         controller.tourFormController = this;
 
         // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_price.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_price_form.fxml"));
         loader.setController(controller);
 
         // Render view window
@@ -217,10 +225,11 @@ public class TourFormController extends BaseFormController {
         stage.setScene(scene);
         stage.setTitle("Tạo giá tour");
         stage.initModality(Modality.APPLICATION_MODAL);
+        WindowUtils.initOwner(stage, event);
         stage.showAndWait();
     }
 
-    public void onEditPriceClick() throws IOException {
+    public void onEditPriceClick(ActionEvent event) throws IOException {
         TourPrice tourPrice = priceTableView.getSelectionModel().getSelectedItem();
 
         if (tourPrice == null) {
@@ -229,12 +238,12 @@ public class TourFormController extends BaseFormController {
         }
 
         // Init controller
-        EditTourPriceController controller = new EditTourPriceController();
+        TourPriceFormController controller = new TourPriceFormController();
         controller.tourFormController = this;
         controller.tourPrice = tourPrice;
 
         // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_price.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_price_form.fxml"));
         loader.setController(controller);
 
         // Render view window
@@ -245,6 +254,7 @@ public class TourFormController extends BaseFormController {
         stage.setScene(scene);
         stage.setTitle("Sửa giá");
         stage.initModality(Modality.APPLICATION_MODAL);
+        WindowUtils.initOwner(stage, event);
         stage.showAndWait();
     }
 
@@ -256,16 +266,16 @@ public class TourFormController extends BaseFormController {
             return;
         }
 
-        prices.remove(index);
+        tourPrices.remove(index);
     }
 
-    public void onAddLocationClick() throws IOException {
+    public void onAddLocationClick(ActionEvent event) throws IOException {
         // Init controller
-        AddTourLocationController controller = new AddTourLocationController();
+        TourLocationFormController controller = new TourLocationFormController();
         controller.tourFormController = this;
 
         // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location_new.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_location_form.fxml"));
         loader.setController(controller);
 
         // Render view window
@@ -276,10 +286,11 @@ public class TourFormController extends BaseFormController {
         stage.setScene(scene);
         stage.setTitle("Thêm địa chỉ");
         stage.initModality(Modality.APPLICATION_MODAL);
+        WindowUtils.initOwner(stage, event);
         stage.showAndWait();
     }
 
-    public void onEditLocationClick() throws IOException {
+    public void onEditLocationClick(ActionEvent event) throws IOException {
         TourLocationRel tourLocationRel = locationListView.getSelectionModel().getSelectedItem();
 
         if (tourLocationRel == null) {
@@ -288,12 +299,12 @@ public class TourFormController extends BaseFormController {
         }
 
         // Init controller
-        EditTourLocationController controller = new EditTourLocationController();
+        TourLocationFormController controller = new TourLocationFormController();
         controller.tourFormController = this;
         controller.tourLocationRel = tourLocationRel;
 
         // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour_location_new.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/tour_location_form.fxml"));
         loader.setController(controller);
 
         // Render view window
@@ -304,6 +315,7 @@ public class TourFormController extends BaseFormController {
         stage.setScene(scene);
         stage.setTitle("Thêm địa chỉ");
         stage.initModality(Modality.APPLICATION_MODAL);
+        WindowUtils.initOwner(stage, event);
         stage.showAndWait();
     }
 
@@ -315,7 +327,7 @@ public class TourFormController extends BaseFormController {
             return;
         }
 
-        locations.remove(index);
+        tourLocationRels.remove(index);
     }
 
     @Override
@@ -324,9 +336,7 @@ public class TourFormController extends BaseFormController {
         initLocationList();
         initPriceTable();
 
-        if (tour == null) {
-            tour = new Tour();
-        } else {
+        if (tour.getId() != null) {
             initDefaultValues();
         }
 

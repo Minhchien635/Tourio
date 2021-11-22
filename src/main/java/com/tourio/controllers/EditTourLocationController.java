@@ -1,5 +1,6 @@
 package com.tourio.controllers;
 
+import com.tourio.dao.LocationDAO;
 import com.tourio.dao.TourDAO;
 import com.tourio.models.Location;
 import com.tourio.models.TourLocationRel;
@@ -61,7 +62,7 @@ public class EditTourLocationController implements Initializable {
 
     public void initData() {
         // Load locations
-        locations.setAll(TourDAO.getLocations());
+        locations.setAll(LocationDAO.getAll());
     }
 
     @Override

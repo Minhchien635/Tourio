@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.net.URL;
+import java.util.EventObject;
 import java.util.ResourceBundle;
 
 public abstract class BaseFormController implements Initializable {
@@ -17,17 +18,21 @@ public abstract class BaseFormController implements Initializable {
 
     public boolean readOnly = false;
 
-    public abstract void onSaveClick(ActionEvent e);
+    public abstract void initDefaultValues();
 
-    public void onCancelClick(ActionEvent e) {
-        Node source = (Node) e.getSource();
+    public void closeWindow(EventObject event) {
+        Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
-    protected abstract void initReadOnly();
+    public abstract void onSaveClick(ActionEvent event);
 
-    protected abstract void initDefaultValues();
+    public void onCancelClick(ActionEvent event) {
+        closeWindow(event);
+    }
+
+    protected abstract void initReadOnly();
 
     @Override
     public abstract void initialize(URL url, ResourceBundle resourceBundle);
