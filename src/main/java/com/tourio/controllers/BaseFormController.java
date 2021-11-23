@@ -10,29 +10,21 @@ import java.net.URL;
 import java.util.EventObject;
 import java.util.ResourceBundle;
 
-public abstract class BaseCreateController implements Initializable {
+public abstract class BaseFormController implements Initializable {
     @FXML
     public Button saveButton;
+
+    public boolean read_only;
 
     public void closeWindow(EventObject event) {
         WindowUtils.closeWindow(event);
     }
 
-    // Check if values are invalid before saving
-    public abstract boolean isInvalid();
+    public abstract void onSaveClick(ActionEvent event);
 
-    // Runs after values are validated successfully
-    public abstract void onSaveValid();
+    public abstract void initReadOnly();
 
-    public void onSaveClick(ActionEvent event) {
-        if (isInvalid()) {
-            return;
-        }
-
-        onSaveValid();
-
-        closeWindow(event);
-    }
+    public abstract void initDefaultValues();
 
     public void onCancelClick(ActionEvent event) {
         closeWindow(event);

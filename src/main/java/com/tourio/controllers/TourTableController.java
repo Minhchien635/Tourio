@@ -1,25 +1,17 @@
 package com.tourio.controllers;
 
-import com.tourio.Main;
 import com.tourio.dao.TourDAO;
 import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
-import com.tourio.utils.WindowUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -34,7 +26,7 @@ public class TourTableController extends BaseTableController<Tour> {
 
     public void onCreateClick(ActionEvent event) throws IOException {
         // Init controller
-        TourCreateController controller = new TourCreateController();
+        TourFormController controller = new TourFormController();
         controller.tourTableController = this;
 
         // Show modal
@@ -53,7 +45,7 @@ public class TourTableController extends BaseTableController<Tour> {
         }
 
         // Init controller
-        TourCreateController controller = new TourCreateController();
+        TourFormController controller = new TourFormController();
         controller.tourTableController = this;
         controller.tour = tour;
 
@@ -87,8 +79,9 @@ public class TourTableController extends BaseTableController<Tour> {
 
                     try {
                         // Init controller
-                        TourCreateController controller = new TourCreateController();
+                        TourFormController controller = new TourFormController();
                         controller.tour = tour;
+                        controller.read_only = true;
 
                         // Show modal
                         new StageBuilder("add_tour", controller, "Chi tiết tour")

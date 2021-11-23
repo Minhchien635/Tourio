@@ -39,79 +39,13 @@ public class TourDAO {
         return null;
     }
 
-    public static void create(Tour tour, List<TourPrice> tourPrices, List<TourLocationRel> tourLocationRels) {
+    public static void save(Tour tour) {
         Session session = HibernateUtils.getSession();
+        session.clear();
         session.beginTransaction();
 
         try {
-            for (TourPrice tourPrice : tourPrices) {
-                tourPrice.setTour(tour);
-            }
-
-            tour.setTourPrices(tourPrices);
-
-            long sequence = 1;
-            for (TourLocationRel tourLocationRel : tourLocationRels) {
-                tourLocationRel.setTour(tour);
-                tourLocationRel.setSequence(sequence);
-                tourLocationRel.setId(new TourLocationRelID());
-
-                sequence++;
-            }
-
-            tour.setTourLocationRels(tourLocationRels);
-
-            session.save(tour);
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-
-        session.close();
-    }
-
-    public static void update(Tour tour, List<TourPrice> tourPrices, List<TourLocationRel> tourLocationRels) {
-        Session session = HibernateUtils.getSession();
-        session.beginTransaction();
-
-        try {
-            for (TourPrice tourPrice : tourPrices) {
-                if (tourPrice.getId() == null) {
-                    tourPrice.setTour(tour);
-                }
-            }
-
-            tour.getTourPrices().clear();
-            tour.getTourPrices().addAll(tourPrices);
-
-            long sequence = 1;
-            for (TourLocationRel tourLocationRel : tourLocationRels) {
-                if (tourLocationRel.getId() == null) {
-                    tourLocationRel.setTour(tour);
-                    tourLocationRel.setId(new TourLocationRelID());
-                }
-                else {
-                    TourLocationRelID id = new TourLocationRelID();
-                    id.setTourId(tour.getId());
-                    id.setLocationId(tourLocationRel.getLocation().getId());
-                    tourLocationRel.setId(id);
-                }
-
-                tourLocationRel.setSequence(sequence);
-
-                sequence++;
-            }
-
-            tour.getTourLocationRels().clear();
-            tour.getTourLocationRels().addAll(tourLocationRels);
-
-            tour.getTourPrices().clear();
-            tour.getTourPrices().addAll(tourPrices);
-
             session.saveOrUpdate(tour);
-
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();

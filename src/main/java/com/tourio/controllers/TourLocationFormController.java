@@ -5,7 +5,6 @@ import com.tourio.models.Location;
 import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.utils.AlertUtils;
-import com.tourio.utils.WindowUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,46 +19,36 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TourLocationCreateController extends BaseCreateController {
+public class TourLocationFormController extends BaseFormController {
     @FXML
     public ComboBox<Location> locationComboBox;
 
-    public TourCreateController tourFormController;
+    public TourFormController tourFormController;
 
     public ObservableList<Location> locations = FXCollections.observableArrayList();
 
-    public boolean isInvalid() {
+    public void onSaveClick(ActionEvent e) {
         Location location = locationComboBox.getValue();
         if (location == null) {
             AlertUtils.showWarning("Hãy chọn địa điểm");
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public void onSaveValid() {
-
-    }
-
-    public void onSaveClick(ActionEvent e) {
-        if (isInvalid()) {
             return;
         }
 
         Tour tour = tourFormController.tour;
-        Location location = locationComboBox.getValue();
-        Long locationId = location.getId();
-        TourLocationRel tourLocationRel = tour.getTourLocationRels()
-                .stream()
-                .filter(x -> x.getLocation().getId().equals(locationId))
-                .findFirst()
-                .orElse(new TourLocationRel(tour, location, 0L));
-
+        TourLocationRel tourLocationRel = new TourLocationRel(tour, location, 0L);
         tourFormController.tourLocationRels.add(tourLocationRel);
 
-        WindowUtils.closeWindow(e);
+        closeWindow(e);
+    }
+
+    @Override
+    public void initReadOnly() {
+
+    }
+
+    @Override
+    public void initDefaultValues() {
+
     }
 
     public void initLocationComboBox() {
