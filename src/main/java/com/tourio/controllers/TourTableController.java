@@ -30,7 +30,7 @@ public class TourTableController extends BaseTableController<Tour> {
         controller.tourTableController = this;
 
         // Show modal
-        new StageBuilder("add_tour", controller, "Tạo tour")
+        new StageBuilder("tour_form", controller, "Tạo tour")
                 .setModalOwner(event)
                 .build()
                 .showAndWait();
@@ -50,7 +50,7 @@ public class TourTableController extends BaseTableController<Tour> {
         controller.tour = tour;
 
         // Show modal
-        new StageBuilder("add_tour", controller, "Sửa tour")
+        new StageBuilder("tour_form", controller, "Sửa tour")
                 .setModalOwner(event)
                 .build()
                 .showAndWait();
@@ -84,7 +84,7 @@ public class TourTableController extends BaseTableController<Tour> {
                         controller.read_only = true;
 
                         // Show modal
-                        new StageBuilder("add_tour", controller, "Chi tiết tour")
+                        new StageBuilder("tour_form", controller, "Chi tiết tour")
                                 .setModalOwner(event)
                                 .build()
                                 .showAndWait();
