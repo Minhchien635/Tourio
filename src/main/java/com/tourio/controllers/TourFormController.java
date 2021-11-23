@@ -110,10 +110,8 @@ public class TourFormController extends BaseFormController {
                     return;
                 }
 
-                System.out.println(item);
-                System.out.println(item.getLocation());
-
-                setText(item.getLocation().getName());
+                item.setSequence((long) getIndex() + 1);
+                setText(item.getSequence() + ". " + item.getLocation().getName());
             }
         });
 
@@ -193,27 +191,6 @@ public class TourFormController extends BaseFormController {
 
         // Show modal
         new StageBuilder("tour_location_form", controller, "Thêm địa điểm")
-                .setModalOwner(event)
-                .setDimensionsAuto()
-                .build()
-                .showAndWait();
-    }
-
-    public void onEditLocationClick(ActionEvent event) throws IOException {
-        TourLocationRel tourLocationRel = locationListView.getSelectionModel().getSelectedItem();
-
-        if (tourLocationRel == null) {
-            AlertUtils.showWarning("Hãy chọn địa điểm muốn sửa");
-            return;
-        }
-
-        // Init controller
-        TourLocationFormController controller = new TourLocationFormController();
-        controller.tourFormController = this;
-        controller.tourLocationRel = tourLocationRel;
-
-        // Show modal
-        new StageBuilder("tour_location_form", controller, "Sửa địa điểm")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()

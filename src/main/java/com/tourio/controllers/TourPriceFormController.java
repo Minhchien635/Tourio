@@ -24,12 +24,6 @@ public class TourPriceFormController extends BaseFormController {
 
     public TourPrice tourPrice;
 
-    public void syncTourPrice() {
-        tourPrice.setAmount(Long.parseLong(priceTextField.getText().trim()));
-        tourPrice.setDateStart(DateUtils.parseDate(startDatePicker.getValue()));
-        tourPrice.setDateEnd(DateUtils.parseDate(endDatePicker.getValue()));
-    }
-
     @Override
     public void onSaveClick(ActionEvent e) {
         LocalDate startDate = startDatePicker.getValue();
@@ -63,10 +57,14 @@ public class TourPriceFormController extends BaseFormController {
         if (tourPrice == null) {
             tourPrice = new TourPrice();
             tourPrice.setTour(tourFormController.tour);
-            syncTourPrice();
+            tourPrice.setAmount(Long.parseLong(priceTextField.getText().trim()));
+            tourPrice.setDateStart(DateUtils.parseDate(startDatePicker.getValue()));
+            tourPrice.setDateEnd(DateUtils.parseDate(endDatePicker.getValue()));
             tourFormController.tourPrices.add(tourPrice);
         } else {
-            syncTourPrice();
+            tourPrice.setAmount(Long.parseLong(priceTextField.getText().trim()));
+            tourPrice.setDateStart(DateUtils.parseDate(startDatePicker.getValue()));
+            tourPrice.setDateEnd(DateUtils.parseDate(endDatePicker.getValue()));
             tourFormController.priceTableView.refresh();
         }
 
@@ -78,14 +76,20 @@ public class TourPriceFormController extends BaseFormController {
     }
 
     public void initDefaultValues() {
-        startDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateStart()));
-        endDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateEnd()));
-        priceTextField.setText(tourPrice.getAmount().toString());
+        try {
+            startDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateStart()));
+            endDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateEnd()));
+            priceTextField.setText(tourPrice.getAmount().toString());
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+
     }
 
     public void initDatePickers() {
         startDatePicker.setEditable(false);
-        startDatePicker.setEditable(false);
+        endDatePicker.setEditable(false);
     }
 
     @Override

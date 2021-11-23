@@ -15,19 +15,15 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TourLocationFormController extends BaseFormController {
     @FXML
     public ComboBox<Location> locationComboBox;
 
     public TourFormController tourFormController;
-
-    public TourLocationRel tourLocationRel;
 
     public ObservableList<Location> locations = FXCollections.observableArrayList();
 
@@ -39,24 +35,8 @@ public class TourLocationFormController extends BaseFormController {
         }
 
         Tour tour = tourFormController.tour;
-
-        if (tourLocationRel == null) {
-            Long locationId = location.getId();
-            List<TourLocationRel> tourLocationRels = tour.getTourLocationRels();
-            Stream<TourLocationRel> stream = tourLocationRels == null
-                    ? Stream.empty()
-                    : tourLocationRels.stream()
-                                      .filter(x -> x.getLocation().getId().equals(locationId));
-
-            tourLocationRel = stream.findFirst().orElse(new TourLocationRel(tour, location, 0L));
-
-            tourLocationRel.setLocation(location);
-
-            tourFormController.tourLocationRels.add(tourLocationRel);
-        } else {
-            tourLocationRel.setLocation(location);
-            tourFormController.locationListView.refresh();
-        }
+        TourLocationRel tourLocationRel = new TourLocationRel(tour, location, 0L);
+        tourFormController.tourLocationRels.add(tourLocationRel);
 
         closeWindow(e);
     }
