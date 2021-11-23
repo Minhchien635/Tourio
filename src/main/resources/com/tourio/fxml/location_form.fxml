@@ -18,7 +18,7 @@
          <children>
             <VBox>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa điểm" />
-                <TextField fx:id="textField" />
+                <TextField fx:id="nameTextField" />
             </VBox>
          </children>
         </VBox>

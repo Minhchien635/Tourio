@@ -20,4 +20,37 @@ public class LocationDAO {
 
         return null;
     }
+
+
+    public static void save(Location location) {
+        Session session = HibernateUtils.getSession();
+        session.clear();
+        session.beginTransaction();
+
+        try {
+            session.saveOrUpdate(location);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+
+        session.close();
+    }
+
+    public static void delete(Location location) {
+        Session session = HibernateUtils.getSession();
+        session.beginTransaction();
+
+        try {
+            session.delete(location);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+
+        session.close();
+    }
 }

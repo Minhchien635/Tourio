@@ -14,7 +14,7 @@
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
     </padding>
     <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="NEVER">
-        <Button fx:id="addButton" contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
+        <Button contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false" onAction="#onCreateClick" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
             <font>
                 <Font size="14.0" />
             </font>
@@ -23,7 +23,7 @@
                 <String fx:value="action-button" />
             </styleClass>
         </Button>
-        <Button fx:id="editButton" defaultButton="true" mnemonicParsing="false" text="Sửa">
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#onEditClick" text="Sửa">
             <font>
                 <Font size="14.0" />
             </font>
@@ -35,7 +35,7 @@
                 <String fx:value="action-button" />
             </styleClass>
         </Button>
-        <Button fx:id="deleteButton" mnemonicParsing="false" text="Xóa">
+        <Button mnemonicParsing="false" onAction="#onDeleteClick" text="Xóa">
             <font>
                 <Font size="14.0" />
             </font>
