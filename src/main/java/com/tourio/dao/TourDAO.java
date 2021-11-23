@@ -39,41 +39,13 @@ public class TourDAO {
         return null;
     }
 
-    public static void create(Tour tour, List<TourPrice> tourPrices, List<TourLocationRel> tourLocationRels) {
+    public static void save(Tour tour) {
         Session session = HibernateUtils.getSession();
         session.clear();
         session.beginTransaction();
 
         try {
-            tour.setTourPrices(tourPrices);
-
-            tour.setTourLocationRels(tourLocationRels);
-
-            session.save(tour);
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-
-        session.close();
-    }
-
-    public static void update(Tour tour, List<TourPrice> tourPrices, List<TourLocationRel> tourLocationRels) {
-        Session session = HibernateUtils.getSession();
-        session.clear();
-        session.beginTransaction();
-
-        try {
-            tour.getTourPrices().clear();
-            tour.getTourPrices().addAll(tourPrices);
-
-            tour.getTourLocationRels().clear();
-            tour.getTourLocationRels().addAll(tourLocationRels);
-
-            session.update(tour);
-
+            session.saveOrUpdate(tour);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();

@@ -261,11 +261,21 @@ public class TourFormController extends BaseFormController {
         tour.setTourType(typeComboBox.getValue());
         tour.setDescription(descriptionTextArea.getText());
 
-        if (tour.getId() == null) {
-            TourDAO.create(tour, tourPrices, tourLocationRels);
+        if (tour.getTourPrices() == null) {
+            tour.setTourPrices(tourPrices);
         } else {
-            TourDAO.update(tour, tourPrices, tourLocationRels);
+            tour.getTourPrices().clear();
+            tour.getTourPrices().addAll(tourPrices);
         }
+
+        if (tour.getTourLocationRels() == null) {
+            tour.setTourLocationRels(tourLocationRels);
+        } else {
+            tour.getTourLocationRels().clear();
+            tour.getTourLocationRels().addAll(tourLocationRels);
+        }
+
+        TourDAO.save(tour);
 
         tourTableController.loadData();
         closeWindow(e);
