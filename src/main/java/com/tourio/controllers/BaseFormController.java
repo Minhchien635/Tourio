@@ -1,33 +1,34 @@
 package com.tourio.controllers;
 
+import com.tourio.utils.WindowUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.net.URL;
+import java.util.EventObject;
 import java.util.ResourceBundle;
 
 public abstract class BaseFormController implements Initializable {
     @FXML
-    public Button saveButton, cancelButton;
+    public Button saveButton;
 
-    public boolean readOnly = false;
+    public boolean read_only;
 
-    public abstract void onSaveClick(ActionEvent e);
-
-    public void onCancelClick(ActionEvent e) {
-        Node source = (Node) e.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+    public void closeWindow(EventObject event) {
+        WindowUtils.closeWindow(event);
     }
 
-    protected abstract void initReadOnly();
+    public abstract void onSaveClick(ActionEvent event);
 
-    protected abstract void initDefaultValues();
+    public abstract void initReadOnly();
+
+    public abstract void initDefaultValues();
+
+    public void onCancelClick(ActionEvent event) {
+        closeWindow(event);
+    }
 
     @Override
     public abstract void initialize(URL url, ResourceBundle resourceBundle);

@@ -1,25 +1,17 @@
 package com.tourio.controllers;
 
-import com.tourio.Main;
 import com.tourio.dao.TourDAO;
 import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
-import com.tourio.utils.WindowUtils;
+import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -37,20 +29,11 @@ public class TourTableController extends BaseTableController<Tour> {
         TourFormController controller = new TourFormController();
         controller.tourTableController = this;
 
-        // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour.fxml"));
-        loader.setController(controller);
-
-        // Render view window
-        Parent root = loader.load();
-        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("Tạo tour");
-        stage.initOwner(WindowUtils.getOwner(event));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        // Show modal
+        new StageBuilder("add_tour", controller, "Tạo tour")
+                .setModalOwner(event)
+                .build()
+                .showAndWait();
     }
 
     public void onEditClick(ActionEvent event) throws IOException {
@@ -66,20 +49,11 @@ public class TourTableController extends BaseTableController<Tour> {
         controller.tourTableController = this;
         controller.tour = tour;
 
-        // Load view
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour.fxml"));
-        loader.setController(controller);
-
-        // Render view window
-        Parent root = loader.load();
-        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("Sửa tour");
-        stage.initOwner(WindowUtils.getOwner(event));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        // Show modal
+        new StageBuilder("add_tour", controller, "Sửa tour")
+                .setModalOwner(event)
+                .build()
+                .showAndWait();
     }
 
     public void onDeleteClick(ActionEvent event) {
@@ -90,7 +64,7 @@ public class TourTableController extends BaseTableController<Tour> {
             return;
         }
 
-        TourDAO.deleteTour(tour.getId());
+        TourDAO.delete(tour);
         loadData();
     }
 
@@ -107,22 +81,13 @@ public class TourTableController extends BaseTableController<Tour> {
                         // Init controller
                         TourFormController controller = new TourFormController();
                         controller.tour = tour;
-                        controller.readOnly = true;
+                        controller.read_only = true;
 
-                        // Load view
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/add_tour.fxml"));
-                        loader.setController(controller);
-
-                        // Create view window
-                        Parent root = loader.load();
-                        Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-                        Stage stage = new Stage();
-                        stage.setResizable(false);
-                        stage.setScene(scene);
-                        stage.setTitle("Chi tiết tour");
-                        stage.initOwner(WindowUtils.getOwner(event));
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.showAndWait();
+                        // Show modal
+                        new StageBuilder("add_tour", controller, "Chi tiết tour")
+                                .setModalOwner(event)
+                                .build()
+                                .showAndWait();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
