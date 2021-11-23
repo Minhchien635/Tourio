@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class TourLocationRel implements Serializable {
     @EmbeddedId
-    private TourLocationRelID id = new TourLocationRelID();
+    private TourLocationRelID id;
 
     @ManyToOne
     @MapsId("tourId")

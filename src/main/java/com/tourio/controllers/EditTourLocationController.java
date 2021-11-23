@@ -1,6 +1,6 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.TourDAO;
+import com.tourio.dao.LocationDAO;
 import com.tourio.models.Location;
 import com.tourio.models.TourLocationRel;
 import javafx.collections.FXCollections;
@@ -24,7 +24,7 @@ public class EditTourLocationController implements Initializable {
 
     public TourLocationRel tourLocationRel;
 
-    public TourFormController tourFormController;
+    public TourCreateController tourFormController;
 
     ObservableList<Location> locations = FXCollections.observableArrayList();
 
@@ -61,7 +61,7 @@ public class EditTourLocationController implements Initializable {
 
     public void initData() {
         // Load locations
-        locations.setAll(TourDAO.getLocations());
+        locations.setAll(LocationDAO.getAll());
     }
 
     @Override

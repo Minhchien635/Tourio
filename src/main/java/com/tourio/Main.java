@@ -1,29 +1,24 @@
 package com.tourio;
 
+import com.tourio.controllers.MainController;
+import com.tourio.utils.StageBuilder;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class Main extends Application {
-    public static int WIDTH = 800;
-    public static int HEIGHT = 600;
-
     public static void main(String[] args) {
         launch();
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/main.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        stage.setScene(scene);
-        stage.setTitle("Tourio - Quản lí du lịch");
-        stage.setResizable(false);
-        stage.show();
+        MainController controller = new MainController();
+
+        new StageBuilder("main", controller, "Tourio - Quản lý du lịch")
+                .setStage(stage)
+                .build()
+                .show();
     }
 }   
