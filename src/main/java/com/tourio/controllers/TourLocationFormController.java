@@ -5,7 +5,6 @@ import com.tourio.models.Location;
 import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.utils.AlertUtils;
-import com.tourio.utils.WindowUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,45 +15,60 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class TourLocationCreateController extends BaseCreateController {
+public class TourLocationFormController extends BaseFormController {
     @FXML
     public ComboBox<Location> locationComboBox;
 
-    public TourCreateController tourFormController;
+    public TourFormController tourFormController;
+
+    public TourLocationRel tourLocationRel;
 
     public ObservableList<Location> locations = FXCollections.observableArrayList();
 
-    public boolean isInvalid() {
+    public void onSaveClick(ActionEvent e) {
         Location location = locationComboBox.getValue();
         if (location == null) {
             AlertUtils.showWarning("Hãy chọn địa điểm");
-            return true;
-        }
-
-        return false;
-    }
-
-    public void onSaveClick(ActionEvent e) {
-        if (isInvalid()) {
             return;
         }
 
         Tour tour = tourFormController.tour;
-        Location location = locationComboBox.getValue();
-        Long locationId = location.getId();
-        TourLocationRel tourLocationRel = tour.getTourLocationRels()
-                                              .stream()
-                                              .filter(x -> x.getLocation().getId().equals(locationId))
-                                              .findFirst()
-                                              .orElse(new TourLocationRel(tour, location, 0L));
 
-        tourFormController.tourLocationRels.add(tourLocationRel);
+        if (tourLocationRel == null) {
+            Long locationId = location.getId();
+            List<TourLocationRel> tourLocationRels = tour.getTourLocationRels();
+            Stream<TourLocationRel> stream = tourLocationRels == null
+                    ? Stream.empty()
+                    : tourLocationRels.stream()
+                                      .filter(x -> x.getLocation().getId().equals(locationId));
 
-        WindowUtils.closeWindow(e);
+            tourLocationRel = stream.findFirst().orElse(new TourLocationRel(tour, location, 0L));
+
+            tourLocationRel.setLocation(location);
+
+            tourFormController.tourLocationRels.add(tourLocationRel);
+        } else {
+            tourLocationRel.setLocation(location);
+            tourFormController.locationListView.refresh();
+        }
+
+        closeWindow(e);
+    }
+
+    @Override
+    public void initReadOnly() {
+
+    }
+
+    @Override
+    public void initDefaultValues() {
+
     }
 
     public void initLocationComboBox() {

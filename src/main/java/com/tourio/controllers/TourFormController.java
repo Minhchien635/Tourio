@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class TourCreateController extends BaseCreateController {
+public class TourFormController extends BaseFormController {
     @FXML
     public TableColumn<TourPrice, String>
             priceAmountColumn,
@@ -188,7 +188,7 @@ public class TourCreateController extends BaseCreateController {
 
     public void onAddLocationClick(ActionEvent event) throws IOException {
         // Init controller
-        TourLocationCreateController controller = new TourLocationCreateController();
+        TourLocationFormController controller = new TourLocationFormController();
         controller.tourFormController = this;
 
         // Show modal
@@ -208,7 +208,7 @@ public class TourCreateController extends BaseCreateController {
         }
 
         // Init controller
-        TourLocationEditController controller = new TourLocationEditController();
+        TourLocationFormController controller = new TourLocationFormController();
         controller.tourFormController = this;
         controller.tourLocationRel = tourLocationRel;
 
@@ -231,47 +231,67 @@ public class TourCreateController extends BaseCreateController {
         tourLocationRels.remove(index);
     }
 
-    public boolean isInvalid() {
+    @Override
+    public void initReadOnly() {
+        nameTextField.setDisable(true);
+        typeComboBox.setDisable(true);
+        descriptionTextArea.setDisable(true);
+        priceActionButtons.getChildren().clear();
+        locationActionButtons.getChildren().clear();
+        saveButton.setManaged(false);
+    }
+
+    @Override
+    public void initDefaultValues() {
+        nameTextField.setText(tour.getName());
+        descriptionTextArea.setText(tour.getDescription());
+        typeComboBox.setValue(tour.getTourType());
+        tourPrices.setAll(tour.getTourPrices());
+        tourLocationRels.setAll(tour.getTourLocationRels());
+    }
+
+    @Override
+    public void onSaveClick(ActionEvent e) {
         String name = nameTextField.getText();
         if (name == null || name.trim().isEmpty()) {
             AlertUtils.showWarning("Hãy nhập tên tour");
-            return true;
+            return;
         }
 
         TourType tourType = typeComboBox.getValue();
         if (tourType == null) {
             AlertUtils.showWarning("Hãy chọn loại tour");
-            return true;
+            return;
         }
 
         String description = descriptionTextArea.getText();
         if (description == null || description.trim().isEmpty()) {
             AlertUtils.showWarning("Hãy nhập thông tin tour");
-            return true;
+            return;
         }
 
         if (tourPrices.isEmpty()) {
             AlertUtils.showWarning("Hãy thêm ít nhất 1 giá tour");
-            return true;
+            return;
         }
 
         if (tourLocationRels.isEmpty()) {
             AlertUtils.showWarning("Hãy thêm ít nhất 1 địa điểm tour");
-            return true;
+            return;
         }
 
-        return false;
-    }
-
-    @Override
-    public void onSaveValid() {
         tour.setName(nameTextField.getText());
         tour.setTourType(typeComboBox.getValue());
         tour.setDescription(descriptionTextArea.getText());
 
-        TourDAO.create(tour, tourPrices, tourLocationRels);
+        if (tour.getId() == null) {
+            TourDAO.create(tour, tourPrices, tourLocationRels);
+        } else {
+            TourDAO.update(tour, tourPrices, tourLocationRels);
+        }
 
         tourTableController.loadData();
+        closeWindow(e);
     }
 
     @Override
@@ -279,5 +299,13 @@ public class TourCreateController extends BaseCreateController {
         initTypeComboBox();
         initLocationList();
         initPriceTable();
+
+        if (tour.getId() != null) {
+            initDefaultValues();
+        }
+
+        if (read_only) {
+            initReadOnly();
+        }
     }
 }
