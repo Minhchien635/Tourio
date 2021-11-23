@@ -9,32 +9,33 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefWidth="300.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17">
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" spacing="16.0">
             <padding>
-                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
             </padding>
             <VBox styleClass="form-group">
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa điểm" />
-                <ComboBox fx:id="locationComboBox" maxWidth="1.7976931348623157E308" minWidth="150.0" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa điểm"/>
+                <ComboBox fx:id="locationComboBox" maxWidth="1.7976931348623157E308" minWidth="150.0"/>
             </VBox>
         </VBox>
     </ScrollPane>
     <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0">
         <padding>
-            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
         </padding>
         <Button layoutX="26.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSaveClick" text="Lưu">
             <styleClass>
-                <String fx:value="action-button" />
-                <String fx:value="primary-button" />
+                <String fx:value="action-button"/>
+                <String fx:value="primary-button"/>
             </styleClass>
         </Button>
         <Button layoutX="59.0" layoutY="26.0" mnemonicParsing="false" onAction="#onCancelClick" text="Hủy">
             <styleClass>
-                <String fx:value="action-button" />
-                <String fx:value="primary-outlined-button" />
+                <String fx:value="action-button"/>
+                <String fx:value="primary-outlined-button"/>
             </styleClass>
         </Button>
     </HBox>
