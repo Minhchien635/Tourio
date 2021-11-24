@@ -10,10 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class LocationTableController extends BaseTableController<Tour> {
     ObservableList<Location> locations = FXCollections.observableArrayList();
@@ -62,8 +65,17 @@ public class LocationTableController extends BaseTableController<Tour> {
             return;
         }
 
-        LocationDAO.delete(location);
-        loadData();
+        Alert alert = AlertUtils.showConfirmation("Chắc chắn xóa");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get() == ButtonType.OK) {
+            LocationDAO.delete(location);
+            loadData();
+            return;
+        }
+        if (option.get() == ButtonType.CANCEL) {
+            return;
+        }
     }
 
     public void initTable() {

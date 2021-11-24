@@ -3,7 +3,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
 <VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="form-group" xmlns="http://javafx.com/javafx/17">
     <children>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Field name"/>

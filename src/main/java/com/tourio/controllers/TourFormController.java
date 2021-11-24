@@ -6,7 +6,10 @@ import com.tourio.models.Tour;
 import com.tourio.models.TourLocationRel;
 import com.tourio.models.TourPrice;
 import com.tourio.models.TourType;
-import com.tourio.utils.*;
+import com.tourio.utils.AlertUtils;
+import com.tourio.utils.DateUtils;
+import com.tourio.utils.PriceFormatter;
+import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +41,7 @@ public class TourFormController extends BaseFormController {
     public TextField nameTextField;
 
     @FXML
-    public ComboBox<TourType> typeComboBox;
+    public ComboBox<TourType> typeComboBox;//nationalityTextField
 
     @FXML
     public TextArea descriptionTextArea;
@@ -279,6 +282,12 @@ public class TourFormController extends BaseFormController {
 
         tourTableController.loadData();
         closeWindow(e);
+    }
+
+    @Override
+    public void onCancelClick(ActionEvent event) {
+        tourTableController.loadData();
+        closeWindow(event);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.TourDAO;
+import com.tourio.dao.CustomerDAO;
+import com.tourio.models.Customer;
 import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
@@ -14,55 +15,53 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.util.Optional;
 
-public class TourTableController extends BaseTableController<Tour> {
-    ObservableList<Tour> tours = FXCollections.observableArrayList();
+public class CustomerTableController extends BaseTableController<Tour> {
+    ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<Tour> table;
+    private TableView<Customer> table;
 
     @FXML
-    private TableColumn<Tour, String> tourNameColumn;
+    private TableColumn<Customer, String> customerNameColumn;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
-        // Init controller
-        TourFormController controller = new TourFormController();
-        controller.tourTableController = this;
+        CustomerFormController controller = new CustomerFormController();
+        controller.customerTableController = this;
 
-        // Show modal
-        new StageBuilder("tour_form", controller, "Tạo tour")
+        new StageBuilder("customer_form", controller, "Thêm khách du lịch")
                 .setModalOwner(event)
+                .setDimensionsAuto()
                 .build()
                 .showAndWait();
     }
 
     @Override
     public void onEditClick(ActionEvent event) throws IOException {
-        Tour tour = table.getSelectionModel().getSelectedItem();
+        Customer customer = table.getSelectionModel().getSelectedItem();
 
-        if (tour == null) {
-            AlertUtils.showWarning("Hãy chọn tour để sửa");
+        if (customer == null) {
+            AlertUtils.showWarning("Hãy chọn khách du lịch cần sửa");
             return;
         }
 
-        // Init controller
-        TourFormController controller = new TourFormController();
-        controller.tourTableController = this;
-        controller.tour = tour;
+        CustomerFormController controller = new CustomerFormController();
+        controller.customerTableController = this;
+        controller.customer = customer;
 
-        // Show modal
-        new StageBuilder("tour_form", controller, "Sửa tour")
+        new StageBuilder("customer_form", controller, "Sửa thông tin khách du lịch")
                 .setModalOwner(event)
+                .setDimensionsAuto()
                 .build()
                 .showAndWait();
     }
 
     @Override
     public void onDeleteClick(ActionEvent event) {
-        Tour tour = table.getSelectionModel().getSelectedItem();
+        Customer customer = table.getSelectionModel().getSelectedItem();
 
-        if (tour == null) {
-            AlertUtils.showWarning("Hãy chọn tour để xóa");
+        if (customer == null) {
+            AlertUtils.showWarning("Hãy chọn khách du lịch cần xóa");
             return;
         }
 
@@ -70,7 +69,7 @@ public class TourTableController extends BaseTableController<Tour> {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
-            TourDAO.delete(tour);
+            CustomerDAO.delete(customer);
             loadData();
             return;
         }
@@ -83,21 +82,23 @@ public class TourTableController extends BaseTableController<Tour> {
     public void initTable() {
         // On row double click
         table.setRowFactory(tv -> {
-            TableRow<Tour> row = new TableRow<>();
+            TableRow<Customer> row = new TableRow<>();
 
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Tour tour = row.getItem();
+                    Customer customer = row.getItem();
 
                     try {
                         // Init controller
-                        TourFormController controller = new TourFormController();
-                        controller.tour = tour;
+                        CustomerFormController controller = new CustomerFormController();
+                        controller.customer = customer;
+                        controller.customerTableController = this;
                         controller.read_only = true;
 
                         // Show modal
-                        new StageBuilder("tour_form", controller, "Chi tiết tour")
+                        new StageBuilder("customer_form", controller, "Chi tiết khách du lịch")
                                 .setModalOwner(event)
+                                .setDimensionsAuto()
                                 .build()
                                 .showAndWait();
                     } catch (IOException e) {
@@ -109,21 +110,21 @@ public class TourTableController extends BaseTableController<Tour> {
             return row;
         });
 
-        // Tour name column render
-        tourNameColumn.setCellValueFactory(data -> {
+        // Customer name column render
+        customerNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
             return property;
         });
 
-        // Bind table with tours observable list
-        table.setItems(tours);
+        // Bind table with customers observable list
+        table.setItems(customers);
     }
 
     @Override
     public void loadData() {
-        // Get all tours and set to tour observable list
-        tours.setAll(TourDAO.getAll());
+        // Get all customers and set to customer observable list
+        customers.setAll(CustomerDAO.getAll());
         table.refresh();
     }
 }
