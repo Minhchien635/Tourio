@@ -1,7 +1,7 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.LocationDAO;
-import com.tourio.models.Location;
+import com.tourio.dao.CostTypeDAO;
+import com.tourio.models.CostType;
 import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
@@ -18,20 +18,20 @@ import javafx.scene.control.TableView;
 import java.io.IOException;
 import java.util.Optional;
 
-public class LocationTableController extends BaseTableController<Tour> {
-    ObservableList<Location> locations = FXCollections.observableArrayList();
+public class CostTypeTableController extends BaseTableController<Tour> {
+    ObservableList<CostType> costTypes = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<Location> table;
+    private TableView<CostType> table;
 
     @FXML
-    private TableColumn<Location, String> locationNameColumn;//costTypeNameColumn
+    private TableColumn<CostType, String> costTypeNameColumn;
 
     public void onCreateClick(ActionEvent event) throws IOException {
-        LocationFormController controller = new LocationFormController();
-        controller.locationTableController = this;
+        CostTypeFormController controller = new CostTypeFormController();
+        controller.costTypeTableController = this;
 
-        new StageBuilder("location_form", controller, "Thêm địa điểm")
+        new StageBuilder("cost_type_form", controller, "Thêm loại phí")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -39,18 +39,18 @@ public class LocationTableController extends BaseTableController<Tour> {
     }
 
     public void onEditClick(ActionEvent event) throws IOException {
-        Location location = table.getSelectionModel().getSelectedItem();
+        CostType costType = table.getSelectionModel().getSelectedItem();
 
-        if (location == null) {
-            AlertUtils.showWarning("Hãy chọn địa điểm cần sửa");
+        if (costType == null) {
+            AlertUtils.showWarning("Hãy chọn loại phí cần sửa");
             return;
         }
 
-        LocationFormController controller = new LocationFormController();
-        controller.locationTableController = this;
-        controller.location = location;
+        CostTypeFormController controller = new CostTypeFormController();
+        controller.costTypeTableController = this;
+        controller.costType = costType;
 
-        new StageBuilder("location_form", controller, "Sửa địa điểm")
+        new StageBuilder("cost_type_form", controller, "Sửa loại phí")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -58,10 +58,10 @@ public class LocationTableController extends BaseTableController<Tour> {
     }
 
     public void onDeleteClick(ActionEvent event) {
-        Location location = table.getSelectionModel().getSelectedItem();
+        CostType costType = table.getSelectionModel().getSelectedItem();
 
-        if (location == null) {
-            AlertUtils.showWarning("Hãy chọn địa điểm cần xóa");
+        if (costType == null) {
+            AlertUtils.showWarning("Hãy chọn loại phí cần xóa");
             return;
         }
 
@@ -69,7 +69,7 @@ public class LocationTableController extends BaseTableController<Tour> {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
-            LocationDAO.delete(location);
+            CostTypeDAO.delete(costType);
             loadData();
             return;
         }
@@ -79,20 +79,20 @@ public class LocationTableController extends BaseTableController<Tour> {
     }
 
     public void initTable() {
-        // Location name column render
-        locationNameColumn.setCellValueFactory(data -> {
+        // CostType name column render
+        costTypeNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
             return property;
         });
 
-        // Bind table with locations observable list
-        table.setItems(locations);
+        // Bind table with costTypes observable list
+        table.setItems(costTypes);
     }
 
     public void loadData() {
-        // Get all locations and set to location observable list
-        locations.setAll(LocationDAO.getAll());
+        // Get all costTypes and set to costType observable list
+        costTypes.setAll(CostTypeDAO.getAll());
         table.refresh();
     }
 }
