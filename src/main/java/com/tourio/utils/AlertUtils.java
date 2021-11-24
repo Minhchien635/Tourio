@@ -3,7 +3,7 @@ package com.tourio.utils;
 import javafx.scene.control.Alert;
 
 public class AlertUtils {
-    private static Alert alert(Alert.AlertType alertType, String content) {
+    public static Alert alert(Alert.AlertType alertType, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);
@@ -18,9 +18,5 @@ public class AlertUtils {
 
     public static void showWarning(String content) {
         show(Alert.AlertType.WARNING, content);
-    }
-
-    public static Alert showConfirmation(String content) {
-        return alert(Alert.AlertType.CONFIRMATION, content);
     }
 }

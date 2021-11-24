@@ -66,7 +66,7 @@ public class TourTableController extends BaseTableController<Tour> {
             return;
         }
 
-        Alert alert = AlertUtils.showConfirmation("Chắc chắn xóa");
+        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION,"Chắc chắn xóa");
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
