@@ -1,7 +1,7 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.TourDAO;
-import com.tourio.models.Tour;
+import com.tourio.dao.GroupDAO;
+import com.tourio.models.Group;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,23 +14,23 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.util.Optional;
 
-public class TourTableController extends BaseTableController<Tour> {
-    ObservableList<Tour> tours = FXCollections.observableArrayList();
+public class GroupTableController extends BaseTableController<Group> {
+    ObservableList<Group> groups = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<Tour> table;
+    private TableView<Group> table;
 
     @FXML
-    private TableColumn<Tour, String> tourNameColumn;
+    private TableColumn<Group, String> groupNameColumn;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
         // Init controller
-        TourFormController controller = new TourFormController();
-        controller.tourTableController = this;
+        GroupFormController controller = new GroupFormController();
+        controller.groupTableController = this;
 
         // Show modal
-        new StageBuilder("tour_form", controller, "Tạo tour")
+        new StageBuilder("group_form", controller, "Tạo đoàn")
                 .setModalOwner(event)
                 .build()
                 .showAndWait();
@@ -38,20 +38,20 @@ public class TourTableController extends BaseTableController<Tour> {
 
     @Override
     public void onEditClick(ActionEvent event) throws IOException {
-        Tour tour = table.getSelectionModel().getSelectedItem();
+        Group group = table.getSelectionModel().getSelectedItem();
 
-        if (tour == null) {
-            AlertUtils.showWarning("Hãy chọn tour để sửa");
+        if (group == null) {
+            AlertUtils.showWarning("Hãy chọn đoàn để sửa");
             return;
         }
 
         // Init controller
-        TourFormController controller = new TourFormController();
-        controller.tourTableController = this;
-        controller.tour = tour;
+        GroupFormController controller = new GroupFormController();
+        controller.groupTableController = this;
+        controller.group = group;
 
         // Show modal
-        new StageBuilder("tour_form", controller, "Sửa tour")
+        new StageBuilder("group_form", controller, "Sửa đoàn")
                 .setModalOwner(event)
                 .build()
                 .showAndWait();
@@ -59,10 +59,10 @@ public class TourTableController extends BaseTableController<Tour> {
 
     @Override
     public void onDeleteClick(ActionEvent event) {
-        Tour tour = table.getSelectionModel().getSelectedItem();
+        Group group = table.getSelectionModel().getSelectedItem();
 
-        if (tour == null) {
-            AlertUtils.showWarning("Hãy chọn tour để xóa");
+        if (group == null) {
+            AlertUtils.showWarning("Hãy chọn đoàn để xóa");
             return;
         }
 
@@ -70,7 +70,7 @@ public class TourTableController extends BaseTableController<Tour> {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
-            TourDAO.delete(tour);
+            GroupDAO.delete(group);
             loadData();
             return;
         }
@@ -83,20 +83,21 @@ public class TourTableController extends BaseTableController<Tour> {
     public void initTable() {
         // On row double click
         table.setRowFactory(tv -> {
-            TableRow<Tour> row = new TableRow<>();
+            TableRow<Group> row = new TableRow<>();
 
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Tour tour = row.getItem();
+                    Group group = row.getItem();
 
                     try {
                         // Init controller
-                        TourFormController controller = new TourFormController();
-                        controller.tour = tour;
+                        GroupFormController controller = new GroupFormController();
+                        controller.group = group;
                         controller.read_only = true;
+                        controller.groupTableController = this;
 
                         // Show modal
-                        new StageBuilder("tour_form", controller, "Chi tiết tour")
+                        new StageBuilder("group_form", controller, "Chi tiết đoàn")
                                 .setModalOwner(event)
                                 .build()
                                 .showAndWait();
@@ -109,21 +110,21 @@ public class TourTableController extends BaseTableController<Tour> {
             return row;
         });
 
-        // Tour name column render
-        tourNameColumn.setCellValueFactory(data -> {
+        // Group name column render
+        groupNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
             return property;
         });
 
-        // Bind table with tours observable list
-        table.setItems(tours);
+        // Bind table with groups observable list
+        table.setItems(groups);
     }
 
     @Override
     public void loadData() {
-        // Get all tours and set to tour observable list
-        tours.setAll(TourDAO.getAll());
+        // Get all groups and set to group observable list
+        groups.setAll(GroupDAO.getAll());
         table.refresh();
     }
 }

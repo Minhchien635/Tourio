@@ -17,7 +17,7 @@ public abstract class BaseFormController implements Initializable {
     public boolean read_only;
 
     public void closeWindow(EventObject event) {
-        WindowUtils.closeWindow(event);
+        WindowUtils.closeWindow(event);//groupJobComboBox
     }
 
     public abstract void onSaveClick(ActionEvent event);

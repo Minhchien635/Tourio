@@ -65,7 +65,7 @@ public class LocationTableController extends BaseTableController<Tour> {
             return;
         }
 
-        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION,"Chắc chắn xóa");
+        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION, "Chắc chắn xóa");
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {

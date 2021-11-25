@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Group {
     @ToString.Exclude
     private List<GroupCostRel> groupCostRels;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     public Long getTotalCost() {
         return this.getGroupCostRels().stream().map(GroupCostRel::getAmount).reduce(0L, Long::sum);
