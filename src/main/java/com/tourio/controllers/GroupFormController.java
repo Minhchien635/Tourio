@@ -268,7 +268,9 @@ public class GroupFormController extends BaseFormController {
 
         Optional<TourPrice> tourPrice = group.getTour().getTourPrices()
                 .stream()
-                .filter(p -> p.getAmount().equals(group.getTourPrice()))
+                .filter(p -> p.getAmount().equals(group.getTourPrice()) &&
+                        group.getDateStart().after(p.getDateStart()) &&
+                        group.getDateEnd().before(p.getDateEnd()))
                 .findFirst();
         tourPriceComboBox.setValue(tourPrice.orElse(null));
 
@@ -317,7 +319,8 @@ public class GroupFormController extends BaseFormController {
             return;
         }
 
-        if (tourPrice.getDateStart().after(DateUtils.parseDate(startDate)) || tourPrice.getDateEnd().before(DateUtils.parseDate(endDate))) {
+        if (tourPrice.getDateStart().after(DateUtils.parseDate(startDate))
+                || tourPrice.getDateEnd().before(DateUtils.parseDate(endDate))) {
             AlertUtils.showWarning("Ngày đã chọn không nằm trong khoảng thời gian của giá tour");
             return;
         }

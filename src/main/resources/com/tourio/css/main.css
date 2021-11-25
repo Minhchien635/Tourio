@@ -83,7 +83,7 @@
     -fx-opacity: 1;
 }
 
-.form-group .combo-box:disabled .list-cell {
+.form-group .combo-box:disabled .list-cell, .date-picker:disabled {
     -fx-background-color: white;
     -fx-opacity: 1;
     -fx-background-color:
