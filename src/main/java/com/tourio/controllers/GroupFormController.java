@@ -372,12 +372,6 @@ public class GroupFormController extends BaseFormController {
     }
 
     @Override
-    public void onCancelClick(ActionEvent event) {
-        groupTableController.loadData();
-        closeWindow(event);
-    }
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTourComboBox();
         initTourPriceComboBox();

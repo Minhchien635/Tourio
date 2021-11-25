@@ -1,9 +1,9 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.LocationDAO;
 import com.tourio.dao.TourDAO;
-import com.tourio.models.Location;
+import com.tourio.dao.TourTypeDAO;
 import com.tourio.models.Tour;
+import com.tourio.models.TourType;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,20 +20,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class LocationTableController extends BaseTableController<Tour> {
-    ObservableList<Location> locations = FXCollections.observableArrayList();
+public class TourTypeTableController extends BaseTableController<Tour> {
+    ObservableList<TourType> tourTypes = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<Location> table;
+    private TableView<TourType> table;
 
     @FXML
-    private TableColumn<Location, String> locationNameColumn;//costTypeNameColumn
+    private TableColumn<TourType, String> tourTypeNameColumn;
 
     public void onCreateClick(ActionEvent event) throws IOException {
-        LocationFormController controller = new LocationFormController();
-        controller.locationTableController = this;
+        TourTypeFormController controller = new TourTypeFormController();
+        controller.tourTypeTableController = this;
 
-        new StageBuilder("location_form", controller, "Thêm địa điểm")
+        new StageBuilder("cost_type_form", controller, "Thêm loại phí")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -41,18 +41,18 @@ public class LocationTableController extends BaseTableController<Tour> {
     }
 
     public void onEditClick(ActionEvent event) throws IOException {
-        Location location = table.getSelectionModel().getSelectedItem();
+        TourType tourType = table.getSelectionModel().getSelectedItem();
 
-        if (location == null) {
-            AlertUtils.showWarning("Hãy chọn địa điểm cần sửa");
+        if (tourType == null) {
+            AlertUtils.showWarning("Hãy chọn loại phí cần sửa");
             return;
         }
 
-        LocationFormController controller = new LocationFormController();
-        controller.locationTableController = this;
-        controller.location = location;
+        TourTypeFormController controller = new TourTypeFormController();
+        controller.tourTypeTableController = this;
+        controller.tourType = tourType;
 
-        new StageBuilder("location_form", controller, "Sửa địa điểm")
+        new StageBuilder("cost_type_form", controller, "Sửa loại phí")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -60,22 +60,18 @@ public class LocationTableController extends BaseTableController<Tour> {
     }
 
     public void onDeleteClick(ActionEvent event) {
-        Location location = table.getSelectionModel().getSelectedItem();
+        TourType tourType = table.getSelectionModel().getSelectedItem();
 
-        if (location == null) {
-            AlertUtils.showWarning("Hãy chọn địa điểm cần xóa");
+        if (tourType == null) {
+            AlertUtils.showWarning("Hãy chọn loại phí cần xóa");
             return;
         }
 
         List<Tour> tours = TourDAO.getAll();
-        long index = tours.stream()
-                .filter(t -> t.getTourLocationRels()
-                        .stream()
-                        .anyMatch(p -> p.getLocation().getId() == location.getId()))
-                .count();
+        long index = tours.stream().filter(p -> p.getTourType().equals(tourType)).count();
 
         if (index != 0) {
-            AlertUtils.showWarning("Không thể xóa. Đã có tour chọn điểm đi này");
+            AlertUtils.showWarning("Không thể xóa. Đã có tour chọn loại tour này");
             return;
         }
 
@@ -83,7 +79,7 @@ public class LocationTableController extends BaseTableController<Tour> {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
-            LocationDAO.delete(location);
+            TourTypeDAO.delete(tourType);
             loadData();
             return;
         }
@@ -93,20 +89,20 @@ public class LocationTableController extends BaseTableController<Tour> {
     }
 
     public void initTable() {
-        // Location name column render
-        locationNameColumn.setCellValueFactory(data -> {
+        // TourType name column render
+        tourTypeNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
             return property;
         });
 
-        // Bind table with locations observable list
-        table.setItems(locations);
+        // Bind table with tourTypes observable list
+        table.setItems(tourTypes);
     }
 
     public void loadData() {
-        // Get all locations and set to location observable list
-        locations.setAll(LocationDAO.getAll());
+        // Get all tourTypes and set to tourType observable list
+        tourTypes.setAll(TourTypeDAO.getAll());
         table.refresh();
     }
 }

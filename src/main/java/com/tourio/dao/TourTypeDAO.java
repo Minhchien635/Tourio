@@ -20,4 +20,36 @@ public class TourTypeDAO {
 
         return null;
     }
+
+    public static void save(TourType tourType) {
+        Session session = HibernateUtils.getSession();
+        session.clear();
+        session.beginTransaction();
+
+        try {
+            session.saveOrUpdate(tourType);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+
+        session.close();
+    }
+
+    public static void delete(TourType tourType) {
+        Session session = HibernateUtils.getSession();
+        session.beginTransaction();
+
+        try {
+            session.delete(tourType);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+
+        session.close();
+    }
 }

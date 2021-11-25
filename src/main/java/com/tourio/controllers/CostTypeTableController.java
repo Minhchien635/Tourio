@@ -1,7 +1,9 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.CostTypeDAO;
+import com.tourio.dao.GroupDAO;
 import com.tourio.models.CostType;
+import com.tourio.models.Group;
 import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
@@ -16,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class CostTypeTableController extends BaseTableController<Tour> {
@@ -62,6 +65,18 @@ public class CostTypeTableController extends BaseTableController<Tour> {
 
         if (costType == null) {
             AlertUtils.showWarning("Hãy chọn loại phí cần xóa");
+            return;
+        }
+
+        List<Group> groups = GroupDAO.getAll();
+        long index = groups.stream()
+                .filter(t -> t.getGroupCostRels()
+                        .stream()
+                        .anyMatch(p -> p.getCostType().getId() == costType.getId()))
+                .count();
+
+        if (index != 0) {
+            AlertUtils.showWarning("Không thể xóa. Đã có đoàn khách chọn loại phí này này");
             return;
         }
 

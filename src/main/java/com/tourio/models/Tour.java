@@ -23,7 +23,7 @@ public class Tour {
     private String name;
     private String description;
 
-    @ManyToOne
+    @ManyToOne()
     private TourType tourType;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)

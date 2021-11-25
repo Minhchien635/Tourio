@@ -285,12 +285,6 @@ public class TourFormController extends BaseFormController {
     }
 
     @Override
-    public void onCancelClick(ActionEvent event) {
-        tourTableController.loadData();
-        closeWindow(event);
-    }
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTypeComboBox();
         initLocationList();

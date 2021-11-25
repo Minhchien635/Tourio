@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.lang.String?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity"
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefWidth="300.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17">
     <children>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
@@ -22,7 +21,7 @@
                         <VBox>
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loại tour"/>
-                                <TextField fx:id="textField"/>
+                                <TextField fx:id="nameTextField"/>
                             </children>
                         </VBox>
                     </children>
@@ -35,7 +34,8 @@
                 <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
             </padding>
             <children>
-                <Button layoutX="26.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSaveClick" text="Lưu">
+                <Button fx:id="saveButton" layoutX="26.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSaveClick"
+                        text="Lưu">
                     <styleClass>
                         <String fx:value="action-button"/>
                         <String fx:value="primary-button"/>

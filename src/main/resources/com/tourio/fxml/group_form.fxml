@@ -1,106 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefWidth="800.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17">
     <ScrollPane fx:id="contentScrollPane" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" spacing="16.0">
             <padding>
-                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
             </padding>
             <VBox styleClass="form-group">
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên đoàn" />
-                <TextField fx:id="nameTextField" styleClass="form-group" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên đoàn"/>
+                <TextField fx:id="nameTextField" styleClass="form-group"/>
             </VBox>
             <VBox styleClass="form-group">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tour" />
-                    <ComboBox fx:id="tourComboBox" maxWidth="1.7976931348623157E308" minWidth="150.0" prefHeight="25.0" prefWidth="584.0" styleClass="form-group" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tour"/>
+                    <ComboBox fx:id="tourComboBox" maxWidth="1.7976931348623157E308" minWidth="150.0" prefHeight="25.0"
+                              prefWidth="584.0" styleClass="form-group"/>
                 </children>
             </VBox>
             <VBox prefHeight="45.0" prefWidth="530.0" styleClass="form-group">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giá tour" />
-                    <ComboBox fx:id="tourPriceComboBox" maxWidth="1.7976931348623157E308" minWidth="150.0" prefHeight="25.0" prefWidth="716.0" styleClass="form-group" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giá tour"/>
+                    <ComboBox fx:id="tourPriceComboBox" maxWidth="1.7976931348623157E308" minWidth="150.0"
+                              prefHeight="25.0" prefWidth="716.0" styleClass="form-group"/>
                 </children>
             </VBox>
             <VBox styleClass="form-group">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày bắt đầu" />
-                    <DatePicker fx:id="startDatePicker" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày bắt đầu"/>
+                    <DatePicker fx:id="startDatePicker"/>
                 </children>
             </VBox>
             <VBox styleClass="form-group">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày kết thúc" />
-                    <DatePicker fx:id="endDatePicker" styleClass="date-picker" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày kết thúc"/>
+                    <DatePicker fx:id="endDatePicker" styleClass="date-picker"/>
                 </children>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" styleClass="form-group">
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin chuyến đi" />
-                <TextArea fx:id="descriptionTextArea" prefHeight="120.0" prefRowCount="5" prefWidth="766.0" styleClass="form-group" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin chuyến đi"/>
+                <TextArea fx:id="descriptionTextArea" prefHeight="120.0" prefRowCount="5" prefWidth="766.0"
+                          styleClass="form-group"/>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" styleClass="form-group">
                 <HBox alignment="BOTTOM_LEFT">
                     <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phí dịch vụ" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phí dịch vụ"/>
                     </VBox>
                     <HBox fx:id="costTypeActionButtons" spacing="8.0" translateY="-4.0">
                         <Button mnemonicParsing="false" onAction="#onAddCostTypeClick" text="Thêm">
                             <styleClass>
-                                <String fx:value="primary-button" />
-                                <String fx:value="action-button" />
+                                <String fx:value="primary-button"/>
+                                <String fx:value="action-button"/>
                             </styleClass>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#onDeleteCostTypeClick" text="Xóa">
                             <styleClass>
-                                <String fx:value="danger-button" />
-                                <String fx:value="action-button" />
+                                <String fx:value="danger-button"/>
+                                <String fx:value="action-button"/>
                             </styleClass>
                         </Button>
                     </HBox>
                 </HBox>
-                <TableView fx:id="costTypeTableView" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="192.0" prefWidth="766.0">
+                <TableView fx:id="costTypeTableView" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="192.0"
+                           prefWidth="766.0">
                     <columns>
-                        <TableColumn fx:id="costTypeNameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="481.0" text="Tên loại phí" />
-                        <TableColumn fx:id="costTypeAmountColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="284.0" text="Giá" />
+                        <TableColumn fx:id="costTypeNameColumn" editable="false" maxWidth="1.7976931348623157E308"
+                                     minWidth="-1.0" prefWidth="481.0" text="Tên loại phí"/>
+                        <TableColumn fx:id="costTypeAmountColumn" editable="false" maxWidth="1.7976931348623157E308"
+                                     minWidth="-1.0" prefWidth="284.0" text="Giá"/>
                     </columns>
                 </TableView>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" styleClass="form-group">
                 <HBox alignment="BOTTOM_LEFT">
                     <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Khách du lịch" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Khách du lịch"/>
                     </VBox>
                     <HBox fx:id="customerActionButtons" spacing="8.0" translateY="-4.0">
                         <Button mnemonicParsing="false" onAction="#onAddCustomerClick" text="Thêm">
                             <styleClass>
-                                <String fx:value="primary-button" />
-                                <String fx:value="action-button" />
+                                <String fx:value="primary-button"/>
+                                <String fx:value="action-button"/>
                             </styleClass>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#onDeleteCustomerClick" text="Xóa">
                             <styleClass>
-                                <String fx:value="danger-button" />
-                                <String fx:value="action-button" />
+                                <String fx:value="danger-button"/>
+                                <String fx:value="action-button"/>
                             </styleClass>
                         </Button>
                     </HBox>
                 </HBox>
-                <ListView fx:id="customerListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="200.0" />
+                <ListView fx:id="customerListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                          minHeight="-Infinity" prefHeight="200.0"/>
             </VBox>
             <VBox maxWidth="1.7976931348623157E308" styleClass="form-group">
                 <children>
@@ -108,31 +107,34 @@
                         <children>
                             <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên"/>
                                 </children>
                             </VBox>
                             <HBox fx:id="employeeActionButtons" spacing="8.0" translateY="-4.0">
                                 <children>
                                     <Button mnemonicParsing="false" onAction="#onAddEmployeeClick" text="Thêm">
                                         <styleClass>
-                                            <String fx:value="primary-button" />
-                                            <String fx:value="action-button" />
+                                            <String fx:value="primary-button"/>
+                                            <String fx:value="action-button"/>
                                         </styleClass>
                                     </Button>
                                     <Button mnemonicParsing="false" onAction="#onDeleteEmployeeClick" text="Xóa">
                                         <styleClass>
-                                            <String fx:value="danger-button" />
-                                            <String fx:value="action-button" />
+                                            <String fx:value="danger-button"/>
+                                            <String fx:value="action-button"/>
                                         </styleClass>
                                     </Button>
                                 </children>
                             </HBox>
                         </children>
                     </HBox>
-                    <TableView fx:id="employeeTableView" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="192.0" prefWidth="766.0">
+                    <TableView fx:id="employeeTableView" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="192.0"
+                               prefWidth="766.0">
                         <columns>
-                            <TableColumn fx:id="employeeNameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="481.0" text="Tên" />
-                            <TableColumn fx:id="employeeJobColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="284.0" text="Công việc" />
+                            <TableColumn fx:id="employeeNameColumn" editable="false" maxWidth="1.7976931348623157E308"
+                                         minWidth="-1.0" prefWidth="481.0" text="Tên"/>
+                            <TableColumn fx:id="employeeJobColumn" editable="false" maxWidth="1.7976931348623157E308"
+                                         minWidth="-1.0" prefWidth="284.0" text="Công việc"/>
                         </columns>
                     </TableView>
                 </children>
@@ -141,18 +143,19 @@
     </ScrollPane>
     <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0">
         <padding>
-            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
         </padding>
-        <Button fx:id="saveButton" layoutX="26.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSaveClick" text="Lưu">
+        <Button fx:id="saveButton" layoutX="26.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSaveClick"
+                text="Lưu">
             <styleClass>
-                <String fx:value="action-button" />
-                <String fx:value="primary-button" />
+                <String fx:value="action-button"/>
+                <String fx:value="primary-button"/>
             </styleClass>
         </Button>
         <Button layoutX="59.0" layoutY="26.0" mnemonicParsing="false" onAction="#onCancelClick" text="Hủy">
             <styleClass>
-                <String fx:value="action-button" />
-                <String fx:value="primary-outlined-button" />
+                <String fx:value="action-button"/>
+                <String fx:value="primary-outlined-button"/>
             </styleClass>
         </Button>
     </HBox>
