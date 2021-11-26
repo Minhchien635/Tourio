@@ -1,9 +1,9 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.CostTypeDAO;
 import com.tourio.dao.GroupDAO;
-import com.tourio.models.CostType;
+import com.tourio.dao.JobDAO;
 import com.tourio.models.Group;
+import com.tourio.models.Job;
 import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
@@ -21,20 +21,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class CostTypeTableController extends BaseTableController<Tour> {
-    ObservableList<CostType> costTypes = FXCollections.observableArrayList();
+public class JobTableController extends BaseTableController<Tour> {
+    ObservableList<Job> jobs = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<CostType> table;
+    private TableView<Job> table;
 
     @FXML
-    private TableColumn<CostType, String> costTypeNameColumn;
+    private TableColumn<Job, String> jobNameColumn;
 
     public void onCreateClick(ActionEvent event) throws IOException {
-        CostTypeFormController controller = new CostTypeFormController();
-        controller.costTypeTableController = this;
+        JobFormController controller = new JobFormController();
+        controller.jobTableController = this;
 
-        new StageBuilder("cost_type_form", controller, "Thêm loại phí")
+        new StageBuilder("job_form", controller, "Thêm công việc")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -42,18 +42,18 @@ public class CostTypeTableController extends BaseTableController<Tour> {
     }
 
     public void onEditClick(ActionEvent event) throws IOException {
-        CostType costType = table.getSelectionModel().getSelectedItem();
+        Job job = table.getSelectionModel().getSelectedItem();
 
-        if (costType == null) {
-            AlertUtils.showWarning("Hãy chọn loại phí cần sửa");
+        if (job == null) {
+            AlertUtils.showWarning("Hãy chọn công việc cần sửa");
             return;
         }
 
-        CostTypeFormController controller = new CostTypeFormController();
-        controller.costTypeTableController = this;
-        controller.costType = costType;
+        JobFormController controller = new JobFormController();
+        controller.jobTableController = this;
+        controller.job = job;
 
-        new StageBuilder("cost_type_form", controller, "Sửa loại phí")
+        new StageBuilder("job_form", controller, "Sửa công việc")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -61,22 +61,22 @@ public class CostTypeTableController extends BaseTableController<Tour> {
     }
 
     public void onDeleteClick(ActionEvent event) {
-        CostType costType = table.getSelectionModel().getSelectedItem();
+        Job job = table.getSelectionModel().getSelectedItem();
 
-        if (costType == null) {
-            AlertUtils.showWarning("Hãy chọn loại phí cần xóa");
+        if (job == null) {
+            AlertUtils.showWarning("Hãy chọn công việc cần xóa");
             return;
         }
 
         List<Group> groups = GroupDAO.getAll();
         long index = groups.stream()
-                .filter(t -> t.getGroupCostRels()
+                .filter(t -> t.getGroupEmployeeRels()
                         .stream()
-                        .anyMatch(p -> p.getCostType().getId() == costType.getId()))
+                        .anyMatch(p -> p.getJob().getId() == job.getId()))
                 .count();
 
         if (index != 0) {
-            AlertUtils.showWarning("Không thể xóa. Đã có đoàn khách chọn loại phí này");
+            AlertUtils.showWarning("Không thể xóa. Đã có nhân viên làm công viêc này");
             return;
         }
 
@@ -84,7 +84,7 @@ public class CostTypeTableController extends BaseTableController<Tour> {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
-            CostTypeDAO.delete(costType);
+            JobDAO.delete(job);
             loadData();
             return;
         }
@@ -94,20 +94,20 @@ public class CostTypeTableController extends BaseTableController<Tour> {
     }
 
     public void initTable() {
-        // CostType name column render
-        costTypeNameColumn.setCellValueFactory(data -> {
+        // Job name column render
+        jobNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
             return property;
         });
 
-        // Bind table with costTypes observable list
-        table.setItems(costTypes);
+        // Bind table with jobs observable list
+        table.setItems(jobs);
     }
 
     public void loadData() {
-        // Get all costTypes and set to costType observable list
-        costTypes.setAll(CostTypeDAO.getAll());
+        // Get all jobs and set to job observable list
+        jobs.setAll(JobDAO.getAll());
         table.refresh();
     }
 }
