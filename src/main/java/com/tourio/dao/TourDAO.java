@@ -41,6 +41,8 @@ public class TourDAO {
         session.clear();
         session.beginTransaction();
 
+        System.out.println(tour.getTourLocationRels());
+
         try {
             session.saveOrUpdate(tour);
             session.getTransaction().commit();

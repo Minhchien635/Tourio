@@ -121,3 +121,7 @@
 .text-area .scroll-pane .content {
     -fx-background-radius: 2 2 2 2;
 }
+
+.primary-button .svg {
+    -fx-fill: white;
+}
