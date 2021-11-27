@@ -318,9 +318,10 @@ public class GroupFormController extends BaseFormController {
             AlertUtils.showWarning("Ngày đi phải trước ngày kết thúc");
             return;
         }
-
-        if (tourPrice.getDateStart().after(DateUtils.parseDate(startDate))
-                || tourPrice.getDateEnd().before(DateUtils.parseDate(endDate))) {
+//group.getDateStart().after(p.getDateStart()) &&
+//                        group.getDateEnd().before(p.getDateEnd()))
+        if (DateUtils.parseDate(startDate).before(tourPrice.getDateStart())
+                || DateUtils.parseDate(endDate).after(tourPrice.getDateEnd())) {
             AlertUtils.showWarning("Ngày đã chọn không nằm trong khoảng thời gian của giá tour");
             return;
         }
