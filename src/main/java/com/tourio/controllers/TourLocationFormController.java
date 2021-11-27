@@ -35,7 +35,8 @@ public class TourLocationFormController extends BaseFormController {
         }
 
         Tour tour = tourFormController.tour;
-        TourLocationRel tourLocationRel = new TourLocationRel(tour, location, 0L);
+        Long sequence = (long) tourFormController.tourLocationRels.size() + 1;
+        TourLocationRel tourLocationRel = new TourLocationRel(tour, location, sequence);
         tourFormController.tourLocationRels.add(tourLocationRel);
 
         closeWindow(e);

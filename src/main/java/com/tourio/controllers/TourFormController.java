@@ -18,6 +18,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -110,12 +111,12 @@ public class TourFormController extends BaseFormController {
                     return;
                 }
 
-                item.setSequence((long) getIndex() + 1);
-                setText(item.getSequence() + ". " + item.getLocation().getName());
+                long sequence = getIndex() + 1;
+                item.setSequence(sequence);
+                setText(sequence + ". " + item.getLocation().getName());
             }
         });
 
-        // Bind data
         locationListView.setItems(tourLocationRels);
     }
 
@@ -182,6 +183,38 @@ public class TourFormController extends BaseFormController {
         }
 
         tourPrices.remove(index);
+    }
+
+    public void onUpLocationClick(ActionEvent event) {
+        int index = locationListView.getSelectionModel().getSelectedIndex();
+
+        if (index == -1) {
+            AlertUtils.showWarning("Hãy chọn địa điểm muốn thay đổi thứ tự");
+            return;
+        }
+
+        if (index == 0) {
+            return;
+        }
+
+        Collections.swap(tourLocationRels, index, index - 1);
+        locationListView.getSelectionModel().select(index - 1);
+    }
+
+    public void onDownLocationClick(ActionEvent event) {
+        int index = locationListView.getSelectionModel().getSelectedIndex();
+
+        if (index == -1) {
+            AlertUtils.showWarning("Hãy chọn địa điểm muốn thay đổi thứ tự");
+            return;
+        }
+
+        if (index == tourLocationRels.size() - 1) {
+            return;
+        }
+
+        Collections.swap(tourLocationRels, index, index + 1);
+        locationListView.getSelectionModel().select(index + 1);
     }
 
     public void onAddLocationClick(ActionEvent event) throws IOException {

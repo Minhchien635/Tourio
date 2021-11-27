@@ -14,6 +14,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TourTableController extends BaseTableController<Tour> {
     ObservableList<Tour> tours = FXCollections.observableArrayList();
@@ -109,8 +110,18 @@ public class TourTableController extends BaseTableController<Tour> {
     }
 
     public void loadData() {
-        // Get all tours and set to tour observable list
-        tours.setAll(TourDAO.getAll());
+        // Get all tours
+        List<Tour> allTours = TourDAO.getAll();
+
+        // Sort tour location rels by sequence
+        if (allTours != null) {
+            for (Tour tour : allTours) {
+                tour.getTourLocationRels().sort((c1, c2) -> (int) (c1.getSequence() - c2.getSequence()));
+            }
+        }
+
+        // Set data
+        tours.setAll(allTours);
         table.refresh();
     }
 }
