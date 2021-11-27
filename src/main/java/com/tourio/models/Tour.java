@@ -24,6 +24,7 @@ public class Tour {
     private String description;
 
     @ManyToOne()
+    @JoinColumn(name="tour_type_id", nullable = false)
     private TourType tourType;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
