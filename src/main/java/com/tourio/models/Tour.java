@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Entity(name = "tour")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +24,6 @@ public class Tour {
     private String description;
 
     @ManyToOne()
-    @JoinColumn(name="tour_type_id", nullable = false)
     private TourType tourType;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name = "tour_type")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -267,11 +268,11 @@ public class GroupFormController extends BaseFormController {
         tourComboBox.setValue(group.getTour());
 
         Optional<TourPrice> tourPrice = group.getTour().getTourPrices()
-                .stream()
-                .filter(p -> p.getAmount().equals(group.getTourPrice()) &&
-                        group.getDateStart().after(p.getDateStart()) &&
-                        group.getDateEnd().before(p.getDateEnd()))
-                .findFirst();
+                                             .stream()
+                                             .filter(p -> p.getAmount().equals(group.getTourPrice()) &&
+                                                     group.getDateStart().after(p.getDateStart()) &&
+                                                     group.getDateEnd().before(p.getDateEnd()))
+                                             .findFirst();
         tourPriceComboBox.setValue(tourPrice.orElse(null));
 
         startDatePicker.setValue(DateUtils.parseLocalDate(group.getDateStart()));
@@ -318,10 +319,10 @@ public class GroupFormController extends BaseFormController {
             AlertUtils.showWarning("Ngày đi phải trước ngày kết thúc");
             return;
         }
-//group.getDateStart().after(p.getDateStart()) &&
-//                        group.getDateEnd().before(p.getDateEnd()))
-        if (DateUtils.parseDate(startDate).before(tourPrice.getDateStart())
-                || DateUtils.parseDate(endDate).after(tourPrice.getDateEnd())) {
+
+        Date dateStart = DateUtils.parseDate(startDate);
+        Date dateEnd = DateUtils.parseDate(endDate);
+        if (dateStart.before(tourPrice.getDateStart()) || dateEnd.after(tourPrice.getDateEnd())) {
             AlertUtils.showWarning("Ngày đã chọn không nằm trong khoảng thời gian của giá tour");
             return;
         }
@@ -340,9 +341,9 @@ public class GroupFormController extends BaseFormController {
         group.setName(nameTextField.getText());
         group.setTour(tour);
         group.setTourPrice(tourPrice.getAmount());
-        group.setCreatedAt(LocalDateTime.now());
-        group.setDateStart(DateUtils.parseDate(startDate));
-        group.setDateEnd(DateUtils.parseDate(endDate));
+        group.setCreatedAt(new Date());
+        group.setDateStart(dateStart);
+        group.setDateEnd(dateEnd);
         group.setDescription(description);
 
         if (group.getGroupCostRels() == null) {
@@ -363,7 +364,7 @@ public class GroupFormController extends BaseFormController {
             group.setGroupEmployeeRels(groupEmployeeRels);
         } else {
             group.getGroupEmployeeRels().clear();
-            group.setGroupEmployeeRels(groupEmployeeRels);
+            group.getGroupEmployeeRels().addAll(groupEmployeeRels);
         }
 
         GroupDAO.save(group);

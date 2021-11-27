@@ -22,16 +22,13 @@ public class Group {
 
     private String name;
 
-    @Column(name = "tour_price")
     private Long tourPrice;
 
     private String description;
 
-    @Column(name = "date_start")
     @Temporal(TemporalType.DATE)
     private Date dateStart;
 
-    @Column(name = "date_end")
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
 
@@ -39,7 +36,6 @@ public class Group {
     private Tour tour;
 
     @ManyToMany()
-    @JoinTable( name = "group_tour_customers")
     private List<Customer> customers;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
@@ -50,8 +46,7 @@ public class Group {
     @ToString.Exclude
     private List<GroupCostRel> groupCostRels;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     public Long getTotalCost() {
         return this.getGroupCostRels().stream().map(GroupCostRel::getAmount).reduce(0L, Long::sum);

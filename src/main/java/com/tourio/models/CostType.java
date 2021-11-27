@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "cost_type")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

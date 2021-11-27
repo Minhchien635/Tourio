@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity(name = "tour_location_rel")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

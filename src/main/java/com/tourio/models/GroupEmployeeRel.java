@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity(name = "group_employee_rel")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

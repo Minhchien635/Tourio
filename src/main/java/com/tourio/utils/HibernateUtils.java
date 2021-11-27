@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,6 +21,11 @@ public class HibernateUtils {
     }
 
     private static SessionFactory buildSessionFactory() {
+//        Configuration config = new Configuration();
+//        config.configure()
+//              .setPhysicalNamingStrategy(new CustomPhysicalNamingStrategy());
+//
+//        return config.buildSessionFactory();
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();

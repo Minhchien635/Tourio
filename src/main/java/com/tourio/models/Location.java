@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "location")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

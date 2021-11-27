@@ -258,6 +258,10 @@ public class TourFormController extends BaseFormController {
 
     @Override
     public void initDefaultValues() {
+        tour = TourDAO.get(tour_id);
+        System.out.println(tour);
+        System.out.println(tour.getTourLocationRels());
+        System.out.println(tour.getTourPrices());
         nameTextField.setText(tour.getName());
         descriptionTextArea.setText(tour.getDescription());
         typeComboBox.setValue(tour.getTourType());
@@ -332,11 +336,6 @@ public class TourFormController extends BaseFormController {
         initPriceTable();
 
         if (tour_id != -1) {
-            tour = TourDAO.get(tour_id);
-            initDefaultValues();
-        }
-
-        if (tour != null) {
             initDefaultValues();
         }
 
