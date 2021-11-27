@@ -1,9 +1,6 @@
 package com.tourio.dao;
 
 import com.tourio.models.Tour;
-import com.tourio.models.TourLocationRel;
-import com.tourio.models.TourLocationRelID;
-import com.tourio.models.TourPrice;
 import com.tourio.utils.HibernateUtils;
 import org.hibernate.Session;
 

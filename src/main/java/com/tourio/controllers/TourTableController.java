@@ -9,11 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.List;
 
 public class TourTableController extends BaseTableController<Tour> {
@@ -25,6 +24,7 @@ public class TourTableController extends BaseTableController<Tour> {
     @FXML
     private TableColumn<Tour, String> tourNameColumn;
 
+    @Override
     public void onCreateClick(ActionEvent event) throws IOException {
         // Init controller
         TourFormController controller = new TourFormController();
@@ -37,6 +37,7 @@ public class TourTableController extends BaseTableController<Tour> {
                 .showAndWait();
     }
 
+    @Override
     public void onEditClick(ActionEvent event) throws IOException {
         Tour tour = table.getSelectionModel().getSelectedItem();
 
@@ -57,6 +58,7 @@ public class TourTableController extends BaseTableController<Tour> {
                 .showAndWait();
     }
 
+    @Override
     public void onDeleteClick(ActionEvent event) {
         Tour tour = table.getSelectionModel().getSelectedItem();
 
@@ -65,10 +67,16 @@ public class TourTableController extends BaseTableController<Tour> {
             return;
         }
 
-        TourDAO.delete(tour);
-        loadData();
+        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION, "Chắc chắn xóa");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get() == ButtonType.OK) {
+            TourDAO.delete(tour);
+            loadData();
+        }
     }
 
+    @Override
     public void initTable() {
         // On row double click
         table.setRowFactory(tv -> {
@@ -109,6 +117,7 @@ public class TourTableController extends BaseTableController<Tour> {
         table.setItems(tours);
     }
 
+    @Override
     public void loadData() {
         // Get all tours
         List<Tour> allTours = TourDAO.getAll();

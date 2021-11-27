@@ -26,4 +26,6 @@ module com.example.tourio {
     opens com.tourio.models to org.hibernate.orm.core;
     exports com.tourio.utils;
     opens com.tourio.utils to javafx.fxml;
+    exports com.tourio.enums;
+    opens com.tourio.enums to javafx.fxml;
 }

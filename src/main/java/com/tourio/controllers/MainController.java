@@ -27,6 +27,11 @@ public class MainController implements Initializable {
             // Load tour fxml into content pane
             loadView("tour_table");
 
+            // Disable all other button active styles
+            for (Node node : menu.getChildren()) {
+                node.getStyleClass().remove("active");
+            }
+
             // Set tour menu button as active
             tourButton.getStyleClass().add("active");
         } catch (IOException e) {

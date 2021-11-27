@@ -30,7 +30,7 @@
                     <Point3D/>
                 </rotationAxis>
             </Text>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+            <VBox fx:id="menu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
                   spacing="16.0" VBox.vgrow="ALWAYS">
                 <padding>
                     <Insets left="8.0"/>

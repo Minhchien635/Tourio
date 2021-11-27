@@ -1,14 +1,14 @@
 package com.tourio.models;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @Entity(name = "group_tour")
 @Data
@@ -46,7 +46,7 @@ public class Group {
     @ToString.Exclude
     private List<GroupCostRel> groupCostRels;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     public Long getTotalCost() {
         return this.getGroupCostRels().stream().map(GroupCostRel::getAmount).reduce(0L, Long::sum);
