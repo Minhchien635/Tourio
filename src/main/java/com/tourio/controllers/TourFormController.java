@@ -57,6 +57,8 @@ public class TourFormController extends BaseFormController {
 
     public Tour tour = new Tour();
 
+    public long tour_id = -1;
+
     public ObservableList<TourLocationRel> tourLocationRels = FXCollections.observableArrayList();
 
     public ObservableList<TourPrice> tourPrices = FXCollections.observableArrayList();
@@ -318,12 +320,23 @@ public class TourFormController extends BaseFormController {
     }
 
     @Override
+    public void onCancelClick(ActionEvent event) {
+        tourTableController.loadData();
+        closeWindow(event);
+    }
+
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTypeComboBox();
         initLocationList();
         initPriceTable();
 
-        if (tour.getId() != null) {
+        if (tour_id != -1) {
+            tour = TourDAO.get(tour_id);
+            initDefaultValues();
+        }
+
+        if (tour != null) {
             initDefaultValues();
         }
 

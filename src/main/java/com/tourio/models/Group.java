@@ -22,20 +22,24 @@ public class Group {
 
     private String name;
 
+    @Column(name = "tour_price")
     private Long tourPrice;
 
     private String description;
 
+    @Column(name = "date_start")
     @Temporal(TemporalType.DATE)
     private Date dateStart;
 
+    @Column(name = "date_end")
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
 
     @ManyToOne
     private Tour tour;
 
-    @ManyToMany
+    @ManyToMany()
+    @JoinTable( name = "group_tour_customers")
     private List<Customer> customers;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
@@ -46,6 +50,7 @@ public class Group {
     @ToString.Exclude
     private List<GroupCostRel> groupCostRels;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public Long getTotalCost() {

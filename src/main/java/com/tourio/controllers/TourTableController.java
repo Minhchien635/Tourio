@@ -12,8 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
 public class TourTableController extends BaseTableController<Tour> {
     ObservableList<Tour> tours = FXCollections.observableArrayList();
@@ -49,7 +49,7 @@ public class TourTableController extends BaseTableController<Tour> {
         // Init controller
         TourFormController controller = new TourFormController();
         controller.tourTableController = this;
-        controller.tour = tour;
+        controller.tour_id = tour.getId();
 
         // Show modal
         new StageBuilder("tour_form", controller, "Sửa tour")
