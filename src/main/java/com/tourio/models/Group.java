@@ -35,13 +35,14 @@ public class Group {
     private Tour tour;
 
     @ManyToMany()
+    @JoinTable(name = "group_tour_customers")
     private List<Customer> customers;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<GroupEmployeeRel> groupEmployeeRels;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<GroupCostRel> groupCostRels;
 

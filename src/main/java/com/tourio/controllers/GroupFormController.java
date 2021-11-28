@@ -277,7 +277,6 @@ public class GroupFormController extends BaseFormController {
                                 group.getDateEnd().before(p.getDateEnd()))) ||
                         (group.getDateStart().equals(p.getDateStart())))
                 .findFirst();
-        System.out.println(tourPrice.isEmpty());
         tourPriceComboBox.setValue(tourPrice.orElse(null));
 
         startDatePicker.setValue(DateUtils.parseLocalDate(group.getDateStart()));
