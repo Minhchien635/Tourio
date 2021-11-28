@@ -67,7 +67,7 @@ public class TourTableController extends BaseTableController<Tour> {
             return;
         }
 
-        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION, "Chắc chắn xóa");
+        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION, "Việc xóa tour sẽ xóa tất cả các đoàn khách. Chắc chắn xóa");
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK) {
@@ -89,7 +89,8 @@ public class TourTableController extends BaseTableController<Tour> {
                     try {
                         // Init controller
                         TourFormController controller = new TourFormController();
-                        controller.tour = tour;
+                        controller.tourTableController = this;
+                        controller.tour_id = tour.getId();
                         controller.read_only = true;
 
                         // Show modal

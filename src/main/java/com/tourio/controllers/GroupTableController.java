@@ -48,7 +48,7 @@ public class GroupTableController extends BaseTableController<Group> {
         // Init controller
         GroupFormController controller = new GroupFormController();
         controller.groupTableController = this;
-        controller.group = group;
+        controller.group_id = group.getId();
 
         // Show modal
         new StageBuilder("group_form", controller, "Sửa đoàn")
@@ -92,9 +92,10 @@ public class GroupTableController extends BaseTableController<Group> {
                     try {
                         // Init controller
                         GroupFormController controller = new GroupFormController();
-                        controller.group = group;
-                        controller.read_only = true;
                         controller.groupTableController = this;
+                        controller.group_id = group.getId();
+                        controller.read_only = true;
+
 
                         // Show modal
                         new StageBuilder("group_form", controller, "Chi tiết đoàn")

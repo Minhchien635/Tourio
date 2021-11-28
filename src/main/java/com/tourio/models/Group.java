@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class Group {
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
 
-    @ManyToOne
+    @ManyToOne()
     private Tour tour;
 
     @ManyToMany()

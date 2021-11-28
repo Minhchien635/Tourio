@@ -22,6 +22,20 @@ public class GroupDAO {
         return null;
     }
 
+    public static Group get(long id) {
+        Session session = HibernateUtils.getSession();
+
+        try {
+            return session.find(Group.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        session.close();
+
+        return null;
+    }
+
     public static void save(Group group) {
         Session session = HibernateUtils.getSession();
         session.clear();

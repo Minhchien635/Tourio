@@ -21,7 +21,6 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -62,6 +61,8 @@ public class GroupFormController extends BaseFormController {
     public GroupTableController groupTableController;
 
     public Group group = new Group();
+
+    public Long group_id;
 
     public ObservableList<GroupCostRel> groupCostRels = FXCollections.observableArrayList();
 
@@ -264,15 +265,19 @@ public class GroupFormController extends BaseFormController {
 
     @Override
     public void initDefaultValues() {
+        group = GroupDAO.get(group_id);
+
         nameTextField.setText(group.getName());
         tourComboBox.setValue(group.getTour());
 
         Optional<TourPrice> tourPrice = group.getTour().getTourPrices()
-                                             .stream()
-                                             .filter(p -> p.getAmount().equals(group.getTourPrice()) &&
-                                                     group.getDateStart().after(p.getDateStart()) &&
-                                                     group.getDateEnd().before(p.getDateEnd()))
-                                             .findFirst();
+                .stream()
+                .filter(p -> p.getAmount().equals(group.getTourPrice()) &&
+                        ((group.getDateStart().after(p.getDateStart()) &&
+                                group.getDateEnd().before(p.getDateEnd()))) ||
+                        (group.getDateStart().equals(p.getDateStart())))
+                .findFirst();
+        System.out.println(tourPrice.isEmpty());
         tourPriceComboBox.setValue(tourPrice.orElse(null));
 
         startDatePicker.setValue(DateUtils.parseLocalDate(group.getDateStart()));
@@ -381,7 +386,7 @@ public class GroupFormController extends BaseFormController {
         initCustomerList();
         initEmployeeTable();
 
-        if (group.getId() != null) {
+        if (group_id != null) {
             initDefaultValues();
         }
 

@@ -10,6 +10,7 @@ public class TourDAO {
 
     public static List<Tour> getAll() {
         Session session = HibernateUtils.getSession();
+        session.clear();
 
         try {
             return HibernateUtils.getAllData(Tour.class, session);

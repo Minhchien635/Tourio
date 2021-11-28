@@ -28,7 +28,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <property name="hibernate.physical_naming_strategy">com.tourio.utils.CustomPhysicalNamingStrategy</property>
-        
+
         <!-- Entity mapping -->
         <mapping class="com.tourio.models.CostType"/>
         <mapping class="com.tourio.models.Customer"/>
