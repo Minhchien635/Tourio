@@ -57,8 +57,6 @@ public class TourFormController extends BaseFormController {
 
     public Tour tour = new Tour();
 
-    public Long tour_id;
-
     public ObservableList<TourLocationRel> tourLocationRels = FXCollections.observableArrayList();
 
     public ObservableList<TourPrice> tourPrices = FXCollections.observableArrayList();
@@ -258,7 +256,6 @@ public class TourFormController extends BaseFormController {
 
     @Override
     public void initDefaultValues() {
-        tour = TourDAO.get(tour_id);
         nameTextField.setText(tour.getName());
         descriptionTextArea.setText(tour.getDescription());
         typeComboBox.setValue(tour.getTourType());
@@ -332,7 +329,7 @@ public class TourFormController extends BaseFormController {
         initLocationList();
         initPriceTable();
 
-        if (tour_id != null) {
+        if (tour.getId() != null) {
             initDefaultValues();
         }
 

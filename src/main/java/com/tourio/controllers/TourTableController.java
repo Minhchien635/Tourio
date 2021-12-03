@@ -49,7 +49,7 @@ public class TourTableController extends BaseTableController<Tour> {
         // Init controller
         TourFormController controller = new TourFormController();
         controller.tourTableController = this;
-        controller.tour_id = tour.getId();
+        controller.tour = tour;
 
         // Show modal
         new StageBuilder("tour_form", controller, "Sửa tour")
@@ -90,7 +90,7 @@ public class TourTableController extends BaseTableController<Tour> {
                         // Init controller
                         TourFormController controller = new TourFormController();
                         controller.tourTableController = this;
-                        controller.tour_id = tour.getId();
+                        controller.tour = tour;
                         controller.read_only = true;
 
                         // Show modal
