@@ -33,7 +33,7 @@ public class TourTypeTableController extends BaseTableController<Tour> {
         TourTypeFormController controller = new TourTypeFormController();
         controller.tourTypeTableController = this;
 
-        new StageBuilder("cost_type_form", controller, "Thêm loại phí")
+        new StageBuilder("tour_type_form", controller, "Thêm loại tour")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -44,7 +44,7 @@ public class TourTypeTableController extends BaseTableController<Tour> {
         TourType tourType = table.getSelectionModel().getSelectedItem();
 
         if (tourType == null) {
-            AlertUtils.showWarning("Hãy chọn loại phí cần sửa");
+            AlertUtils.showWarning("Hãy chọn loại tour cần sửa");
             return;
         }
 
@@ -52,7 +52,7 @@ public class TourTypeTableController extends BaseTableController<Tour> {
         controller.tourTypeTableController = this;
         controller.tourType = tourType;
 
-        new StageBuilder("cost_type_form", controller, "Sửa loại phí")
+        new StageBuilder("tour_type_form", controller, "Sửa loại tour")
                 .setModalOwner(event)
                 .setDimensionsAuto()
                 .build()
@@ -63,7 +63,7 @@ public class TourTypeTableController extends BaseTableController<Tour> {
         TourType tourType = table.getSelectionModel().getSelectedItem();
 
         if (tourType == null) {
-            AlertUtils.showWarning("Hãy chọn loại phí cần xóa");
+            AlertUtils.showWarning("Hãy chọn loại tour cần xóa");
             return;
         }
 
