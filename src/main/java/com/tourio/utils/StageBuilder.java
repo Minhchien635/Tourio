@@ -59,7 +59,7 @@ public class StageBuilder {
     }
 
     public Stage build() throws IOException {
-        FXMLLoader loader = new FXMLLoader(WindowUtils.class.getResource("/com/tourio/fxml/" + fxmlFileName + ".fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/tourio/fxml/" + fxmlFileName + ".fxml"));
         loader.setController(controller);
 
         Parent root = loader.load();
