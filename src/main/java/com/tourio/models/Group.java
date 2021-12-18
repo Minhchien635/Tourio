@@ -13,14 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
+public class Group extends BaseModel {
     private Long tourPrice;
 
     private String description;
@@ -55,5 +48,4 @@ public class Group {
     public Long getTotalSale() {
         return this.getCustomers().size() * this.getTourPrice();
     }
-
 }

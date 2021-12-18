@@ -25,7 +25,6 @@ public class GroupCostRel implements Serializable {
     @JoinColumn(name = "cost_type_id")
     private CostType costType;
 
-
     private Long amount;
 
     public GroupCostRel(Group group, CostType costType, Long amount) {

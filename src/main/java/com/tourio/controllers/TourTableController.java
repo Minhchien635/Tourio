@@ -5,8 +5,6 @@ import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class TourTableController extends BaseTableController<Tour> {
-    ObservableList<Tour> tours = FXCollections.observableArrayList();
-
     @FXML
     private TableView<Tour> table;
 
@@ -49,7 +45,7 @@ public class TourTableController extends BaseTableController<Tour> {
         // Init controller
         TourFormController controller = new TourFormController();
         controller.tourTableController = this;
-        controller.tour_id = tour.getId();
+        controller.tour = tour;
 
         // Show modal
         new StageBuilder("tour_form", controller, "Sửa tour")
@@ -90,7 +86,7 @@ public class TourTableController extends BaseTableController<Tour> {
                         // Init controller
                         TourFormController controller = new TourFormController();
                         controller.tourTableController = this;
-                        controller.tour_id = tour.getId();
+                        controller.tour = tour;
                         controller.read_only = true;
 
                         // Show modal
@@ -114,13 +110,13 @@ public class TourTableController extends BaseTableController<Tour> {
             return property;
         });
 
-        // Bind table with tours observable list
-        table.setItems(tours);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     @Override
     public void loadData() {
-        // Get all tours
+        // Get all observableList
         List<Tour> allTours = TourDAO.getAll();
 
         // Sort tour location rels by sequence
@@ -130,8 +126,12 @@ public class TourTableController extends BaseTableController<Tour> {
             }
         }
 
+        // Add tours -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(allTours);
+
         // Set data
-        tours.setAll(allTours);
+        observableList.setAll(allTours);
         table.refresh();
     }
 }

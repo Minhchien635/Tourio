@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-      minHeight="-Infinity"
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
       minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="16.0"
       style="-fx-background-color: white;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17"
       fx:controller="com.tourio.controllers.TourTableController">
     <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0" VBox.vgrow="NEVER">
-        <Button contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false"
-                onAction="#onCreateClick" prefWidth="63.0" text="Thêm" textOverrun="CLIP">
+        <Button contentDisplay="RIGHT" defaultButton="true" mnemonicParsing="false" onAction="#onCreateClick"
+                prefWidth="63.0" text="Thêm" textOverrun="CLIP">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -45,6 +44,11 @@
                 <String fx:value="action-button"/>
             </styleClass>
         </Button>
+        <HBox alignment="CENTER" style="-fx-translate-x: 180;">
+            <children>
+                <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="157.0" promptText="Tìm kiếm..."/>
+            </children>
+        </HBox>
     </HBox>
     <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columns>

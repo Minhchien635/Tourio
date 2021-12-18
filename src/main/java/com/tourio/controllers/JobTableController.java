@@ -4,12 +4,9 @@ import com.tourio.dao.GroupDAO;
 import com.tourio.dao.JobDAO;
 import com.tourio.models.Group;
 import com.tourio.models.Job;
-import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,9 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class JobTableController extends BaseTableController<Tour> {
-    ObservableList<Job> jobs = FXCollections.observableArrayList();
-
+public class JobTableController extends BaseTableController<Job> {
     @FXML
     private TableView<Job> table;
 
@@ -101,13 +96,19 @@ public class JobTableController extends BaseTableController<Tour> {
             return property;
         });
 
-        // Bind table with jobs observable list
-        table.setItems(jobs);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     public void loadData() {
-        // Get all jobs and set to job observable list
-        jobs.setAll(JobDAO.getAll());
+        List<Job> jobs = JobDAO.getAll();
+
+        // Add jobs -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(jobs);
+
+        // Get all observableList and set to job observable list
+        observableList.setAll(jobs);
         table.refresh();
     }
 }

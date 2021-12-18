@@ -7,8 +7,6 @@ import com.tourio.models.TourType;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,9 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class TourTypeTableController extends BaseTableController<Tour> {
-    ObservableList<TourType> tourTypes = FXCollections.observableArrayList();
-
+public class TourTypeTableController extends BaseTableController<TourType> {
     @FXML
     private TableView<TourType> table;
 
@@ -68,7 +64,7 @@ public class TourTypeTableController extends BaseTableController<Tour> {
         }
 
         List<Tour> tours = TourDAO.getAll();
-        long index = tours.stream().filter(p -> p.getTourType().equals(tourType)).count();
+        long index = tours.stream().filter(p -> p.getTourType().getId().equals(tourType.getId())).count();
 
         if (index != 0) {
             AlertUtils.showWarning("Không thể xóa. Đã có tour chọn loại tour này");
@@ -96,13 +92,19 @@ public class TourTypeTableController extends BaseTableController<Tour> {
             return property;
         });
 
-        // Bind table with tourTypes observable list
-        table.setItems(tourTypes);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     public void loadData() {
-        // Get all tourTypes and set to tourType observable list
-        tourTypes.setAll(TourTypeDAO.getAll());
+        List<TourType> tourTypes = TourTypeDAO.getAll();
+
+        // Add tourTypes -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(tourTypes);
+
+        // Get all observableList and set to tourType observable list
+        observableList.setAll(tourTypes);
         table.refresh();
     }
 }

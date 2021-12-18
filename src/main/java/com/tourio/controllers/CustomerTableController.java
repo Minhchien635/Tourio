@@ -2,22 +2,18 @@ package com.tourio.controllers;
 
 import com.tourio.dao.CustomerDAO;
 import com.tourio.models.Customer;
-import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
-public class CustomerTableController extends BaseTableController<Tour> {
-    ObservableList<Customer> customers = FXCollections.observableArrayList();
-
+public class CustomerTableController extends BaseTableController<Customer> {
     @FXML
     private TableView<Customer> table;
 
@@ -117,14 +113,20 @@ public class CustomerTableController extends BaseTableController<Tour> {
             return property;
         });
 
-        // Bind table with customers observable list
-        table.setItems(customers);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     @Override
     public void loadData() {
-        // Get all customers and set to customer observable list
-        customers.setAll(CustomerDAO.getAll());
+        List<Customer> customers = CustomerDAO.getAll();
+
+        // Add customers -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(customers);
+
+        // Get all observableList and set to customer observable list
+        observableList.setAll(customers);
         table.refresh();
     }
 }

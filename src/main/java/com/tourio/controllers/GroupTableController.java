@@ -5,18 +5,15 @@ import com.tourio.models.Group;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class GroupTableController extends BaseTableController<Group> {
-    ObservableList<Group> groups = FXCollections.observableArrayList();
-
     @FXML
     private TableView<Group> table;
 
@@ -118,14 +115,20 @@ public class GroupTableController extends BaseTableController<Group> {
             return property;
         });
 
-        // Bind table with groups observable list
-        table.setItems(groups);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     @Override
     public void loadData() {
-        // Get all groups and set to group observable list
-        groups.setAll(GroupDAO.getAll());
+        List<Group> groups = GroupDAO.getAll();
+
+        // Add groups -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(groups);
+
+        // Get all observableList and set to group observable list
+        observableList.setAll(groups);
         table.refresh();
     }
 }

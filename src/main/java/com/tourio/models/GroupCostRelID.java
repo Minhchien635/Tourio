@@ -19,5 +19,4 @@ public class GroupCostRelID implements Serializable {
 
     @Column(name = "group_id")
     private Long groupId;
-
 }
