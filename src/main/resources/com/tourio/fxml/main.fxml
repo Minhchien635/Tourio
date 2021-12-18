@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.String?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/main.css"
             xmlns="http://javafx.com/javafx/17">
     <center>
@@ -90,6 +89,13 @@
                 <Button fx:id="jobButton" alignment="TOP_LEFT" contentDisplay="CENTER" graphicTextGap="0.0"
                         maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button"
                         text="Công việc" textFill="WHITE">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="groupReportButton" alignment="TOP_LEFT" contentDisplay="CENTER" graphicTextGap="0.0"
+                        layoutX="18.0" layoutY="59.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        styleClass="menu-button" text="Báo cáo đoàn" textFill="WHITE">
                     <font>
                         <Font size="16.0"/>
                     </font>

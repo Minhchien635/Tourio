@@ -35,6 +35,7 @@ public abstract class BaseTableController<T extends BaseModel> implements Initia
         try {
             searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
                 ArrayList<T> arrayList = new ArrayList<>();
+                System.out.println(newValue);
 
                 arrayList.addAll(arrList.stream().filter(
                                 o -> o.getName().toLowerCase()
