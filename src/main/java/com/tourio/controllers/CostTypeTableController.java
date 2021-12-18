@@ -4,12 +4,9 @@ import com.tourio.dao.CostTypeDAO;
 import com.tourio.dao.GroupDAO;
 import com.tourio.models.CostType;
 import com.tourio.models.Group;
-import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,9 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class CostTypeTableController extends BaseTableController<Tour> {
-    ObservableList<CostType> costTypes = FXCollections.observableArrayList();
-
+public class CostTypeTableController extends BaseTableController<CostType> {
     @FXML
     private TableView<CostType> table;
 
@@ -101,13 +96,19 @@ public class CostTypeTableController extends BaseTableController<Tour> {
             return property;
         });
 
-        // Bind table with costTypes observable list
-        table.setItems(costTypes);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     public void loadData() {
-        // Get all costTypes and set to costType observable list
-        costTypes.setAll(CostTypeDAO.getAll());
+        List<CostType> costTypes = CostTypeDAO.getAll();
+
+        // Add cosTypes -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(costTypes);
+
+        // Get all observableList and set to costType observable list
+        observableList.setAll(costTypes);
         table.refresh();
     }
 }

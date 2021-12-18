@@ -169,6 +169,7 @@ public class GroupFormController extends BaseFormController {
             @Override
             public void changed(ObservableValue ov, Tour oldTour, Tour currentTour) {
                 // Load data
+                tourPrices.clear();
                 tourPrices.setAll(currentTour.getTourPrices());
             }
         });

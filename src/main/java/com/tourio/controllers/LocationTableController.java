@@ -7,8 +7,6 @@ import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,14 +18,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class LocationTableController extends BaseTableController<Tour> {
-    ObservableList<Location> locations = FXCollections.observableArrayList();
-
+public class LocationTableController extends BaseTableController<Location> {
     @FXML
     private TableView<Location> table;
 
     @FXML
-    private TableColumn<Location, String> locationNameColumn;//costTypeNameColumn
+    private TableColumn<Location, String> locationNameColumn;
 
     public void onCreateClick(ActionEvent event) throws IOException {
         LocationFormController controller = new LocationFormController();
@@ -100,13 +96,19 @@ public class LocationTableController extends BaseTableController<Tour> {
             return property;
         });
 
-        // Bind table with locations observable list
-        table.setItems(locations);
+        // Bind table with observableList observable list
+        table.setItems(observableList);
     }
 
     public void loadData() {
-        // Get all locations and set to location observable list
-        locations.setAll(LocationDAO.getAll());
+        List<Location> locations = LocationDAO.getAll();
+
+        // Add locations -> arrList of BaseTableController
+        arrList.clear();
+        arrList.addAll(locations);
+
+        // Get all observableList and set to location observable list
+        observableList.setAll(locations);
         table.refresh();
     }
 }
