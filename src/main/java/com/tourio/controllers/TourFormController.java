@@ -42,7 +42,7 @@ public class TourFormController extends BaseFormController {
     public TextField nameTextField;
 
     @FXML
-    public ComboBox<TourType> typeComboBox;//nationalityTextField
+    public ComboBox<TourType> typeComboBox;
 
     @FXML
     public TextArea descriptionTextArea;

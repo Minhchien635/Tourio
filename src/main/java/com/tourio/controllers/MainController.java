@@ -15,9 +15,10 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     @FXML
-    public Button tourButton, tourTypeButton, groupButton, locationButton, costTypeButton, customerButton, employeeButton, jobButton;
+    public Button groupReportButton, tourButton, tourTypeButton, groupButton, locationButton, costTypeButton, customerButton, employeeButton, jobButton;
     @FXML
     private AnchorPane content;
+
     @FXML
     private VBox menu;
 
@@ -39,6 +40,7 @@ public class MainController implements Initializable {
         }
 
         // Set onclick events for menu buttons
+        setMenuButtonOnAction(groupReportButton, "group_report");
         setMenuButtonOnAction(tourButton, "tour_table");
         setMenuButtonOnAction(tourTypeButton, "tour_type_table");
         setMenuButtonOnAction(groupButton, "group_table");
