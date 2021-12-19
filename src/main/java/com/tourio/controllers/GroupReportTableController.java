@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GroupReportTableController extends BaseTableController<Group> {
@@ -26,7 +27,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
     private TableView<Group> table;
 
     @FXML
-    private TableColumn<Group, String> IdGroupColumn, tourNameColumn, groupNameColumn,
+    private TableColumn<Group, String> idGroupColumn, tourNameColumn, groupNameColumn,
             tourPriceColumn, dateStartColumn, dateEndColumn, customersColumn, employeesColumn,
             totalSaleColumn, totalCostColumn, revenueColumn, createdAtColumn;
 
@@ -46,9 +47,20 @@ public class GroupReportTableController extends BaseTableController<Group> {
     }
 
     private void initOptionComboBox() {
-        String[] optionList = {"Mã đoàn", "Tour", "Đoàn", "Giá tour(VND)",
-                "Ngày bắt đầu", "Ngày kết thúc", "Số lượng khách", "Số lượng nhân viên",
-                "Tổng doanh thu(VND)", "Tổng chi phí(VND)", "Lợi nhuận(%)", "Ngày tạo đoàn"};
+        String[] optionList = {
+                "Mã đoàn",
+                "Tên tour",
+                "Tên đoàn",
+                "Giá tour (VND)",
+                "Ngày bắt đầu",
+                "Ngày kết thúc",
+                "Số lượng khách",
+                "Số lượng nhân viên",
+                "Tổng doanh thu (VND)",
+                "Tổng chi phí (VND)",
+                "Lợi nhuận (%)",
+                "Ngày tạo đoàn"
+        };
 
         ObservableList<String> options = FXCollections.observableArrayList();
 
@@ -61,120 +73,73 @@ public class GroupReportTableController extends BaseTableController<Group> {
     @Override
     public void onSearchListener() {
         searchTextField.setDisable(true);
+
         try {
-            optionComboBox.valueProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                    if (!newValue.isEmpty()) {
-                        searchTextField.setDisable(false);
-                    }
+            optionComboBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (!newValue.isEmpty()) {
+                    searchTextField.setDisable(false);
                 }
             });
 
             searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-                ArrayList<Group> arrayList = new ArrayList<>();
-
                 int option = optionComboBox.getSelectionModel().getSelectedIndex();
 
-                switch (option) {
-                    case 0:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> o.getId().toString().toLowerCase()
-                                                .contains(newValue.toLowerCase())
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 1:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> o.getTour().getName().toLowerCase()
-                                                .contains(newValue.toLowerCase())
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 2:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> o.getName().toLowerCase()
-                                                .contains(newValue.toLowerCase())
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 3:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> o.getTourPrice().toString()
-                                                .contains(newValue.toLowerCase())
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 4:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> DateUtils.format(o.getDateStart())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 5:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> DateUtils.format(o.getDateEnd())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 6:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> String.valueOf(o.getCustomers().size())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 7:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> String.valueOf(o.getGroupEmployeeRels().size())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 8:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> String.valueOf(o.getTotalSale())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 9:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> String.valueOf(o.getTotalCost())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 10:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> String.valueOf((int) ((((float) o.getTotalSale() - (float) o.getTotalCost()) / (float) o.getTotalSale()) * 100))
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                    case 11:
-                        arrayList.addAll(arrList.stream().filter(
-                                        o -> DateUtils.format(o.getCreatedAt())
-                                                .contains(newValue)
-                                )
-                                .collect(Collectors.toList()));
-                        break;
-                }
+                Predicate<Group> predicate = switch (option) {
+                    // Mã đoàn
+                    case 0 -> o -> o.getId().toString().toLowerCase().contains(newValue.toLowerCase());
 
-                observableList.clear();
-                observableList.addAll(arrayList);
+                    // Tên tour
+                    case 1 -> o -> o.getTour().getName().toLowerCase().contains(newValue.toLowerCase());
+
+                    // Tên đoàn
+                    case 2 -> o -> o.getName().toLowerCase().contains(newValue.toLowerCase());
+
+                    // Giá tour (VND)
+                    case 3 -> o -> o.getTourPrice().toString().contains(newValue.toLowerCase());
+
+                    // Ngày bắt đầu
+                    case 4 -> o -> DateUtils.format(o.getDateStart()).contains(newValue);
+
+                    // Ngày kết thúc
+                    case 5 -> o -> DateUtils.format(o.getDateEnd()).contains(newValue);
+
+                    // Số lượng khách
+                    case 6 -> o -> String.valueOf(o.getCustomers().size()).contains(newValue);
+
+                    // Số lượng nhân viên
+                    case 7 -> o -> String.valueOf(o.getGroupEmployeeRels().size()).contains(newValue);
+
+                    // Tổng doanh thu (VND)
+                    case 8 -> o -> String.valueOf(o.getTotalSale()).contains(newValue);
+
+                    // Tổng chi phí (VND)
+                    case 9 -> o -> String.valueOf(o.getTotalCost()).contains(newValue);
+
+                    // Lợi nhuận (%)
+                    case 10 -> o -> String.valueOf((int) (((o.getTotalSale() - o.getTotalCost()) / o.getTotalSale()) * 100))
+                                          .contains(newValue);
+
+                    // Ngày tạo đoàn
+                    case 11 -> o -> DateUtils.format(o.getCreatedAt()).contains(newValue);
+                    default -> null;
+                };
+
+                if (predicate != null) {
+                    ArrayList<Group> arrayList = arrList.stream()
+                                                        .filter(predicate)
+                                                        .collect(Collectors.toCollection(ArrayList::new));
+                    observableList.clear();
+                    observableList.addAll(arrayList);
+                }
             });
         } catch (Exception e) {
-            return;
+            e.printStackTrace();
         }
     }
 
     @Override
     public void initTable() {
-        // Column render
-        IdGroupColumn.setCellValueFactory(data -> {
+        idGroupColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getId().toString());
             return property;

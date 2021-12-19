@@ -18,7 +18,7 @@ public class TourTableController extends BaseTableController<Tour> {
     private TableView<Tour> table;
 
     @FXML
-    private TableColumn<Tour, String> tourNameColumn;
+    private TableColumn<Tour, String> tourNameColumn, tourTypeColumn;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
@@ -107,6 +107,13 @@ public class TourTableController extends BaseTableController<Tour> {
         tourNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
+            return property;
+        });
+
+        // Tour type column render
+        tourTypeColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getTourType().getName());
             return property;
         });
 

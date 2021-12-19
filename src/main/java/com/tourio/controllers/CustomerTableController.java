@@ -1,6 +1,7 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.CustomerDAO;
+import com.tourio.enums.SexType;
 import com.tourio.models.Customer;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
@@ -18,7 +19,12 @@ public class CustomerTableController extends BaseTableController<Customer> {
     private TableView<Customer> table;
 
     @FXML
-    private TableColumn<Customer, String> customerNameColumn;
+    private TableColumn<Customer, String> customerNameColumn,
+            customerIDNumberColumn,
+            customerAddressColumn,
+            customerPhoneColumn,
+            customerSexColumn,
+            customerNationalityColumn;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
@@ -110,6 +116,43 @@ public class CustomerTableController extends BaseTableController<Customer> {
         customerNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
+            return property;
+        });
+
+        // Customer ID number column render
+        customerIDNumberColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getCccd());
+            return property;
+        });
+
+        // Customer address column render
+        customerAddressColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getAddress());
+            return property;
+        });
+
+        // Customer phone column render
+        customerPhoneColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getPhone());
+            return property;
+        });
+
+        // Customer sex column render
+        customerSexColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            SexType customerSexType = data.getValue().getSex();
+            String sexTypeString = customerSexType.equals(SexType.MALE) ? "Nam" : customerSexType.equals(SexType.FEMALE) ? "Nữ" : "Khác";
+            property.setValue(sexTypeString);
+            return property;
+        });
+
+        // Customer nationality column render
+        customerNationalityColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getNationality());
             return property;
         });
 
