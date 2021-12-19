@@ -25,7 +25,7 @@ public class LocationFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         nameTextField.setText(location.getName());
     }
 
@@ -48,7 +48,7 @@ public class LocationFormController extends BaseFormController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (location.getId() != null) {
-            initDefaultValues();
+            initFormValues();
         }
     }
 }

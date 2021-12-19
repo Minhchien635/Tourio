@@ -25,7 +25,7 @@ public class EmployeeFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         nameTextField.setText(employee.getName());
     }
 
@@ -48,7 +48,7 @@ public class EmployeeFormController extends BaseFormController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (employee.getId() != null) {
-            initDefaultValues();
+            initFormValues();
         }
     }
 }

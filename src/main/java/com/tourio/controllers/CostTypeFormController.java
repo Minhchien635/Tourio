@@ -25,7 +25,7 @@ public class CostTypeFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         nameTextField.setText(costType.getName());
     }
 
@@ -48,7 +48,7 @@ public class CostTypeFormController extends BaseFormController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (costType.getId() != null) {
-            initDefaultValues();
+            initFormValues();
         }
     }
 }

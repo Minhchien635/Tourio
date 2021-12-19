@@ -150,34 +150,6 @@ public class GroupFormController extends BaseFormController {
         tourComboBox.setItems(tours);
     }
 
-
-    private void initTourPriceComboBox() {
-        // Render
-        Callback<ListView<TourPrice>, ListCell<TourPrice>> factory = (lv) ->
-                new ListCell<>() {
-                    @Override
-                    protected void updateItem(TourPrice item, boolean empty) {
-                        super.updateItem(item, empty);
-                        setText(empty ? "" : PriceFormatter.format(item.getAmount()) + " ( " + item.getDateStart() + "  -  " + item.getDateEnd() + " )");
-                    }
-                };
-        tourPriceComboBox.setCellFactory(factory);
-        tourPriceComboBox.setButtonCell(factory.call(null));
-
-        // Listener tourComboBox
-        tourComboBox.valueProperty().addListener(new ChangeListener<Tour>() {
-            @Override
-            public void changed(ObservableValue ov, Tour oldTour, Tour currentTour) {
-                // Load data
-                tourPrices.clear();
-                tourPrices.setAll(currentTour.getTourPrices());
-            }
-        });
-
-        // Bind data
-        tourPriceComboBox.setItems(tourPrices);
-    }
-
     public void onAddCostTypeClick(ActionEvent event) throws IOException {
         // Init controller
         GroupCostTypeFormController controller = new GroupCostTypeFormController();
@@ -265,21 +237,11 @@ public class GroupFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         group = GroupDAO.get(group_id);
 
         nameTextField.setText(group.getName());
         tourComboBox.setValue(group.getTour());
-
-        Optional<TourPrice> tourPrice = group.getTour().getTourPrices()
-                .stream()
-                .filter(p -> p.getAmount().equals(group.getTourPrice()) &&
-                        ((group.getDateStart().after(p.getDateStart()) &&
-                                group.getDateEnd().before(p.getDateEnd()))) ||
-                        (group.getDateStart().equals(p.getDateStart())))
-                .findFirst();
-        tourPriceComboBox.setValue(tourPrice.orElse(null));
-
         startDatePicker.setValue(DateUtils.parseLocalDate(group.getDateStart()));
         endDatePicker.setValue(DateUtils.parseLocalDate(group.getDateEnd()));
         descriptionTextArea.setText(group.getDescription());
@@ -302,33 +264,32 @@ public class GroupFormController extends BaseFormController {
             return;
         }
 
-        TourPrice tourPrice = tourPriceComboBox.getValue();
-        if (tourPrice == null) {
-            AlertUtils.showWarning("Hãy chọn giá của tour");
-            return;
-        }
-
-        LocalDate startDate = startDatePicker.getValue();
-        if (startDate == null) {
+        LocalDate startLocalDate = startDatePicker.getValue();
+        if (startLocalDate == null) {
             AlertUtils.showWarning("Hãy chọn ngày đi");
             return;
         }
 
-        LocalDate endDate = endDatePicker.getValue();
-        if (endDate == null) {
+        LocalDate endLocalDate = endDatePicker.getValue();
+        if (endLocalDate == null) {
             AlertUtils.showWarning("Hãy chọn ngày kết thúc chuyến đi");
             return;
         }
 
-        if (startDate.isAfter(endDate)) {
+        if (startLocalDate.isAfter(endLocalDate)) {
             AlertUtils.showWarning("Ngày đi phải trước ngày kết thúc");
             return;
         }
 
-        Date dateStart = DateUtils.parseDate(startDate);
-        Date dateEnd = DateUtils.parseDate(endDate);
-        if (dateStart.before(tourPrice.getDateStart()) || dateEnd.after(tourPrice.getDateEnd())) {
-            AlertUtils.showWarning("Ngày đã chọn không nằm trong khoảng thời gian của giá tour");
+        Date startDate = DateUtils.parseDate(startLocalDate);
+        Date endDate = DateUtils.parseDate(endLocalDate);
+        Optional<TourPrice> tourPrice = tour.getTourPrices()
+                                            .stream()
+                                            .filter(p -> startDate.after(p.getDateStart()) && endDate.before(p.getDateEnd()))
+                                            .findFirst();
+
+        if (tourPrice.isEmpty()) {
+            AlertUtils.showWarning("Không tồn tại giá tour với khoảng thời gian đã chọn");
             return;
         }
 
@@ -345,10 +306,10 @@ public class GroupFormController extends BaseFormController {
 
         group.setName(nameTextField.getText());
         group.setTour(tour);
-        group.setTourPrice(tourPrice.getAmount());
+        group.setTourPrice(tourPrice.get().getAmount());
         group.setCreatedAt(new Date());
-        group.setDateStart(dateStart);
-        group.setDateEnd(dateEnd);
+        group.setDateStart(startDate);
+        group.setDateEnd(endDate);
         group.setDescription(description);
 
         if (group.getGroupCostRels() == null) {
@@ -381,13 +342,12 @@ public class GroupFormController extends BaseFormController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTourComboBox();
-        initTourPriceComboBox();
         initCostTypeTable();
         initCustomerList();
         initEmployeeTable();
 
         if (group_id != null) {
-            initDefaultValues();
+            initFormValues();
         }
 
         if (read_only) {

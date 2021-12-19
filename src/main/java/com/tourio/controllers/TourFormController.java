@@ -255,7 +255,7 @@ public class TourFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         nameTextField.setText(tour.getName());
         descriptionTextArea.setText(tour.getDescription());
         typeComboBox.setValue(tour.getTourType());
@@ -330,7 +330,7 @@ public class TourFormController extends BaseFormController {
         initPriceTable();
 
         if (tour.getId() != null) {
-            initDefaultValues();
+            initFormValues();
         }
 
         if (read_only) {

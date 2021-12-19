@@ -11,6 +11,8 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TourPriceFormController extends BaseFormController {
@@ -26,19 +28,19 @@ public class TourPriceFormController extends BaseFormController {
 
     @Override
     public void onSaveClick(ActionEvent e) {
-        LocalDate startDate = startDatePicker.getValue();
-        if (startDate == null) {
+        LocalDate startLocalDate = startDatePicker.getValue();
+        if (startLocalDate == null) {
             AlertUtils.showWarning("Hãy chọn ngày bắt đầu");
             return;
         }
 
-        LocalDate endDate = endDatePicker.getValue();
-        if (endDate == null) {
+        LocalDate endLocalDate = endDatePicker.getValue();
+        if (endLocalDate == null) {
             AlertUtils.showWarning("Hãy chọn ngày kết thúc");
             return;
         }
 
-        if (startDate.isAfter(endDate)) {
+        if (startLocalDate.isAfter(endLocalDate)) {
             AlertUtils.showWarning("Ngày bắt đầu phải trước ngày kết thúc");
             return;
         }
@@ -54,17 +56,29 @@ public class TourPriceFormController extends BaseFormController {
             return;
         }
 
+        Date startDate = DateUtils.parseDate(startLocalDate);
+        Date endDate = DateUtils.parseDate(endLocalDate);
+        Optional<TourPrice> conflictedTourPrice = tourFormController.tourPrices
+                .stream()
+                .filter(p -> DateUtils.isOverlapping(p.getDateStart(), p.getDateEnd(), startDate, endDate))
+                .findFirst();
+
+        if (conflictedTourPrice.isPresent() && conflictedTourPrice.get() != tourPrice) {
+            AlertUtils.showWarning("Khoảng thời gian này bị trùng lặp với giá đã tạo");
+            return;
+        }
+
         if (tourPrice == null) {
             tourPrice = new TourPrice();
             tourPrice.setTour(tourFormController.tour);
             tourPrice.setAmount(Long.parseLong(priceTextField.getText().trim()));
-            tourPrice.setDateStart(DateUtils.parseDate(startDatePicker.getValue()));
-            tourPrice.setDateEnd(DateUtils.parseDate(endDatePicker.getValue()));
+            tourPrice.setDateStart(startDate);
+            tourPrice.setDateEnd(endDate);
             tourFormController.tourPrices.add(tourPrice);
         } else {
             tourPrice.setAmount(Long.parseLong(priceTextField.getText().trim()));
-            tourPrice.setDateStart(DateUtils.parseDate(startDatePicker.getValue()));
-            tourPrice.setDateEnd(DateUtils.parseDate(endDatePicker.getValue()));
+            tourPrice.setDateStart(startDate);
+            tourPrice.setDateEnd(endDate);
             tourFormController.priceTableView.refresh();
         }
 
@@ -75,13 +89,12 @@ public class TourPriceFormController extends BaseFormController {
     public void initReadOnly() {
     }
 
-    public void initDefaultValues() {
+    public void initFormValues() {
         try {
             startDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateStart()));
             endDatePicker.setValue(DateUtils.parseLocalDate(tourPrice.getDateEnd()));
             priceTextField.setText(tourPrice.getAmount().toString());
         } catch (Exception e) {
-            System.out.println(e);
             e.printStackTrace();
         }
 
@@ -97,7 +110,7 @@ public class TourPriceFormController extends BaseFormController {
         initDatePickers();
 
         if (tourPrice != null) {
-            initDefaultValues();
+            initFormValues();
         }
     }
 }

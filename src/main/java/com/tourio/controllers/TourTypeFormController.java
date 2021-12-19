@@ -25,7 +25,7 @@ public class TourTypeFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         nameTextField.setText(tourType.getName());
     }
 
@@ -48,7 +48,7 @@ public class TourTypeFormController extends BaseFormController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (tourType.getId() != null) {
-            initDefaultValues();
+            initFormValues();
         }
     }
 }

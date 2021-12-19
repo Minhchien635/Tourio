@@ -60,7 +60,7 @@ public class GroupEmployeeFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
 
     }
 

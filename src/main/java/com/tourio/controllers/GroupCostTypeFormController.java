@@ -63,7 +63,7 @@ public class GroupCostTypeFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
 
     }
 

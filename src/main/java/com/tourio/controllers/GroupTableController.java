@@ -3,6 +3,7 @@ package com.tourio.controllers;
 import com.tourio.dao.GroupDAO;
 import com.tourio.models.Group;
 import com.tourio.utils.AlertUtils;
+import com.tourio.utils.DateUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -18,7 +19,7 @@ public class GroupTableController extends BaseTableController<Group> {
     private TableView<Group> table;
 
     @FXML
-    private TableColumn<Group, String> groupNameColumn;
+    private TableColumn<Group, String> groupNameColumn, groupStartDateColumn, groupEndDateColumn, groupTourPriceColumn;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
@@ -63,16 +64,12 @@ public class GroupTableController extends BaseTableController<Group> {
             return;
         }
 
-        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION, "Chắc chắn xóa");
+        Alert alert = AlertUtils.alert(Alert.AlertType.CONFIRMATION, "Bạn có chắc là muốn xóa đoàn khách này?");
         Optional<ButtonType> option = alert.showAndWait();
 
-        if (option.get() == ButtonType.OK) {
+        if (option.isPresent() && option.get() == ButtonType.OK) {
             GroupDAO.delete(group);
             loadData();
-            return;
-        }
-        if (option.get() == ButtonType.CANCEL) {
-            return;
         }
     }
 
@@ -112,6 +109,27 @@ public class GroupTableController extends BaseTableController<Group> {
         groupNameColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getName());
+            return property;
+        });
+
+        // Group start date column render
+        groupStartDateColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(DateUtils.format(data.getValue().getDateStart()));
+            return property;
+        });
+
+        // Group end date column render
+        groupEndDateColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(DateUtils.format(data.getValue().getDateEnd()));
+            return property;
+        });
+
+        // Group tour price column render
+        groupTourPriceColumn.setCellValueFactory(data -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            property.setValue(data.getValue().getTourPrice().toString());
             return property;
         });
 

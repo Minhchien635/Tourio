@@ -48,7 +48,7 @@ public class TourLocationFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
 
     }
 

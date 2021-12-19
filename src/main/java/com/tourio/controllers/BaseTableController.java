@@ -22,9 +22,6 @@ public abstract class BaseTableController<T extends BaseModel> implements Initia
 
     ArrayList<T> arrList = new ArrayList<>();
 
-    @FXML
-    private TableView<T> table;
-
     // Initialize how to render table columns and rows
     public abstract void initTable();
 
@@ -34,18 +31,16 @@ public abstract class BaseTableController<T extends BaseModel> implements Initia
     public void onSearchListener() {
         try {
             searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-                ArrayList<T> arrayList = new ArrayList<>();
 
-                arrayList.addAll(arrList.stream().filter(
-                                o -> o.getName().toLowerCase()
-                                        .contains(newValue.toLowerCase()))
-                        .collect(Collectors.toList()));
+                ArrayList<T> arrayList = arrList.stream()
+                                                .filter(o -> o.getName().toLowerCase().contains(newValue.toLowerCase()))
+                                                .collect(Collectors.toCollection(ArrayList::new));
 
                 observableList.clear();
                 observableList.addAll(arrayList);
             });
         } catch (Exception e) {
-            return;
+            e.printStackTrace();
         }
     }
 

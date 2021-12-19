@@ -24,7 +24,7 @@ public abstract class BaseFormController implements Initializable {
 
     public abstract void initReadOnly();
 
-    public abstract void initDefaultValues();
+    public abstract void initFormValues();
 
     public void onCancelClick(ActionEvent event) {
         closeWindow(event);

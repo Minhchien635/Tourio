@@ -48,7 +48,7 @@ public class CustomerFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
         nameTextField.setText(customer.getName());
         sexTypeComboBox.setValue(customer.getSex());
         phoneTextField.setText(customer.getPhone());
@@ -117,7 +117,7 @@ public class CustomerFormController extends BaseFormController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initSexTypeComboBox();
         if (customer.getId() != null) {
-            initDefaultValues();
+            initFormValues();
         }
 
         if (read_only) {

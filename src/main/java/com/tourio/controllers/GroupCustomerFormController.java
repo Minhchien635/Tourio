@@ -43,7 +43,7 @@ public class GroupCustomerFormController extends BaseFormController {
     }
 
     @Override
-    public void initDefaultValues() {
+    public void initFormValues() {
 
     }
 
