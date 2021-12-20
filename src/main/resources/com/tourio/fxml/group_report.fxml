@@ -24,7 +24,7 @@
             <content>
                 <TableView fx:id="table" prefHeight="508.0" prefWidth="1500.0" tableMenuButtonVisible="true">
                     <columns>
-                        <TableColumn fx:id="idGroupColumn" text="Mã đoàn" />
+                        <TableColumn fx:id="groupIdColumn" text="Mã đoàn" />
                         <TableColumn fx:id="tourNameColumn" prefWidth="170.0" text="Tên tour" />
                         <TableColumn fx:id="groupNameColumn" prefWidth="25.0" text="Tên đoàn" />
                         <TableColumn fx:id="tourPriceColumn" prefWidth="75.0" text="Giá tour (VND)" />

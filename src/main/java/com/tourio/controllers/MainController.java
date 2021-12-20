@@ -15,7 +15,17 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     @FXML
-    public Button groupReportButton, tourButton, tourTypeButton, groupButton, locationButton, costTypeButton, customerButton, employeeButton, jobButton;
+    public Button tourButton,
+            tourTypeButton,
+            groupButton,
+            locationButton,
+            costTypeButton,
+            customerButton,
+            employeeButton,
+            jobButton,
+            groupReportButton,
+            employeeReportButton;
+
     @FXML
     private AnchorPane content;
 
@@ -40,7 +50,6 @@ public class MainController implements Initializable {
         }
 
         // Set onclick events for menu buttons
-        setMenuButtonOnAction(groupReportButton, "group_report");
         setMenuButtonOnAction(tourButton, "tour_table");
         setMenuButtonOnAction(tourTypeButton, "tour_type_table");
         setMenuButtonOnAction(groupButton, "group_table");
@@ -49,6 +58,8 @@ public class MainController implements Initializable {
         setMenuButtonOnAction(customerButton, "customer_table");
         setMenuButtonOnAction(employeeButton, "employee_table");
         setMenuButtonOnAction(jobButton, "job_table");
+        setMenuButtonOnAction(groupReportButton, "group_report");
+        setMenuButtonOnAction(employeeReportButton, "employee_report");
     }
 
     public void setMenuButtonOnAction(Button button, String fxmlFileName) {

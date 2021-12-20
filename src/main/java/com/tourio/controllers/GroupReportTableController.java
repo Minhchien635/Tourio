@@ -4,8 +4,6 @@ import com.tourio.dao.GroupDAO;
 import com.tourio.models.Group;
 import com.tourio.utils.DateUtils;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +25,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
     private TableView<Group> table;
 
     @FXML
-    private TableColumn<Group, String> idGroupColumn, tourNameColumn, groupNameColumn,
+    private TableColumn<Group, String> groupIdColumn, tourNameColumn, groupNameColumn,
             tourPriceColumn, dateStartColumn, dateEndColumn, customersColumn, employeesColumn,
             totalSaleColumn, totalCostColumn, revenueColumn, createdAtColumn;
 
@@ -116,8 +114,16 @@ public class GroupReportTableController extends BaseTableController<Group> {
                     case 9 -> o -> String.valueOf(o.getTotalCost()).contains(newValue);
 
                     // Lợi nhuận (%)
-                    case 10 -> o -> String.valueOf((int) (((o.getTotalSale() - o.getTotalCost()) / o.getTotalSale()) * 100))
-                                          .contains(newValue);
+                    case 10 -> o -> {
+                        float revenue = 0;
+                        float totalSale = (float) o.getTotalSale();
+
+                        if (totalSale > 0) {
+                            revenue = (totalSale - o.getTotalCost()) / (totalSale);
+                        }
+
+                        return String.valueOf((int) (revenue * 100)).contains(newValue);
+                    };
 
                     // Ngày tạo đoàn
                     case 11 -> o -> DateUtils.format(o.getCreatedAt()).contains(newValue);
@@ -139,7 +145,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
 
     @Override
     public void initTable() {
-        idGroupColumn.setCellValueFactory(data -> {
+        groupIdColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue().getId().toString());
             return property;

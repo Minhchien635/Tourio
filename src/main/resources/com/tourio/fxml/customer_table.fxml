@@ -57,7 +57,7 @@
             <TableColumn fx:id="customerNameColumn" minWidth="200.0" prefWidth="-1.0" text="Họ tên" />
          <TableColumn fx:id="customerIDNumberColumn" minWidth="200.0" prefWidth="-1.0" text="CMND" />
          <TableColumn fx:id="customerAddressColumn" minWidth="200.0" prefWidth="-1.0" text="Địa chỉ" />
-         <TableColumn fx:id="customerPhoneColumn" minWidth="200.0" prefWidth="-1.0" text="Số điện thoại" />
+         <TableColumn fx:id="customerPhoneColumn" minWidth="100.0" prefWidth="-1.0" text="Số điện thoại" />
          <TableColumn fx:id="customerSexColumn" minWidth="100.0" prefWidth="-1.0" text="Giới tính" />
          <TableColumn fx:id="customerNationalityColumn" minWidth="150.0" prefWidth="-1.0" text="Quốc tịch" />
         </columns>
