@@ -3,6 +3,7 @@ package com.tourio.controllers;
 import com.tourio.dao.GroupDAO;
 import com.tourio.models.Group;
 import com.tourio.utils.DateUtils;
+import com.tourio.utils.PriceFormatter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -108,10 +109,10 @@ public class GroupReportTableController extends BaseTableController<Group> {
                     case 7 -> o -> String.valueOf(o.getGroupEmployeeRels().size()).contains(newValue);
 
                     // Tổng doanh thu (VND)
-                    case 8 -> o -> String.valueOf(o.getTotalSale()).contains(newValue);
+                    case 8 -> o -> PriceFormatter.format(o.getTotalSale()).contains(newValue);
 
                     // Tổng chi phí (VND)
-                    case 9 -> o -> String.valueOf(o.getTotalCost()).contains(newValue);
+                    case 9 -> o -> PriceFormatter.format(o.getTotalCost()).contains(newValue);
 
                     // Lợi nhuận (%)
                     case 10 -> o -> {
@@ -122,7 +123,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
                             revenue = (totalSale - o.getTotalCost()) / (totalSale);
                         }
 
-                        return String.valueOf((int) (revenue * 100)).contains(newValue);
+                        return PriceFormatter.format((int) (revenue * 100)).contains(newValue);
                     };
 
                     // Ngày tạo đoàn
@@ -165,7 +166,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
 
         tourPriceColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(data.getValue().getTourPrice().toString());
+            property.setValue(PriceFormatter.format(data.getValue().getTourPrice()));
             return property;
         });
 
@@ -195,13 +196,13 @@ public class GroupReportTableController extends BaseTableController<Group> {
 
         totalSaleColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(data.getValue().getTotalSale().toString());
+            property.setValue(PriceFormatter.format(data.getValue().getTotalSale()));
             return property;
         });
 
         totalCostColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(data.getValue().getTotalCost().toString());
+            property.setValue(PriceFormatter.format(data.getValue().getTotalCost()));
             return property;
         });
 
@@ -213,7 +214,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
                 revenue = (int) (((totalSale - totalCost) / totalSale) * 100);
             }
             SimpleStringProperty property = new SimpleStringProperty();
-            property.setValue(String.valueOf(revenue));
+            property.setValue(PriceFormatter.format(revenue));
             return property;
         });
 

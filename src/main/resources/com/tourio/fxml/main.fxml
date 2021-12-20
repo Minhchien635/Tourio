@@ -21,7 +21,7 @@
                     <Font size="30.0" />
                 </font>
                 <VBox.margin>
-                    <Insets bottom="24.0" top="24.0" />
+                    <Insets bottom="12.0" top="12.0" />
                 </VBox.margin>
                 <rotationAxis>
                     <Point3D />
@@ -81,6 +81,11 @@
                     </font>
                 </Button>
             <Button fx:id="employeeReportButton" alignment="TOP_LEFT" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="18.0" layoutY="402.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Báo cáo nhân viên" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="tourReportButton" alignment="TOP_LEFT" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="18.0" layoutY="451.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="Báo cáo tour" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>

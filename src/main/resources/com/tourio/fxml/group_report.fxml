@@ -13,35 +13,29 @@
     <padding>
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
     </padding>
-    <children>
-        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="12.0" VBox.vgrow="NEVER">
-            <children>
-                  <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="206.0" promptText="Tìm kiếm..." />
-                  <ComboBox fx:id="optionComboBox" prefHeight="25.0" prefWidth="127.0" promptText="Tìm kiếm theo..." />
-            </children>
-        </HBox>
-        <ScrollPane prefHeight="542.0" prefWidth="568.0">
-            <content>
-                <TableView fx:id="table" prefHeight="508.0" prefWidth="1500.0" tableMenuButtonVisible="true">
-                    <columns>
-                        <TableColumn fx:id="groupIdColumn" text="Mã đoàn" />
-                        <TableColumn fx:id="tourNameColumn" prefWidth="170.0" text="Tên tour" />
-                        <TableColumn fx:id="groupNameColumn" prefWidth="25.0" text="Tên đoàn" />
-                        <TableColumn fx:id="tourPriceColumn" prefWidth="75.0" text="Giá tour (VND)" />
-                        <TableColumn fx:id="dateStartColumn" prefWidth="75.0" text="Ngày bắt đầu" />
-                        <TableColumn fx:id="dateEndColumn" prefWidth="75.0" text="Ngày kết thúc" />
-                        <TableColumn fx:id="customersColumn" prefWidth="75.0" text="Số lượng khách" />
-                        <TableColumn fx:id="employeesColumn" prefWidth="75.0" text="Số lượng nhân viên" />
-                        <TableColumn fx:id="totalSaleColumn" prefWidth="75.0" text="Tổng doanh thu (VND)" />
-                        <TableColumn fx:id="totalCostColumn" prefWidth="75.0" text="Tổng chi phí (VND)" />
-                        <TableColumn fx:id="revenueColumn" prefWidth="75.0" text="Lợi nhuận (%)" />
-                        <TableColumn fx:id="createdAtColumn" prefWidth="75.0" text="Ngày tạo đoàn" />
-                    </columns>
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                    </columnResizePolicy>
-                </TableView>
-            </content>
-        </ScrollPane>
-    </children>
+    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="12.0" VBox.vgrow="NEVER">
+        <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="206.0" promptText="Tìm kiếm..." />
+        <ComboBox fx:id="optionComboBox" prefHeight="25.0" prefWidth="127.0" promptText="Tìm kiếm theo..." />
+    </HBox>
+    <ScrollPane prefHeight="542.0" prefWidth="568.0">
+        <TableView fx:id="table" prefHeight="508.0" prefWidth="1500.0" tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="groupIdColumn" text="Mã đoàn" />
+                <TableColumn fx:id="tourNameColumn" prefWidth="170.0" text="Tên tour" />
+                <TableColumn fx:id="groupNameColumn" prefWidth="25.0" text="Tên đoàn" />
+                <TableColumn fx:id="tourPriceColumn" prefWidth="75.0" text="Giá tour (VND)" />
+                <TableColumn fx:id="dateStartColumn" prefWidth="75.0" text="Ngày bắt đầu" />
+                <TableColumn fx:id="dateEndColumn" prefWidth="75.0" text="Ngày kết thúc" />
+                <TableColumn fx:id="customersColumn" prefWidth="75.0" text="Số lượng khách" />
+                <TableColumn fx:id="employeesColumn" prefWidth="75.0" text="Số lượng nhân viên" />
+                <TableColumn fx:id="totalSaleColumn" prefWidth="75.0" text="Tổng doanh thu (VND)" />
+                <TableColumn fx:id="totalCostColumn" prefWidth="75.0" text="Tổng chi phí (VND)" />
+                <TableColumn fx:id="revenueColumn" prefWidth="75.0" text="Lợi nhuận (%)" />
+                <TableColumn fx:id="createdAtColumn" prefWidth="75.0" text="Ngày tạo đoàn" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </ScrollPane>
 </VBox>

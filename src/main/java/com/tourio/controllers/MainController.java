@@ -24,7 +24,8 @@ public class MainController implements Initializable {
             employeeButton,
             jobButton,
             groupReportButton,
-            employeeReportButton;
+            employeeReportButton,
+            tourReportButton;
 
     @FXML
     private AnchorPane content;
@@ -60,6 +61,7 @@ public class MainController implements Initializable {
         setMenuButtonOnAction(jobButton, "job_table");
         setMenuButtonOnAction(groupReportButton, "group_report");
         setMenuButtonOnAction(employeeReportButton, "employee_report");
+        setMenuButtonOnAction(tourReportButton, "tour_report");
     }
 
     public void setMenuButtonOnAction(Button button, String fxmlFileName) {
