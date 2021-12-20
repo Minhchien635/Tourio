@@ -1,11 +1,7 @@
 package com.tourio.controllers;
 
 import com.tourio.dao.EmployeeDAO;
-import com.tourio.dao.GroupDAO;
 import com.tourio.models.Employee;
-import com.tourio.models.Group;
-import com.tourio.models.GroupEmployeeRel;
-import com.tourio.utils.DateUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,18 +83,18 @@ public class EmployeeReportTableController extends BaseTableController<Employee>
 
                     // Những công việc đã làm
                     case 3 -> o -> o.getGroupEmployeeRels()
-                                    .stream()
-                                    .map(x -> x.getJob().getName())
-                                    .distinct()
-                                    .collect(Collectors.joining(", "))
-                                    .contains(newValue.toLowerCase());
+                            .stream()
+                            .map(x -> x.getJob().getName().toLowerCase())
+                            .distinct()
+                            .collect(Collectors.joining(", "))
+                            .contains(newValue.toLowerCase());
                     default -> null;
                 };
 
                 if (predicate != null) {
                     ArrayList<Employee> arrayList = arrList.stream()
-                                                           .filter(predicate)
-                                                           .collect(Collectors.toCollection(ArrayList::new));
+                            .filter(predicate)
+                            .collect(Collectors.toCollection(ArrayList::new));
                     observableList.clear();
                     observableList.addAll(arrayList);
                 }
@@ -131,11 +127,11 @@ public class EmployeeReportTableController extends BaseTableController<Employee>
         employeeJobsColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(data.getValue()
-                                  .getGroupEmployeeRels()
-                                  .stream()
-                                  .map(x -> x.getJob().getName())
-                                  .distinct()
-                                  .collect(Collectors.joining(", ")));
+                    .getGroupEmployeeRels()
+                    .stream()
+                    .map(x -> x.getJob().getName())
+                    .distinct()
+                    .collect(Collectors.joining(", ")));
             return property;
         });
 

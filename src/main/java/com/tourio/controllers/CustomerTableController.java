@@ -6,13 +6,20 @@ import com.tourio.models.Customer;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class CustomerTableController extends BaseTableController<Customer> {
     @FXML
@@ -25,6 +32,9 @@ public class CustomerTableController extends BaseTableController<Customer> {
             customerPhoneColumn,
             customerSexColumn,
             customerNationalityColumn;
+
+    @FXML
+    private ComboBox<String> optionComboBox;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
@@ -77,6 +87,61 @@ public class CustomerTableController extends BaseTableController<Customer> {
         }
         if (option.get() == ButtonType.CANCEL) {
             return;
+        }
+    }
+
+    private void initOptionComboBox() {
+        String[] optionList = {
+                "Họ và tên",
+                "CMND",
+                "Địa chỉ"
+        };
+
+        ObservableList<String> options = FXCollections.observableArrayList();
+
+        options.addAll(optionList);
+
+        // Bind data
+        optionComboBox.setItems(options);
+    }
+
+    @Override
+    public void onSearchListener() {
+        searchTextField.setDisable(true);
+
+        try {
+            optionComboBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (!newValue.isEmpty()) {
+                    searchTextField.setDisable(false);
+                }
+            });
+
+            searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                int option = optionComboBox.getSelectionModel().getSelectedIndex();
+
+                Predicate<Customer> predicate = switch (option) {
+                    // Họ tên
+                    case 0 -> o -> o.getName().toLowerCase().contains(newValue.toLowerCase());
+
+                    // CMND
+                    case 1 -> o -> o.getCccd().toLowerCase().contains(newValue.toLowerCase());
+
+                    // Địa chỉ
+                    case 2 -> o -> o.getAddress().toLowerCase().contains(newValue.toLowerCase());
+
+                    default -> null;
+                };
+
+                if (predicate != null) {
+                    ArrayList<Customer> arrayList = arrList.stream()
+                            .filter(predicate)
+                            .collect(Collectors.toCollection(ArrayList::new));
+                    observableList.clear();
+                    observableList.addAll(arrayList);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -171,5 +236,13 @@ public class CustomerTableController extends BaseTableController<Customer> {
         // Get all observableList and set to customer observable list
         observableList.setAll(customers);
         table.refresh();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initTable();
+        loadData();
+        initOptionComboBox();
+        onSearchListener();
     }
 }
