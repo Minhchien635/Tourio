@@ -211,7 +211,7 @@ public class TourReportTableController extends BaseTableController<Tour> {
                 revenue = (totalSale - totalCost) / (float) (totalSale);
             }
 
-            property.setValue(PriceFormatter.format((int) revenue * 100));
+            property.setValue(String.valueOf((int) (revenue * 100)));
             return property;
         });
 
