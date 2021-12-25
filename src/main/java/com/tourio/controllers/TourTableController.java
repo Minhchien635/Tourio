@@ -5,13 +5,20 @@ import com.tourio.models.Tour;
 import com.tourio.utils.AlertUtils;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TourTableController extends BaseTableController<Tour> {
     @FXML
@@ -19,6 +26,9 @@ public class TourTableController extends BaseTableController<Tour> {
 
     @FXML
     private TableColumn<Tour, String> tourNameColumn, tourTypeColumn;
+
+    @FXML
+    private ComboBox<String> optionComboBox;
 
     @Override
     public void onCreateClick(ActionEvent event) throws IOException {
@@ -69,6 +79,57 @@ public class TourTableController extends BaseTableController<Tour> {
         if (option.get() == ButtonType.OK) {
             TourDAO.delete(tour);
             loadData();
+        }
+    }
+
+    private void initOptionComboBox() {
+        String[] optionList = {
+                "Tour",
+                "Loại tour",
+        };
+
+        ObservableList<String> options = FXCollections.observableArrayList();
+
+        options.addAll(optionList);
+
+        // Bind data
+        optionComboBox.setItems(options);
+    }
+
+    @Override
+    public void onSearchListener() {
+        searchTextField.setDisable(true);
+
+        try {
+            optionComboBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (!newValue.isEmpty()) {
+                    searchTextField.setDisable(false);
+                }
+            });
+
+            searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                int option = optionComboBox.getSelectionModel().getSelectedIndex();
+
+                Predicate<Tour> predicate = switch (option) {
+                    // Tour
+                    case 0 -> o -> o.getName().toLowerCase().contains(newValue.toLowerCase());
+
+                    // Loại tour
+                    case 1 -> o -> o.getTourType().getName().toLowerCase().contains(newValue.toLowerCase());
+
+                    default -> null;
+                };
+
+                if (predicate != null) {
+                    ArrayList<Tour> arrayList = arrList.stream()
+                            .filter(predicate)
+                            .collect(Collectors.toCollection(ArrayList::new));
+                    observableList.clear();
+                    observableList.addAll(arrayList);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -140,5 +201,13 @@ public class TourTableController extends BaseTableController<Tour> {
         // Set data
         observableList.setAll(allTours);
         table.refresh();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initTable();
+        loadData();
+        initOptionComboBox();
+        onSearchListener();
     }
 }

@@ -94,7 +94,7 @@ public class GroupReportTableController extends BaseTableController<Group> {
                     case 2 -> o -> o.getName().toLowerCase().contains(newValue.toLowerCase());
 
                     // Giá tour (VND)
-                    case 3 -> o -> o.getTourPrice().toString().contains(newValue.toLowerCase());
+                    case 3 -> o -> o.getTourPrice().toString().contains(newValue);
 
                     // Ngày bắt đầu
                     case 4 -> o -> DateUtils.format(o.getDateStart()).contains(newValue);
@@ -128,13 +128,14 @@ public class GroupReportTableController extends BaseTableController<Group> {
 
                     // Ngày tạo đoàn
                     case 11 -> o -> DateUtils.format(o.getCreatedAt()).contains(newValue);
+
                     default -> null;
                 };
 
                 if (predicate != null) {
                     ArrayList<Group> arrayList = arrList.stream()
-                                                        .filter(predicate)
-                                                        .collect(Collectors.toCollection(ArrayList::new));
+                            .filter(predicate)
+                            .collect(Collectors.toCollection(ArrayList::new));
                     observableList.clear();
                     observableList.addAll(arrayList);
                 }

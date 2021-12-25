@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="600.0" prefWidth="600.0" spacing="16.0" style="-fx-background-color: white;"
-      stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="16.0"
+      style="-fx-background-color: white;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17"
       fx:controller="com.tourio.controllers.TourReportTableController">
     <padding>
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
     </padding>
-    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="12.0" VBox.vgrow="NEVER">
+    <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="12.0"
+          VBox.vgrow="NEVER">
         <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="206.0" promptText="Tìm kiếm..."/>
-        <ComboBox fx:id="optionComboBox" prefHeight="25.0" prefWidth="127.0" promptText="Tìm kiếm theo..."/>
+        <ComboBox fx:id="optionComboBox" prefHeight="25.0" prefWidth="127.0" promptText="Tìm kiếm..."/>
     </HBox>
     <ScrollPane prefHeight="542.0" prefWidth="568.0">
         <TableView fx:id="table" prefHeight="508.0" tableMenuButtonVisible="true">
@@ -27,12 +23,9 @@
                 <TableColumn fx:id="tourNameColumn" minWidth="200.0" prefWidth="-1.0" text="Tên tour"/>
                 <TableColumn fx:id="tourTypeColumn" minWidth="200.0" prefWidth="-1.0" text="Loại tour"/>
                 <TableColumn fx:id="groupCountColumn" minWidth="100.0" prefWidth="-1.0" text="Số đoàn đã đi"/>
-                <TableColumn fx:id="totalSaleColumn" minWidth="200.0" prefWidth="-1.0"
-                             text="Tổng doanh thu (VND)"/>
-                <TableColumn fx:id="totalCostColumn" minWidth="200.0" prefWidth="-1.0"
-                             text="Tổng chi phí (VND)"/>
-                <TableColumn fx:id="revenueColumn" minWidth="200.0" prefWidth="-1.0"
-                             text="Lợi nhuận (%)"/>
+                <TableColumn fx:id="totalSaleColumn" minWidth="200.0" prefWidth="-1.0" text="Tổng doanh thu (VND)"/>
+                <TableColumn fx:id="totalCostColumn" minWidth="200.0" prefWidth="-1.0" text="Tổng chi phí (VND)"/>
+                <TableColumn fx:id="revenueColumn" minWidth="200.0" prefWidth="-1.0" text="Lợi nhuận (%)"/>
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

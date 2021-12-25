@@ -8,8 +8,6 @@ import com.tourio.utils.DateUtils;
 import com.tourio.utils.PriceFormatter;
 import com.tourio.utils.StageBuilder;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,9 +37,6 @@ public class GroupFormController extends BaseFormController {
 
     @FXML
     public ComboBox<Tour> tourComboBox;
-
-    @FXML
-    public ComboBox<TourPrice> tourPriceComboBox;
 
     @FXML
     public DatePicker startDatePicker, endDatePicker;
@@ -226,7 +221,6 @@ public class GroupFormController extends BaseFormController {
     public void initReadOnly() {
         nameTextField.setDisable(true);
         tourComboBox.setDisable(true);
-        tourPriceComboBox.setDisable(true);
         startDatePicker.setDisable(true);
         endDatePicker.setDisable(true);
         descriptionTextArea.setDisable(true);
@@ -284,9 +278,9 @@ public class GroupFormController extends BaseFormController {
         Date startDate = DateUtils.parseDate(startLocalDate);
         Date endDate = DateUtils.parseDate(endLocalDate);
         Optional<TourPrice> tourPrice = tour.getTourPrices()
-                                            .stream()
-                                            .filter(p -> startDate.after(p.getDateStart()) && endDate.before(p.getDateEnd()))
-                                            .findFirst();
+                .stream()
+                .filter(p -> startDate.after(p.getDateStart()) && endDate.before(p.getDateEnd()))
+                .findFirst();
 
         if (tourPrice.isEmpty()) {
             AlertUtils.showWarning("Không tồn tại giá tour với khoảng thời gian đã chọn");

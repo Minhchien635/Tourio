@@ -1,8 +1,6 @@
 package com.tourio.controllers;
 
-import com.tourio.dao.EmployeeDAO;
 import com.tourio.dao.TourDAO;
-import com.tourio.models.Employee;
 import com.tourio.models.Group;
 import com.tourio.models.Tour;
 import com.tourio.utils.PriceFormatter;
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -100,27 +97,27 @@ public class TourReportTableController extends BaseTableController<Tour> {
 
                     // Tổng doanh thu (VND)
                     case 4 -> o -> PriceFormatter.format(o.getGroups()
-                                                          .stream()
-                                                          .map(Group::getTotalSale)
-                                                          .reduce(0L, Long::sum))
-                                                 .contains(newValue);
+                                    .stream()
+                                    .map(Group::getTotalSale)
+                                    .reduce(0L, Long::sum))
+                            .contains(newValue);
 
                     // Tổng chi phí (VND)
                     case 5 -> o -> PriceFormatter.format(o.getGroups()
-                                                          .stream()
-                                                          .map(Group::getTotalCost)
-                                                          .reduce(0L, Long::sum))
-                                                 .contains(newValue);
+                                    .stream()
+                                    .map(Group::getTotalCost)
+                                    .reduce(0L, Long::sum))
+                            .contains(newValue);
                     // Lợi nhuận (%)
                     case 6 -> o -> {
                         long totalSale = o.getGroups()
-                                          .stream()
-                                          .map(Group::getTotalSale)
-                                          .reduce(0L, Long::sum);
+                                .stream()
+                                .map(Group::getTotalSale)
+                                .reduce(0L, Long::sum);
                         long totalCost = o.getGroups()
-                                          .stream()
-                                          .map(Group::getTotalCost)
-                                          .reduce(0L, Long::sum);
+                                .stream()
+                                .map(Group::getTotalCost)
+                                .reduce(0L, Long::sum);
 
                         float revenue = 0;
                         if (totalSale > 0) {
@@ -134,8 +131,8 @@ public class TourReportTableController extends BaseTableController<Tour> {
 
                 if (predicate != null) {
                     ArrayList<Tour> arrayList = arrList.stream()
-                                                       .filter(predicate)
-                                                       .collect(Collectors.toCollection(ArrayList::new));
+                            .filter(predicate)
+                            .collect(Collectors.toCollection(ArrayList::new));
                     observableList.clear();
                     observableList.addAll(arrayList);
                 }
@@ -175,19 +172,19 @@ public class TourReportTableController extends BaseTableController<Tour> {
         totalSaleColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(PriceFormatter.format(data.getValue()
-                                                        .getGroups()
-                                                        .stream()
-                                                        .map(Group::getTotalSale)
-                                                        .reduce(0L, Long::sum)));
+                    .getGroups()
+                    .stream()
+                    .map(Group::getTotalSale)
+                    .reduce(0L, Long::sum)));
             return property;
         });
 
         totalCostColumn.setCellValueFactory(data -> {
             SimpleStringProperty property = new SimpleStringProperty();
             property.setValue(PriceFormatter.format(data.getValue().getGroups()
-                                                        .stream()
-                                                        .map(Group::getTotalCost)
-                                                        .reduce(0L, Long::sum)));
+                    .stream()
+                    .map(Group::getTotalCost)
+                    .reduce(0L, Long::sum)));
             return property;
         });
 
@@ -195,16 +192,16 @@ public class TourReportTableController extends BaseTableController<Tour> {
             SimpleStringProperty property = new SimpleStringProperty();
 
             long totalSale = data.getValue()
-                                 .getGroups()
-                                 .stream()
-                                 .map(Group::getTotalSale)
-                                 .reduce(0L, Long::sum);
+                    .getGroups()
+                    .stream()
+                    .map(Group::getTotalSale)
+                    .reduce(0L, Long::sum);
 
             long totalCost = data.getValue()
-                                 .getGroups()
-                                 .stream()
-                                 .map(Group::getTotalCost)
-                                 .reduce(0L, Long::sum);
+                    .getGroups()
+                    .stream()
+                    .map(Group::getTotalCost)
+                    .reduce(0L, Long::sum);
 
             float revenue = 0;
             if (totalSale > 0) {

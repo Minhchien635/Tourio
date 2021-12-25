@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class JobFormController extends BaseFormController {
@@ -38,6 +39,14 @@ public class JobFormController extends BaseFormController {
         }
 
         job.setName(name);
+
+        ArrayList<Job> arrJob = (ArrayList<Job>) JobDAO.getAll();
+
+        arrJob.stream().anyMatch(a -> a.getName().equals(name));
+        if (arrJob.stream().anyMatch(a -> a.getName().equalsIgnoreCase(name))) {
+            AlertUtils.showWarning("Công việc đã tồn tại");
+            return;
+        }
 
         JobDAO.save(job);
 

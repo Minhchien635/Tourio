@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public abstract class BaseTableController<T extends BaseModel> implements Initializable {
     @FXML
     public TextField searchTextField;
-
     ObservableList<T> observableList = FXCollections.observableArrayList();
-
     ArrayList<T> arrList = new ArrayList<>();
+    @FXML
+    private ComboBox<String> optionComboBox;
 
     // Initialize how to render table columns and rows
     public abstract void initTable();
@@ -33,8 +33,8 @@ public abstract class BaseTableController<T extends BaseModel> implements Initia
             searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 
                 ArrayList<T> arrayList = arrList.stream()
-                                                .filter(o -> o.getName().toLowerCase().contains(newValue.toLowerCase()))
-                                                .collect(Collectors.toCollection(ArrayList::new));
+                        .filter(o -> o.getName().toLowerCase().contains(newValue.toLowerCase()))
+                        .collect(Collectors.toCollection(ArrayList::new));
 
                 observableList.clear();
                 observableList.addAll(arrayList);
